@@ -1,2 +1,1 @@
-# WebPrime-Sud
 # WebPrime

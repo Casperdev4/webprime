@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Mobile - WebPrime Sud</title>
+    <meta name="description" content="Application Mobile iOS & Android personnalisée pour votre entreprise. Demandez un devis gratuit.">
+    <link rel="canonical" href="https://webprime.fr/offres/app-mobile.html"/>
+    <meta name="robots" content="index, follow">
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .offer-detail-page { padding: 120px 0 60px; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--text-gray); margin-bottom: 30px; transition: color 0.3s; }
+        .back-link:hover { color: var(--primary-orange); }
+        .back-link svg { width: 20px; height: 20px; }
+
+        /* Header - Style React/Tailwind exact */
+        .offer-header-detail { background: linear-gradient(to bottom right, #4b5563, #1f2937); border-radius: 24px; padding: 32px; margin-bottom: 24px; text-align: center; }
+        .offer-header-detail h1 { font-size: 30px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+        .offer-header-detail .description { color: rgba(255,255,255,0.8); font-size: 16px; margin-bottom: 16px; }
+        .offer-header-detail .price { font-size: 48px; font-weight: 700; color: #fff; margin-bottom: 24px; }
+        .offer-header-detail .btn-cta { background: #fff; color: #1f2937; padding: 12px 24px; border-radius: 12px; font-weight: 600; font-size: 16px; display: inline-block; transition: all 0.3s; }
+        .offer-header-detail .btn-cta:hover { background: #f3f4f6; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+
+        /* Features - Style React/Tailwind exact */
+        .features-card { background: #1f2937; border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .features-card h2 { color: #fff; font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+        .features-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+        .features-list li { display: flex; align-items: flex-start; gap: 12px; color: #d1d5db; }
+        .features-list li .check-icon { width: 20px; height: 20px; background: rgba(34, 197, 94, 0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .features-list li .check-icon svg { width: 12px; height: 12px; color: #22c55e; }
+
+        /* Process card - Style React/Tailwind exact */
+        .process-card { background: #1f2937; border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .process-card h2 { color: #fff; font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+        .process-step { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; }
+        .process-number { width: 28px; height: 28px; background: rgba(156, 163, 175, 0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #9ca3af; font-weight: 700; font-size: 14px; flex-shrink: 0; }
+        .process-step h4 { color: #fff; font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+        .process-step p { color: #9ca3af; font-size: 12px; line-height: 1.4; }
+
+        /* CTA card - Style React/Tailwind exact */
+        .cta-card { background: linear-gradient(to bottom right, #4b5563, #1f2937); border-radius: 16px; padding: 32px; text-align: center; margin-bottom: 24px; }
+        .cta-card svg { width: 48px; height: 48px; color: rgba(255,255,255,0.8); margin-bottom: 16px; }
+        .cta-card h3 { color: #fff; font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+        .cta-card > p { color: rgba(255,255,255,0.8); font-size: 14px; margin-bottom: 20px; }
+        .cta-card .btn-email { background: #fff; color: #1f2937; padding: 12px 24px; border-radius: 12px; font-weight: 600; display: inline-block; transition: all 0.3s; }
+        .cta-card .btn-email:hover { background: #f3f4f6; transform: translateY(-2px); }
+
+        .contact-box { text-align: center; color: var(--text-gray); font-size: 14px; }
+        .contact-box a { color: var(--primary-orange); }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="https://webprime.fr" class="logo">
+                <img src="../logo-wp.png" alt="WebPrime Sud Logo">
+            </a>
+            <button class="menu-toggle" aria-label="Menu" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="nav" id="nav">
+                <ul>
+                    <li><a href="https://webprime.fr#offres">Nos Offres</a></li>
+                    <li><a href="https://webprime.fr#creation-site">Création Site</a></li>
+                    <li><a href="https://webprime.fr#application">Application Mobile</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="offer-detail-page">
+        <div class="container" style="max-width: 700px;">
+            <a href="https://webprime.fr#offres" class="back-link">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                Retour aux offres
+            </a>
+
+            <div class="offer-header-detail">
+                <h1>Application Mobile</h1>
+                <p class="description">Application iOS & Android personnalisée pour votre entreprise</p>
+                <div class="price">Sur devis</div>
+                <a href="mailto:contact@webprime.fr?subject=Demande de devis - Application Mobile&body=Bonjour,%0D%0A%0D%0AJe souhaite obtenir un devis pour une application mobile.%0D%0A%0D%0ADescription du projet :%0D%0A%0D%0AMerci !" class="btn-cta">Demander un devis</a>
+            </div>
+
+            <div class="features-card">
+                <h2>Ce qui est inclus</h2>
+                <ul class="features-list">
+                    <li><span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>Étude et conseil personnalisés</li>
+                    <li><span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>Design UI/UX sur mesure</li>
+                    <li><span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>Développement iOS (iPhone, iPad)</li>
+                    <li><span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>Développement Android</li>
+                    <li><span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>Tests et assurance qualité</li>
+                    <li><span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>Publication sur l'App Store</li>
+                    <li><span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>Publication sur Google Play Store</li>
+                    <li><span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>Formation à l'utilisation</li>
+                    <li><span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>Maintenance et mises à jour</li>
+                    <li><span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>Support technique dédié</li>
+                </ul>
+            </div>
+
+            <div class="process-card">
+                <h2>Comment ça marche ?</h2>
+                <div class="process-step">
+                    <div class="process-number">1</div>
+                    <div>
+                        <h4>Contact</h4>
+                        <p>Envoyez-nous votre projet par email</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="process-number">2</div>
+                    <div>
+                        <h4>Étude</h4>
+                        <p>Nous analysons vos besoins et établissons un devis</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="process-number">3</div>
+                    <div>
+                        <h4>Validation</h4>
+                        <p>Vous validez le devis et nous lançons le projet</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="process-number">4</div>
+                    <div>
+                        <h4>Développement</h4>
+                        <p>Nous développons votre application</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="process-number">5</div>
+                    <div>
+                        <h4>Livraison</h4>
+                        <p>Publication et formation</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cta-card">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                <h3>Prêt à lancer votre projet ?</h3>
+                <p>Contactez-nous pour discuter de votre application mobile</p>
+                <a href="mailto:contact@webprime.fr?subject=Demande de devis - Application Mobile" class="btn-email">contact@webprime.fr</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+                <p>&copy; WebPrime Sud 2026 - Tous droits réservés</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menuToggle');
+            const nav = document.getElementById('nav');
+            menuToggle.addEventListener('click', function() {
+                menuToggle.classList.toggle('active');
+                nav.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
