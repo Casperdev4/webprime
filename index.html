@@ -386,10 +386,19 @@
             deferredPrompt = e;
         });
 
+        // Detection iOS
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+        // Sur iOS, afficher instructions directement
+        if (isIOS && !window.matchMedia('(display-mode: standalone)').matches) {
+            installHelp.innerHTML = 'Appuyez sur <strong>Partager</strong> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle;"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> puis <strong>Sur l\'ecran d\'accueil</strong>';
+            installHelp.style.display = 'block';
+        }
+
         // Clic sur le bouton
         installBtn.addEventListener('click', async () => {
             if (deferredPrompt) {
-                // Installation native disponible
+                // Installation native disponible (Android/Chrome)
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
                 if (outcome === 'accepted') {
@@ -397,8 +406,12 @@
                     installedMsg.style.display = 'block';
                 }
                 deferredPrompt = null;
+            } else if (isIOS) {
+                // iOS : highlight les instructions
+                installHelp.style.color = '#f59e0b';
+                installHelp.style.fontWeight = '600';
             } else {
-                // Fallback : ouvrir webprime.app
+                // Autre : ouvrir webprime.app
                 window.open('https://webprime.app/', '_blank');
                 installHelp.style.display = 'block';
             }
