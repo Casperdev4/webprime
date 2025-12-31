@@ -906,3 +906,31 @@ a:hover {
 .menu-toggle.active span:nth-child(3) {
     transform: rotate(-45deg) translate(7px, -6px);
 }
+
+/* PWA Install Button */
+.btn-install {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(255, 177, 86, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 15px rgba(255, 177, 86, 0);
+    }
+}
+
+.install-fallback {
+    margin-top: 15px;
+    font-size: 14px;
+    color: var(--text-gray);
+}
+
+.install-fallback strong {
+    color: var(--primary-orange);
+}

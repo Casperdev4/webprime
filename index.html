@@ -9,6 +9,8 @@
     <meta name="author" content="WebPrime Sud">
     <meta name="robots" content="index, follow">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#f59e0b">
     <link rel="apple-touch-icon" type="image/png" sizes="96x96" href="./logo/apple-icon-96x96.png">
     <link rel="icon" type="image/png" sizes="32x32" href="./logo/android-icon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="./logo/android-icon-96x96.png">
@@ -186,12 +188,19 @@
                         <h3>Installation de l'application</h3>
                     </div>
                     <div class="step-content">
-                        <p>Rendez-vous sur <a href="https://webprime.app/" target="_blank">webprime.app</a> dans votre navigateur</p>
-                        <ul class="step-list">
-                            <li>Cliquez sur Partager</li>
-                            <li>Puis Ajouter à l'écran d'accueil</li>
-                            <li>L'application s'installe directement sur votre téléphone.</li>
-                        </ul>
+                        <p>Installez notre application directement sur votre appareil en un clic :</p>
+                        <button id="installBtn" class="btn btn-primary btn-install" style="display: none;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            Installer l'application
+                        </button>
+                        <p id="installFallback" class="install-fallback">
+                            <span id="iosInstructions" style="display: none;">
+                                Sur Safari, appuyez sur <strong>Partager</strong> puis <strong>Sur l'écran d'accueil</strong>
+                            </span>
+                            <span id="installedMessage" style="display: none;">
+                                L'application est deja installee sur votre appareil !
+                            </span>
+                        </p>
                     </div>
                     <div class="progress-bar">
                         <div class="progress" style="width: 20%"></div>
@@ -357,6 +366,61 @@
     </footer>
 
     <script>
+        // PWA Installation
+        let deferredPrompt;
+        const installBtn = document.getElementById('installBtn');
+        const iosInstructions = document.getElementById('iosInstructions');
+        const installedMessage = document.getElementById('installedMessage');
+
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js');
+        }
+
+        // Check if already installed
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            installedMessage.style.display = 'block';
+        }
+
+        // Listen for install prompt
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.style.display = 'inline-flex';
+        });
+
+        // Install button click
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    installBtn.style.display = 'none';
+                    installedMessage.style.display = 'block';
+                }
+                deferredPrompt = null;
+            }
+        });
+
+        // iOS detection
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches;
+        if (isIOS && !isInStandaloneMode && !deferredPrompt) {
+            setTimeout(() => {
+                if (!installBtn.style.display || installBtn.style.display === 'none') {
+                    iosInstructions.style.display = 'block';
+                }
+            }, 500);
+        }
+
+        // App installed event
+        window.addEventListener('appinstalled', () => {
+            installBtn.style.display = 'none';
+            installedMessage.style.display = 'block';
+            deferredPrompt = null;
+        });
+
+        // Menu toggle
         document.addEventListener('DOMContentLoaded', function() {
             const menuToggle = document.getElementById('menuToggle');
             const nav = document.getElementById('nav');
