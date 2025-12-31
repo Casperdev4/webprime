@@ -907,7 +907,7 @@ a:hover {
     transform: rotate(-45deg) translate(7px, -6px);
 }
 
-/* PWA Install Button */
+/* Bouton Application */
 .btn-install {
     display: inline-flex;
     align-items: center;
