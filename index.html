@@ -189,12 +189,12 @@
                     </div>
                     <div class="step-content">
                         <p>Installez notre application directement sur votre appareil :</p>
-                        <button id="installBtn" class="btn btn-primary btn-install" style="display: none;">
+                        <button id="installBtn" class="btn btn-primary btn-install">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                             Installer l'application
                         </button>
-                        <p id="iosInstructions" class="install-fallback" style="display: none;">
-                            Sur Safari : <strong>Partager</strong> > <strong>Sur l'ecran d'accueil</strong>
+                        <p id="installHelp" class="install-fallback" style="display: none; margin-top: 10px;">
+                            Puis : <strong>Partager</strong> > <strong>Sur l'ecran d'accueil</strong>
                         </p>
                         <p id="installedMsg" class="install-fallback" style="display: none; color: #22c55e;">
                             Application installee !
@@ -365,9 +365,9 @@
 
     <script>
         // PWA Installation
-        let deferredPrompt;
+        let deferredPrompt = null;
         const installBtn = document.getElementById('installBtn');
-        const iosInstructions = document.getElementById('iosInstructions');
+        const installHelp = document.getElementById('installHelp');
         const installedMsg = document.getElementById('installedMsg');
 
         if ('serviceWorker' in navigator) {
@@ -376,18 +376,20 @@
 
         // Deja installe
         if (window.matchMedia('(display-mode: standalone)').matches) {
+            installBtn.style.display = 'none';
             installedMsg.style.display = 'block';
         }
 
-        // Chrome/Edge - prompt natif
+        // Chrome/Edge - capture le prompt
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            installBtn.style.display = 'inline-flex';
         });
 
+        // Clic sur le bouton
         installBtn.addEventListener('click', async () => {
             if (deferredPrompt) {
+                // Installation native disponible
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
                 if (outcome === 'accepted') {
@@ -395,14 +397,12 @@
                     installedMsg.style.display = 'block';
                 }
                 deferredPrompt = null;
+            } else {
+                // Fallback : ouvrir webprime.app
+                window.open('https://webprime.app/', '_blank');
+                installHelp.style.display = 'block';
             }
         });
-
-        // iOS - instructions manuelles
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-        if (isIOS && !window.matchMedia('(display-mode: standalone)').matches) {
-            iosInstructions.style.display = 'block';
-        }
 
         window.addEventListener('appinstalled', () => {
             installBtn.style.display = 'none';
