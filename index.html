@@ -9,8 +9,6 @@
     <meta name="author" content="WebPrime">
     <meta name="robots" content="index, follow">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#f59e0b">
     <link rel="apple-touch-icon" type="image/png" sizes="192x192" href="./logo/icon-192x192.png">
     <link rel="icon" type="image/png" sizes="32x32" href="./logo/android-icon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="./logo/android-icon-96x96.png">
@@ -189,15 +187,12 @@
                     </div>
                     <div class="step-content">
                         <p>Installez notre application directement sur votre appareil :</p>
-                        <button id="installBtn" class="btn btn-primary btn-install">
+                        <a href="https://webprime.app/offres" target="_blank" class="btn btn-primary btn-install">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                            Installer l'application
-                        </button>
-                        <p id="installHelp" class="install-fallback" style="display: none; margin-top: 10px;">
-                            Puis : <strong>Partager</strong> > <strong>Sur l'ecran d'accueil</strong>
-                        </p>
-                        <p id="installedMsg" class="install-fallback" style="display: none; color: #22c55e;">
-                            Application installee !
+                            Ouvrir l'application
+                        </a>
+                        <p class="install-fallback" style="margin-top: 10px;">
+                            Puis : <strong>Partager</strong> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle;"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> > <strong>Sur l'ecran d'accueil</strong>
                         </p>
                     </div>
                     <div class="progress-bar">
@@ -364,68 +359,6 @@
     </footer>
 
     <script>
-        // PWA Installation
-        let deferredPrompt = null;
-        const installBtn = document.getElementById('installBtn');
-        const installHelp = document.getElementById('installHelp');
-        const installedMsg = document.getElementById('installedMsg');
-
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js');
-        }
-
-        // Deja installe
-        if (window.matchMedia('(display-mode: standalone)').matches) {
-            installBtn.style.display = 'none';
-            installedMsg.style.display = 'block';
-        }
-
-        // Chrome/Edge - capture le prompt
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-        });
-
-        // Detection iOS
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-
-        // Sur iOS, afficher instructions directement
-        if (isIOS && !window.matchMedia('(display-mode: standalone)').matches) {
-            installHelp.innerHTML = 'Appuyez sur <strong>Partager</strong> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle;"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> puis <strong>Sur l\'ecran d\'accueil</strong>';
-            installHelp.style.display = 'block';
-        }
-
-        // Clic sur le bouton
-        installBtn.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                // Installation native disponible (Android/Chrome)
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    installBtn.style.display = 'none';
-                    installedMsg.style.display = 'block';
-                }
-                deferredPrompt = null;
-            } else if (isIOS) {
-                // iOS : animation pour attirer l'attention sur les instructions
-                installHelp.style.background = '#f59e0b';
-                installHelp.style.color = '#000';
-                installHelp.style.padding = '15px';
-                installHelp.style.borderRadius = '10px';
-                installHelp.style.fontWeight = '600';
-                installHelp.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            } else {
-                // Autre : ouvrir webprime.app
-                window.open('https://webprime.app/', '_blank');
-                installHelp.style.display = 'block';
-            }
-        });
-
-        window.addEventListener('appinstalled', () => {
-            installBtn.style.display = 'none';
-            installedMsg.style.display = 'block';
-        });
-
         // Menu toggle
         document.addEventListener('DOMContentLoaded', function() {
             const menuToggle = document.getElementById('menuToggle');
