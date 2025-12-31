@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Création Site internet - Référencement Google 06 Alpes-Maritimes</title>
+    <title>Création Site internet - Référencement Google 06 Essonne</title>
     <meta name="description" content="Nous concevons des sites internet et des applications mobiles haut de gamme, pensés pour la performance, la visibilité et la croissance durable.">
     <link rel="canonical" href="https://webprime.fr"/>
     <meta name="author" content="WebPrime">
     <meta name="robots" content="index, follow">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="apple-touch-icon" type="image/png" sizes="96x96" href="./logo/apple-icon-96x96.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#f59e0b">
+    <link rel="apple-touch-icon" type="image/png" sizes="192x192" href="./logo/icon-192x192.png">
     <link rel="icon" type="image/png" sizes="32x32" href="./logo/android-icon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="./logo/android-icon-96x96.png">
     <meta name="msapplication-TileColor" content="https://webprime.fr#ffffff">
@@ -24,10 +26,10 @@
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
         "name": "WebPrime",
-        "description": "Création de sites internet et applications mobiles haut de gamme dans les Alpes-Maritimes",
+        "description": "Création de sites internet et applications mobiles haut de gamme dans l'Essonne",
         "url": "https://webprime.fr",
         "email": "contact@webprime.fr",
-        "areaServed": "Alpes-Maritimes, France",
+        "areaServed": "Essonne, France",
         "sameAs": [
             "https://www.instagram.com/daelia.digital",
             "https://snapchat.com/t/qEbNohNU"
@@ -187,12 +189,15 @@
                     </div>
                     <div class="step-content">
                         <p>Installez notre application directement sur votre appareil :</p>
-                        <a href="https://webprime.app/" target="_blank" id="installBtn" class="btn btn-primary btn-install">
+                        <button id="installBtn" class="btn btn-primary btn-install" style="display: none;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                             Installer l'application
-                        </a>
-                        <p id="installInstructions" class="install-fallback" style="margin-top: 10px; font-size: 13px;">
-                            Puis : <strong>Partager</strong> > <strong>Sur l'ecran d'accueil</strong>
+                        </button>
+                        <p id="iosInstructions" class="install-fallback" style="display: none;">
+                            Sur Safari : <strong>Partager</strong> > <strong>Sur l'ecran d'accueil</strong>
+                        </p>
+                        <p id="installedMsg" class="install-fallback" style="display: none; color: #22c55e;">
+                            Application installee !
                         </p>
                     </div>
                     <div class="progress-bar">
@@ -317,7 +322,7 @@
             <div class="footer-grid">
                 <div class="footer-col">
                     <h4>WebPrime</h4>
-                    <p>Création de sites internet et applications mobiles haut de gamme dans les Alpes-Maritimes (06)</p>
+                    <p>Création de sites internet et applications mobiles haut de gamme dans l'Essonne (91)</p>
                 </div>
 
                 <div class="footer-col">
@@ -359,6 +364,52 @@
     </footer>
 
     <script>
+        // PWA Installation
+        let deferredPrompt;
+        const installBtn = document.getElementById('installBtn');
+        const iosInstructions = document.getElementById('iosInstructions');
+        const installedMsg = document.getElementById('installedMsg');
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js');
+        }
+
+        // Deja installe
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            installedMsg.style.display = 'block';
+        }
+
+        // Chrome/Edge - prompt natif
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.style.display = 'inline-flex';
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    installBtn.style.display = 'none';
+                    installedMsg.style.display = 'block';
+                }
+                deferredPrompt = null;
+            }
+        });
+
+        // iOS - instructions manuelles
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        if (isIOS && !window.matchMedia('(display-mode: standalone)').matches) {
+            iosInstructions.style.display = 'block';
+        }
+
+        window.addEventListener('appinstalled', () => {
+            installBtn.style.display = 'none';
+            installedMsg.style.display = 'block';
+        });
+
+        // Menu toggle
         document.addEventListener('DOMContentLoaded', function() {
             const menuToggle = document.getElementById('menuToggle');
             const nav = document.getElementById('nav');
