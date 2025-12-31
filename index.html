@@ -407,9 +407,13 @@
                 }
                 deferredPrompt = null;
             } else if (isIOS) {
-                // iOS : highlight les instructions
-                installHelp.style.color = '#f59e0b';
+                // iOS : animation pour attirer l'attention sur les instructions
+                installHelp.style.background = '#f59e0b';
+                installHelp.style.color = '#000';
+                installHelp.style.padding = '15px';
+                installHelp.style.borderRadius = '10px';
                 installHelp.style.fontWeight = '600';
+                installHelp.scrollIntoView({ behavior: 'smooth', block: 'center' });
             } else {
                 // Autre : ouvrir webprime.app
                 window.open('https://webprime.app/', '_blank');
