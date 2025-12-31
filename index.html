@@ -6,11 +6,9 @@
     <title>Création Site internet - Référencement Google 06 Alpes-Maritimes</title>
     <meta name="description" content="Nous concevons des sites internet et des applications mobiles haut de gamme, pensés pour la performance, la visibilité et la croissance durable.">
     <link rel="canonical" href="https://webprime.fr"/>
-    <meta name="author" content="WebPrime Sud">
+    <meta name="author" content="WebPrime">
     <meta name="robots" content="index, follow">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#f59e0b">
     <link rel="apple-touch-icon" type="image/png" sizes="96x96" href="./logo/apple-icon-96x96.png">
     <link rel="icon" type="image/png" sizes="32x32" href="./logo/android-icon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="./logo/android-icon-96x96.png">
@@ -25,7 +23,7 @@
     {
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
-        "name": "WebPrime Sud",
+        "name": "WebPrime",
         "description": "Création de sites internet et applications mobiles haut de gamme dans les Alpes-Maritimes",
         "url": "https://webprime.fr",
         "email": "contact@webprime.fr",
@@ -55,7 +53,7 @@
     <header class="header">
         <div class="container">
             <a href="https://webprime.fr" class="logo">
-                <img src="logo-wp.png" alt="WebPrime Sud Logo">
+                <img src="logo-wp.png" alt="WebPrime Logo">
             </a>
             <button class="menu-toggle" aria-label="Menu" id="menuToggle">
                 <span></span>
@@ -74,7 +72,7 @@
 
     <section class="hero">
         <div class="container">
-            <p class="hero-welcome">Bienvenue chez WebPrime Sud</p>
+            <p class="hero-welcome">Bienvenue chez WebPrime</p>
             <h1>Nous concevons des <span class="highlight">sites internet</span> et des <span class="highlight">applications mobiles</span> haut de gamme</h1>
             <p class="hero-subtitle">pensés pour la performance, la visibilité et la croissance durable de votre activité.</p>
             <div class="hero-alert">
@@ -188,18 +186,13 @@
                         <h3>Installation de l'application</h3>
                     </div>
                     <div class="step-content">
-                        <p>Installez notre application directement sur votre appareil en un clic :</p>
-                        <button id="installBtn" class="btn btn-primary btn-install" style="display: none;">
+                        <p>Installez notre application directement sur votre appareil :</p>
+                        <a href="https://webprime.app/" target="_blank" id="installBtn" class="btn btn-primary btn-install">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                             Installer l'application
-                        </button>
-                        <p id="installFallback" class="install-fallback">
-                            <span id="iosInstructions" style="display: none;">
-                                Sur Safari, appuyez sur <strong>Partager</strong> puis <strong>Sur l'écran d'accueil</strong>
-                            </span>
-                            <span id="installedMessage" style="display: none;">
-                                L'application est deja installee sur votre appareil !
-                            </span>
+                        </a>
+                        <p id="installInstructions" class="install-fallback" style="margin-top: 10px; font-size: 13px;">
+                            Puis : <strong>Partager</strong> > <strong>Sur l'ecran d'accueil</strong>
                         </p>
                     </div>
                     <div class="progress-bar">
@@ -323,7 +316,7 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
-                    <h4>WebPrime Sud</h4>
+                    <h4>WebPrime</h4>
                     <p>Création de sites internet et applications mobiles haut de gamme dans les Alpes-Maritimes (06)</p>
                 </div>
 
@@ -360,67 +353,12 @@
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; WebPrime Sud 2026 - Tous droits réservés</p>
+                <p>&copy; WebPrime 2026 - Tous droits réservés</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // PWA Installation
-        let deferredPrompt;
-        const installBtn = document.getElementById('installBtn');
-        const iosInstructions = document.getElementById('iosInstructions');
-        const installedMessage = document.getElementById('installedMessage');
-
-        // Register Service Worker
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js');
-        }
-
-        // Check if already installed
-        if (window.matchMedia('(display-mode: standalone)').matches) {
-            installedMessage.style.display = 'block';
-        }
-
-        // Listen for install prompt
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installBtn.style.display = 'inline-flex';
-        });
-
-        // Install button click
-        installBtn.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    installBtn.style.display = 'none';
-                    installedMessage.style.display = 'block';
-                }
-                deferredPrompt = null;
-            }
-        });
-
-        // iOS detection
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-        const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches;
-        if (isIOS && !isInStandaloneMode && !deferredPrompt) {
-            setTimeout(() => {
-                if (!installBtn.style.display || installBtn.style.display === 'none') {
-                    iosInstructions.style.display = 'block';
-                }
-            }, 500);
-        }
-
-        // App installed event
-        window.addEventListener('appinstalled', () => {
-            installBtn.style.display = 'none';
-            installedMessage.style.display = 'block';
-            deferredPrompt = null;
-        });
-
-        // Menu toggle
         document.addEventListener('DOMContentLoaded', function() {
             const menuToggle = document.getElementById('menuToggle');
             const nav = document.getElementById('nav');
