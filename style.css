@@ -934,3 +934,191 @@ a:hover {
 .install-fallback strong {
     color: var(--primary-orange);
 }
+
+/* Warning Section - No-Code */
+.warning-section {
+    padding: 80px 0;
+    background: linear-gradient(180deg, var(--bg-dark) 0%, #111 100%);
+}
+
+.warning-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-top: 50px;
+}
+
+.warning-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-dark);
+    border-radius: 12px;
+    padding: 30px;
+    transition: all 0.3s ease;
+}
+
+.warning-card:hover {
+    background: var(--bg-card-hover);
+    border-color: #ff4444;
+    transform: translateY(-5px);
+}
+
+.warning-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 68, 68, 0.15);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    color: #ff4444;
+}
+
+.warning-card h3 {
+    color: var(--text-white);
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+}
+
+.warning-card p {
+    color: var(--text-gray);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.warning-conclusion {
+    background: linear-gradient(135deg, rgba(255, 177, 86, 0.1) 0%, rgba(255, 177, 86, 0.05) 100%);
+    border: 1px solid var(--primary-orange);
+    border-radius: 16px;
+    padding: 40px;
+    margin-top: 50px;
+    text-align: center;
+}
+
+.warning-conclusion h3 {
+    color: var(--primary-orange);
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.warning-conclusion p {
+    color: var(--text-light);
+    font-size: 1.1rem;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Warning Section Responsive */
+@media (max-width: 992px) {
+    .warning-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .warning-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .warning-conclusion {
+        padding: 25px;
+    }
+
+    .warning-conclusion h3 {
+        font-size: 1.3rem;
+    }
+
+    .warning-conclusion p {
+        font-size: 1rem;
+    }
+}
+
+/* Prix mensuel */
+.offer-price-monthly {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+    margin-top: -5px;
+    margin-bottom: 10px;
+}
+
+/* Bloc Gestion Mensuelle dans les offres */
+.offer-maintenance {
+    background: rgba(255, 177, 86, 0.08);
+    border: 1px solid rgba(255, 177, 86, 0.3);
+    border-radius: 10px;
+    padding: 18px;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.maintenance-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.maintenance-label {
+    color: var(--primary-orange);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.maintenance-price {
+    color: var(--text-white);
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.maintenance-info {
+    color: var(--text-gray);
+    font-size: 0.8rem;
+    margin-bottom: 12px;
+    font-style: italic;
+}
+
+.maintenance-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.maintenance-features li {
+    color: var(--text-gray);
+    font-size: 0.85rem;
+    padding: 4px 0;
+    padding-left: 20px;
+    position: relative;
+}
+
+.maintenance-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--primary-orange);
+    font-size: 0.8rem;
+}
+
+/* Inclut offre précédente */
+.offer-includes {
+    background: rgba(255, 177, 86, 0.15);
+    color: var(--primary-orange);
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Inclut gestion précédente */
+.maintenance-includes {
+    background: rgba(255, 177, 86, 0.1);
+    color: var(--primary-orange);
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    text-align: center;
+}
