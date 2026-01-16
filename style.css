@@ -770,7 +770,7 @@ a:hover {
 
     .nav {
         position: fixed;
-        top: 80px;
+        top: 71px;
         left: 0;
         right: 0;
         background: var(--bg-dark);
@@ -834,11 +834,12 @@ a:hover {
 
     .offers-grid {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 30px;
     }
 
     .offer-card {
         padding: 25px 20px;
+        margin-bottom: 10px;
     }
 
     .process-section {
