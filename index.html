@@ -62,6 +62,14 @@
             </button>
             <nav class="nav" id="nav">
                 <ul>
+                    <li class="nav-dropdown">
+                        <a href="#">Site Web</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="site-vitrine.html">Site Vitrine</a></li>
+                            <li><a href="site-ecommerce.html">Site E-Commerce</a></li>
+                            <li><a href="site-booking.html">Site Booking</a></li>
+                        </ul>
+                    </li>
                     <li><a href="#offres-app">Nos Offres</a></li>
                     <li><a href="#processus">Comment ça marche</a></li>
                 </ul>
@@ -414,7 +422,20 @@
                 menuToggle.classList.toggle('active');
                 nav.classList.toggle('active');
             });
-            const navLinks = nav.querySelectorAll('a');
+
+            // Dropdown mobile
+            const dropdowns = nav.querySelectorAll('.nav-dropdown');
+            dropdowns.forEach(dropdown => {
+                const link = dropdown.querySelector('a');
+                link.addEventListener('click', function(e) {
+                    if (window.innerWidth <= 768) {
+                        e.preventDefault();
+                        dropdown.classList.toggle('active');
+                    }
+                });
+            });
+
+            const navLinks = nav.querySelectorAll('a:not(.nav-dropdown > a)');
             navLinks.forEach(link => {
                 link.addEventListener('click', function() {
                     menuToggle.classList.remove('active');
@@ -425,6 +446,7 @@
                 if (!nav.contains(e.target) && !menuToggle.contains(e.target)) {
                     menuToggle.classList.remove('active');
                     nav.classList.remove('active');
+                    dropdowns.forEach(dropdown => dropdown.classList.remove('active'));
                 }
             });
         });
