@@ -653,6 +653,49 @@
         </div>
     </section>
 
+    <!-- Bouton flottant roue -->
+    <button class="wheel-trigger" id="wheelTrigger">
+        <span class="wheel-icon">🎁</span>
+        <span class="wheel-text">Tentez votre chance !</span>
+    </button>
+
+    <!-- Modal Roue de la fortune -->
+    <div class="wheel-modal" id="wheelModal">
+        <div class="wheel-modal-content">
+            <button class="wheel-close" id="wheelClose">&times;</button>
+
+            <div class="wheel-container" id="wheelContainer">
+                <h3>Tournez la roue et gagnez !</h3>
+                <p class="wheel-subtitle">Une réduction vous attend</p>
+
+                <div class="wheel-wrapper">
+                    <div class="wheel-pointer"></div>
+                    <canvas id="wheelCanvas" width="300" height="300"></canvas>
+                </div>
+
+                <button class="wheel-spin-btn" id="spinBtn">Tourner la roue</button>
+            </div>
+
+            <div class="wheel-form" id="wheelForm" style="display: none;">
+                <h3>🎉 Félicitations !</h3>
+                <p class="wheel-prize" id="prizeText"></p>
+                <p class="wheel-form-text">Entrez votre email pour recevoir votre code promo</p>
+                <form id="prizeForm">
+                    <input type="text" name="_honey" style="display:none">
+                    <input type="email" id="prizeEmail" placeholder="votre@email.com" required>
+                    <input type="text" id="prizePrice" placeholder="Votre prix mensuel (ex: 50€)" style="display:none">
+                    <button type="submit" class="wheel-submit-btn">Recevoir mon code</button>
+                </form>
+            </div>
+
+            <div class="wheel-success" id="wheelSuccess" style="display: none;">
+                <h3>✅ C'est envoyé !</h3>
+                <p>Vérifiez votre boîte mail pour récupérer votre code promo.</p>
+                <button class="wheel-close-btn" id="closeSuccess">Fermer</button>
+            </div>
+        </div>
+    </div>
+
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
@@ -845,6 +888,213 @@
             typingTitles.forEach(title => {
                 titleObserver.observe(title);
             });
+
+            // Roue de la fortune
+            const wheelTrigger = document.getElementById('wheelTrigger');
+            const wheelModal = document.getElementById('wheelModal');
+            const wheelClose = document.getElementById('wheelClose');
+            const wheelContainer = document.getElementById('wheelContainer');
+            const wheelForm = document.getElementById('wheelForm');
+            const wheelSuccess = document.getElementById('wheelSuccess');
+            const spinBtn = document.getElementById('spinBtn');
+            const prizeText = document.getElementById('prizeText');
+            const prizeForm = document.getElementById('prizeForm');
+            const closeSuccess = document.getElementById('closeSuccess');
+            const wheelCanvas = document.getElementById('wheelCanvas');
+            const wheelCtx = wheelCanvas.getContext('2d');
+
+            const segments = [
+                { text: '-50€/mois', color: '#FF6600' },
+                { text: '-10€/mois', color: '#1a1a1a' },
+                { text: '-30€/mois', color: '#e09a40' },
+                { text: 'Ton prix!', color: '#4CAF50' },
+                { text: 'Site gratuit!', color: '#FF6600' },
+                { text: '-20€/mois', color: '#1a1a1a' },
+                { text: '-30€/mois', color: '#e09a40' },
+                { text: '-20€/mois', color: '#1a1a1a' }
+            ];
+
+            let currentRotation = 0;
+            let isSpinning = false;
+            let currentPrize = '';
+
+            function drawWheel() {
+                const centerX = wheelCanvas.width / 2;
+                const centerY = wheelCanvas.height / 2;
+                const radius = Math.min(centerX, centerY) - 5;
+                const segmentAngle = (2 * Math.PI) / segments.length;
+
+                wheelCtx.save();
+                wheelCtx.translate(centerX, centerY);
+                wheelCtx.rotate(currentRotation);
+                wheelCtx.translate(-centerX, -centerY);
+
+                segments.forEach((segment, i) => {
+                    const startAngle = i * segmentAngle - Math.PI / 2;
+                    const endAngle = startAngle + segmentAngle;
+
+                    wheelCtx.beginPath();
+                    wheelCtx.moveTo(centerX, centerY);
+                    wheelCtx.arc(centerX, centerY, radius, startAngle, endAngle);
+                    wheelCtx.closePath();
+                    wheelCtx.fillStyle = segment.color;
+                    wheelCtx.fill();
+                    wheelCtx.strokeStyle = '#333';
+                    wheelCtx.lineWidth = 2;
+                    wheelCtx.stroke();
+
+                    wheelCtx.save();
+                    wheelCtx.translate(centerX, centerY);
+                    wheelCtx.rotate(startAngle + segmentAngle / 2);
+                    wheelCtx.textAlign = 'right';
+                    wheelCtx.fillStyle = '#fff';
+                    wheelCtx.font = '500 13px Poppins, sans-serif';
+                    wheelCtx.fillText(segment.text, radius - 15, 5);
+                    wheelCtx.restore();
+                });
+
+                wheelCtx.beginPath();
+                wheelCtx.arc(centerX, centerY, 20, 0, 2 * Math.PI);
+                wheelCtx.fillStyle = '#fff';
+                wheelCtx.fill();
+
+                wheelCtx.restore();
+            }
+
+            function spinWheel() {
+                if (isSpinning) return;
+                isSpinning = true;
+                spinBtn.disabled = true;
+
+                const spinDuration = 5000;
+                const spinRotations = 5 + Math.random() * 3;
+                const targetSegment = Math.floor(Math.random() * segments.length);
+                const segmentAngle = (2 * Math.PI) / segments.length;
+                const targetRotation = spinRotations * 2 * Math.PI + (segments.length - targetSegment - 0.5) * segmentAngle;
+
+                const startTime = Date.now();
+                const startRotation = currentRotation;
+
+                function animate() {
+                    const elapsed = Date.now() - startTime;
+                    const progress = Math.min(elapsed / spinDuration, 1);
+                    const easeOut = 1 - Math.pow(1 - progress, 4);
+
+                    currentRotation = startRotation + targetRotation * easeOut;
+                    wheelCtx.clearRect(0, 0, wheelCanvas.width, wheelCanvas.height);
+                    drawWheel();
+
+                    if (progress < 1) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        isSpinning = false;
+                        currentPrize = segments[targetSegment].text;
+                        setTimeout(showPrizeForm, 1000);
+                    }
+                }
+
+                animate();
+            }
+
+            function showPrizeForm() {
+                wheelContainer.style.display = 'none';
+                wheelForm.style.display = 'block';
+                const priceInput = document.getElementById('prizePrice');
+
+                let prizeDescription = '';
+                if (currentPrize === 'Ton prix!') {
+                    prizeText.innerHTML = 'Site vitrine ou e-commerce gratuit !<span class="prize-note">* Avec suivi mensuel selon le prix que vous proposez</span>';
+                    priceInput.style.display = 'block';
+                    priceInput.required = true;
+                    priceInput.placeholder = 'Votre prix mensuel (ex: 50€)';
+                } else if (currentPrize === 'Site gratuit!') {
+                    prizeText.innerHTML = 'Vous avez gagné : ' + currentPrize + '<span class="prize-note">* Site vitrine WordPress + PHP offert</span>';
+                    priceInput.style.display = 'none';
+                    priceInput.required = false;
+                } else {
+                    prizeDescription = '<span class="prize-note">* Valable sur : Pack 1ère page Google, Suivi mensuel (vitrine, e-commerce, booking)<br>Au lieu de 174€/mois</span>';
+                    prizeText.innerHTML = 'Vous avez gagné : ' + currentPrize + prizeDescription;
+                    priceInput.style.display = 'none';
+                    priceInput.required = false;
+                }
+            }
+
+            // Afficher le bouton après 2 secondes
+            wheelTrigger.style.display = 'none';
+            setTimeout(() => {
+                if (!localStorage.getItem('wheelPlayed')) {
+                    wheelTrigger.style.display = 'flex';
+                }
+            }, 2000);
+
+            wheelTrigger.addEventListener('click', () => {
+                wheelModal.classList.add('active');
+                drawWheel();
+            });
+
+            wheelClose.addEventListener('click', () => {
+                wheelModal.classList.remove('active');
+            });
+
+            wheelModal.addEventListener('click', (e) => {
+                if (e.target === wheelModal) {
+                    wheelModal.classList.remove('active');
+                }
+            });
+
+            spinBtn.addEventListener('click', spinWheel);
+
+            prizeForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('prizeEmail').value;
+                const submitBtn = prizeForm.querySelector('button[type="submit"]');
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Envoi...';
+
+                // Envoi via Formsubmit
+                const formData = new FormData();
+                formData.append('email', email);
+                formData.append('prix_gagne', currentPrize);
+
+                const proposedPrice = document.getElementById('prizePrice').value;
+                if (currentPrize === 'Ton prix!' && proposedPrice) {
+                    formData.append('prix_propose', proposedPrice);
+                    formData.append('_subject', 'Roue WebPrime - Ton prix! : ' + proposedPrice);
+                } else {
+                    formData.append('_subject', 'Roue WebPrime - ' + currentPrize);
+                }
+                formData.append('_captcha', 'false');
+                formData.append('_template', 'table');
+                formData.append('_honey', document.querySelector('input[name="_honey"]').value);
+                formData.append('_autoresponse', '');
+                formData.append('_replyto', email);
+
+                fetch('https://formsubmit.co/ajax/contact@webprime.fr', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    wheelForm.style.display = 'none';
+                    wheelSuccess.style.display = 'block';
+                    localStorage.setItem('wheelPlayed', 'true');
+                })
+                .catch(error => {
+                    wheelForm.style.display = 'none';
+                    wheelSuccess.style.display = 'block';
+                    localStorage.setItem('wheelPlayed', 'true');
+                });
+            });
+
+            closeSuccess.addEventListener('click', () => {
+                wheelModal.classList.remove('active');
+                wheelTrigger.style.display = 'none';
+            });
+
+            // Ne pas afficher si déjà joué
+            if (localStorage.getItem('wheelPlayed')) {
+                wheelTrigger.style.display = 'none';
+            }
         });
     </script>
 </body>
