@@ -101,7 +101,7 @@
 
             <section class="process-section">
                 <div class="container">
-                    <h2 class="section-title">Comment <span class="highlight">ça marche</span> ?</h2>
+                    <h2 class="section-title typing-title" data-text="Comment |ça marche| ?"></h2>
                     <div class="steps-container">
                     <div class="step">
                         <div class="step-header">
@@ -204,7 +204,7 @@
             </section>
 
             <section class="warning-section-page">
-                <h2 class="section-title"><span class="highlight">Attention</span> aux plateformes No-Code</h2>
+                <h2 class="section-title typing-title" data-text="|Attention| aux plateformes No-Code"></h2>
                 <p class="section-subtitle">Pourquoi nous privilégions le code sur mesure</p>
 
                 <div class="warning-grid">
@@ -349,6 +349,53 @@
                     menuToggle.classList.remove('active');
                     nav.classList.remove('active');
                 }
+            });
+
+            // Effet typing sur les titres au scroll
+            const typingTitles = document.querySelectorAll('.typing-title');
+
+            function typeTitle(element) {
+                const fullText = element.dataset.text;
+                let html = '';
+                let i = 0;
+                let inHighlight = false;
+
+                function typeChar() {
+                    if (i < fullText.length) {
+                        const char = fullText[i];
+
+                        if (char === '|') {
+                            if (!inHighlight) {
+                                html += '<span class="highlight">';
+                                inHighlight = true;
+                            } else {
+                                html += '</span>';
+                                inHighlight = false;
+                            }
+                        } else {
+                            html += char;
+                        }
+
+                        element.innerHTML = html + (inHighlight ? '</span>' : '');
+                        i++;
+                        setTimeout(typeChar, 50);
+                    }
+                }
+
+                typeChar();
+            }
+
+            const titleObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !entry.target.classList.contains('typed')) {
+                        entry.target.classList.add('typed');
+                        typeTitle(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            typingTitles.forEach(title => {
+                titleObserver.observe(title);
             });
         });
     </script>

@@ -70,21 +70,21 @@
     </header>
 
     <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-lines"></div>
+        <canvas id="particles"></canvas>
         <div class="container">
-            <p class="hero-welcome">Bienvenue chez WebPrime</p>
+            <p class="hero-welcome"><span class="typing-text"></span></p>
             <h1>Nous concevons des <span class="highlight">applications mobiles</span> sur mesure</h1>
             <p class="hero-subtitle">pour iOS et Android, pensées pour la performance et la croissance de votre activité.</p>
-            <div class="hero-alert">
-                <span class="alert-icon">📱</span>
-                <p>Applications <strong>100% codées</strong> sur mesure</p>
-            </div>
+            <p class="hero-highlight-text">Applications <strong>100% codées</strong> sur mesure</p>
             <p class="hero-seo-text">Chaque application est développée avec soin, sans template ni solution générique. Un produit unique, adapté à votre projet.</p>
         </div>
     </section>
 
     <section class="offers-section" id="offres-app">
         <div class="container">
-            <h2 class="section-title">Nos <span class="highlight">Offres</span> Application Mobile</h2>
+            <h2 class="section-title typing-title" data-text="Nos |Offres| Application Mobile"></h2>
             <p class="section-subtitle">Choisissez la solution adaptée à votre projet</p>
 
             <div class="offers-grid">
@@ -199,7 +199,7 @@
 
     <section class="process-section" id="processus">
         <div class="container">
-            <h2 class="section-title">Comment <span class="highlight">ça marche</span> ?</h2>
+            <h2 class="section-title typing-title" data-text="Comment |ça marche| ?"></h2>
 
             <div class="steps-container">
                 <div class="step">
@@ -301,7 +301,7 @@
 
     <section class="warning-section" id="mise-en-garde">
         <div class="container">
-            <h2 class="section-title"><span class="highlight">Attention</span> aux applications No-Code</h2>
+            <h2 class="section-title typing-title" data-text="|Attention| aux applications No-Code"></h2>
             <p class="section-subtitle">Pourquoi nous ne proposons que du 100% codé</p>
 
             <div class="warning-grid">
@@ -431,6 +431,121 @@
                     menuToggle.classList.remove('active');
                     nav.classList.remove('active');
                 }
+            });
+
+            // Particules flottantes
+            const canvas = document.getElementById('particles');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+
+            function resizeCanvas() {
+                const hero = document.querySelector('.hero');
+                canvas.width = hero.offsetWidth;
+                canvas.height = hero.offsetHeight;
+            }
+
+            function createParticles() {
+                particles = [];
+                const numParticles = 50;
+                for (let i = 0; i < numParticles; i++) {
+                    particles.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        radius: Math.random() * 2 + 1,
+                        speedX: (Math.random() - 0.5) * 0.5,
+                        speedY: (Math.random() - 0.5) * 0.5,
+                        opacity: Math.random() * 0.5 + 0.2
+                    });
+                }
+            }
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.x += p.speedX;
+                    p.y += p.speedY;
+
+                    if (p.x < 0) p.x = canvas.width;
+                    if (p.x > canvas.width) p.x = 0;
+                    if (p.y < 0) p.y = canvas.height;
+                    if (p.y > canvas.height) p.y = 0;
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255, 102, 0, ${p.opacity})`;
+                    ctx.fill();
+                });
+                requestAnimationFrame(animateParticles);
+            }
+
+            resizeCanvas();
+            createParticles();
+            animateParticles();
+            window.addEventListener('resize', () => {
+                resizeCanvas();
+                createParticles();
+            });
+
+            // Effet typing
+            const typingText = document.querySelector('.typing-text');
+            const text = 'Bienvenue chez WebPrime';
+            let index = 0;
+
+            function typeWriter() {
+                if (index < text.length) {
+                    typingText.textContent += text.charAt(index);
+                    index++;
+                    setTimeout(typeWriter, 80);
+                }
+            }
+
+            setTimeout(typeWriter, 400);
+
+            // Effet typing sur les titres au scroll
+            const typingTitles = document.querySelectorAll('.typing-title');
+
+            function typeTitle(element) {
+                const fullText = element.dataset.text;
+                let html = '';
+                let i = 0;
+                let inHighlight = false;
+
+                function typeChar() {
+                    if (i < fullText.length) {
+                        const char = fullText[i];
+
+                        if (char === '|') {
+                            if (!inHighlight) {
+                                html += '<span class="highlight">';
+                                inHighlight = true;
+                            } else {
+                                html += '</span>';
+                                inHighlight = false;
+                            }
+                        } else {
+                            html += char;
+                        }
+
+                        element.innerHTML = html + (inHighlight ? '</span>' : '');
+                        i++;
+                        setTimeout(typeChar, 50);
+                    }
+                }
+
+                typeChar();
+            }
+
+            const titleObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !entry.target.classList.contains('typed')) {
+                        entry.target.classList.add('typed');
+                        typeTitle(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            typingTitles.forEach(title => {
+                titleObserver.observe(title);
             });
         });
     </script>
