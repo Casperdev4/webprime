@@ -906,13 +906,38 @@
             const segments = [
                 { text: '-50€/mois', color: '#FF6600' },
                 { text: '-10€/mois', color: '#1a1a1a' },
-                { text: '-30€/mois', color: '#e09a40' },
-                { text: 'Ton prix!', color: '#4CAF50' },
-                { text: 'Site gratuit!', color: '#FF6600' },
-                { text: '-20€/mois', color: '#1a1a1a' },
-                { text: '-30€/mois', color: '#e09a40' },
-                { text: '-20€/mois', color: '#1a1a1a' }
+                { text: 'GROS LOT', color: '#FFD700', glow: true },
+                { text: '-20€/mois', color: '#e09a40' },
+                { text: '-50€/mois', color: '#FF6600' },
+                { text: '-10€/mois', color: '#1a1a1a' },
+                { text: 'GROS LOT', color: '#FFD700', glow: true },
+                { text: '-20€/mois', color: '#e09a40' }
             ];
+
+            // Probabilités pondérées (en %)
+            const weights = {
+                '-10€/mois': 35,
+                '-20€/mois': 35,
+                '-50€/mois': 15,
+                'GROS LOT': 15
+            };
+
+            function getWeightedPrize() {
+                const rand = Math.random() * 100;
+                let cumulative = 0;
+                for (const [prize, weight] of Object.entries(weights)) {
+                    cumulative += weight;
+                    if (rand < cumulative) return prize;
+                }
+                return '-10€/mois';
+            }
+
+            function getSegmentIndexForPrize(prize) {
+                const matchingIndices = segments
+                    .map((s, i) => s.text === prize ? i : -1)
+                    .filter(i => i !== -1);
+                return matchingIndices[Math.floor(Math.random() * matchingIndices.length)];
+            }
 
             let currentRotation = 0;
             let isSpinning = false;
@@ -937,8 +962,23 @@
                     wheelCtx.moveTo(centerX, centerY);
                     wheelCtx.arc(centerX, centerY, radius, startAngle, endAngle);
                     wheelCtx.closePath();
-                    wheelCtx.fillStyle = segment.color;
+
+                    // Effet brillant pour GROS LOT
+                    if (segment.glow) {
+                        const gradient = wheelCtx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
+                        gradient.addColorStop(0, '#FFF8DC');
+                        gradient.addColorStop(0.5, '#FFD700');
+                        gradient.addColorStop(1, '#FFA500');
+                        wheelCtx.fillStyle = gradient;
+                        wheelCtx.shadowColor = '#FFD700';
+                        wheelCtx.shadowBlur = 15;
+                    } else {
+                        wheelCtx.fillStyle = segment.color;
+                        wheelCtx.shadowBlur = 0;
+                    }
+
                     wheelCtx.fill();
+                    wheelCtx.shadowBlur = 0;
                     wheelCtx.strokeStyle = '#333';
                     wheelCtx.lineWidth = 2;
                     wheelCtx.stroke();
@@ -947,8 +987,8 @@
                     wheelCtx.translate(centerX, centerY);
                     wheelCtx.rotate(startAngle + segmentAngle / 2);
                     wheelCtx.textAlign = 'right';
-                    wheelCtx.fillStyle = '#fff';
-                    wheelCtx.font = '500 13px Poppins, sans-serif';
+                    wheelCtx.fillStyle = segment.glow ? '#1a1a1a' : '#fff';
+                    wheelCtx.font = segment.glow ? 'bold 13px Poppins, sans-serif' : '500 13px Poppins, sans-serif';
                     wheelCtx.fillText(segment.text, radius - 15, 5);
                     wheelCtx.restore();
                 });
@@ -961,16 +1001,33 @@
                 wheelCtx.restore();
             }
 
+            function getWinningSegment() {
+                const segmentAngle = (2 * Math.PI) / segments.length;
+                // Normaliser la rotation entre 0 et 2π
+                let normalizedRotation = currentRotation % (2 * Math.PI);
+                if (normalizedRotation < 0) normalizedRotation += 2 * Math.PI;
+
+                // Le pointeur est en haut, on calcule quel segment est sous le pointeur
+                const winningIndex = Math.floor((2 * Math.PI - normalizedRotation + segmentAngle / 2) / segmentAngle) % segments.length;
+                return winningIndex;
+            }
+
             function spinWheel() {
                 if (isSpinning) return;
                 isSpinning = true;
                 spinBtn.disabled = true;
 
+                // Déterminer le gain selon les probabilités
+                const selectedPrize = getWeightedPrize();
+                const targetSegmentIndex = getSegmentIndexForPrize(selectedPrize);
+
                 const spinDuration = 5000;
                 const spinRotations = 5 + Math.random() * 3;
-                const targetSegment = Math.floor(Math.random() * segments.length);
                 const segmentAngle = (2 * Math.PI) / segments.length;
-                const targetRotation = spinRotations * 2 * Math.PI + (segments.length - targetSegment - 0.5) * segmentAngle;
+
+                // Calculer l'angle pour atterrir sur le segment choisi
+                const targetAngle = (2 * Math.PI - (targetSegmentIndex * segmentAngle + segmentAngle / 2)) + (Math.random() * 0.3 - 0.15) * segmentAngle;
+                const targetRotation = spinRotations * 2 * Math.PI + targetAngle;
 
                 const startTime = Date.now();
                 const startRotation = currentRotation;
@@ -988,7 +1045,7 @@
                         requestAnimationFrame(animate);
                     } else {
                         isSpinning = false;
-                        currentPrize = segments[targetSegment].text;
+                        currentPrize = selectedPrize;
                         setTimeout(showPrizeForm, 1000);
                     }
                 }
@@ -1001,18 +1058,13 @@
                 wheelForm.style.display = 'block';
                 const priceInput = document.getElementById('prizePrice');
 
-                let prizeDescription = '';
-                if (currentPrize === 'Ton prix!') {
+                if (currentPrize === 'GROS LOT') {
                     prizeText.innerHTML = 'Site vitrine ou e-commerce gratuit !<span class="prize-note">* Avec suivi mensuel selon le prix que vous proposez</span>';
                     priceInput.style.display = 'block';
                     priceInput.required = true;
                     priceInput.placeholder = 'Votre prix mensuel (ex: 50€)';
-                } else if (currentPrize === 'Site gratuit!') {
-                    prizeText.innerHTML = 'Vous avez gagné : ' + currentPrize + '<span class="prize-note">* Site vitrine WordPress + PHP offert</span>';
-                    priceInput.style.display = 'none';
-                    priceInput.required = false;
                 } else {
-                    prizeDescription = '<span class="prize-note">* Valable sur : Pack 1ère page Google, Suivi mensuel (vitrine, e-commerce, booking)<br>Au lieu de 174€/mois</span>';
+                    const prizeDescription = '<span class="prize-note">* Valable sur : Pack 1ère page Google, Suivi mensuel (vitrine, e-commerce, booking)<br>Au lieu de 174€/mois</span>';
                     prizeText.innerHTML = 'Vous avez gagné : ' + currentPrize + prizeDescription;
                     priceInput.style.display = 'none';
                     priceInput.required = false;
@@ -1057,9 +1109,9 @@
                 formData.append('prix_gagne', currentPrize);
 
                 const proposedPrice = document.getElementById('prizePrice').value;
-                if (currentPrize === 'Ton prix!' && proposedPrice) {
+                if (currentPrize === 'GROS LOT' && proposedPrice) {
                     formData.append('prix_propose', proposedPrice);
-                    formData.append('_subject', 'Roue WebPrime - Ton prix! : ' + proposedPrice);
+                    formData.append('_subject', 'Roue WebPrime - GROS LOT : ' + proposedPrice);
                 } else {
                     formData.append('_subject', 'Roue WebPrime - ' + currentPrize);
                 }
