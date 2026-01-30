@@ -1017,27 +1017,29 @@
                 isSpinning = true;
                 spinBtn.disabled = true;
 
-                // Déterminer le gain selon les probabilités
-                const selectedPrize = getWeightedPrize();
-                const targetSegmentIndex = getSegmentIndexForPrize(selectedPrize);
-
                 const spinDuration = 5000;
-                const spinRotations = 5 + Math.random() * 3;
                 const segmentAngle = (2 * Math.PI) / segments.length;
 
-                // Calculer l'angle pour atterrir sur le segment choisi
-                const targetAngle = (2 * Math.PI - (targetSegmentIndex * segmentAngle + segmentAngle / 2)) + (Math.random() * 0.3 - 0.15) * segmentAngle;
-                const targetRotation = spinRotations * 2 * Math.PI + targetAngle;
+                // Sélectionner le prix selon les probabilités
+                const selectedPrize = getWeightedPrize();
+                const targetIndex = getSegmentIndexForPrize(selectedPrize);
+
+                // Calculer la rotation pour atterrir sur ce segment
+                // Reset pour éviter accumulation
+                currentRotation = 0;
+                const fullRotations = 5 * 2 * Math.PI;
+                const targetAngle = (segments.length - targetIndex) * segmentAngle;
+                const randomOffset = (Math.random() - 0.5) * segmentAngle * 0.3;
+                const totalRotation = fullRotations + targetAngle + randomOffset;
 
                 const startTime = Date.now();
-                const startRotation = currentRotation;
 
                 function animate() {
                     const elapsed = Date.now() - startTime;
                     const progress = Math.min(elapsed / spinDuration, 1);
                     const easeOut = 1 - Math.pow(1 - progress, 4);
 
-                    currentRotation = startRotation + targetRotation * easeOut;
+                    currentRotation = totalRotation * easeOut;
                     wheelCtx.clearRect(0, 0, wheelCanvas.width, wheelCanvas.height);
                     drawWheel();
 
@@ -1045,7 +1047,10 @@
                         requestAnimationFrame(animate);
                     } else {
                         isSpinning = false;
-                        currentPrize = selectedPrize;
+                        // Vérifier visuellement pour être sûr
+                        let normalizedRotation = currentRotation % (2 * Math.PI);
+                        const winningIndex = Math.floor((segments.length - normalizedRotation / segmentAngle) + segments.length) % segments.length;
+                        currentPrize = segments[winningIndex].text;
                         setTimeout(showPrizeForm, 1000);
                     }
                 }
@@ -1059,12 +1064,17 @@
                 const priceInput = document.getElementById('prizePrice');
 
                 if (currentPrize === 'GROS LOT') {
-                    prizeText.innerHTML = 'Site vitrine ou e-commerce gratuit !<span class="prize-note">* Avec suivi mensuel selon le prix que vous proposez</span>';
+                    prizeText.innerHTML = 'Site internet offert !<span class="prize-note">Pour le suivi mensuel, choisissez votre prix !</span>';
                     priceInput.style.display = 'block';
                     priceInput.required = true;
                     priceInput.placeholder = 'Votre prix mensuel (ex: 50€)';
                 } else {
-                    const prizeDescription = '<span class="prize-note">* Valable sur : Pack 1ère page Google, Suivi mensuel (vitrine, e-commerce, booking)<br>Au lieu de 174€/mois</span>';
+                    let newPrice = '';
+                    if (currentPrize === '-10€/mois') newPrice = '164€/mois';
+                    else if (currentPrize === '-20€/mois') newPrice = '154€/mois';
+                    else if (currentPrize === '-50€/mois') newPrice = '124€/mois';
+
+                    const prizeDescription = '<span class="prize-note">Valable sur :<br>• Pack 1ère page Google<br>• Suivi mensuel site vitrine<br>• Suivi mensuel site e-commerce<br>• Suivi mensuel site booking<br><br>Au lieu de 174€/mois → <strong>' + newPrice + '</strong></span>';
                     prizeText.innerHTML = 'Vous avez gagné : ' + currentPrize + prizeDescription;
                     priceInput.style.display = 'none';
                     priceInput.required = false;

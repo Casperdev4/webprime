@@ -1522,10 +1522,12 @@ a:hover {
 
 .prize-note {
     display: block;
-    font-size: 12px;
-    font-weight: 400;
-    color: var(--text-gray);
-    margin-top: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-light);
+    margin-top: 15px;
+    line-height: 1.5;
+    text-align: left;
 }
 
 .wheel-form-text {
