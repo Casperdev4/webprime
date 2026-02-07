@@ -517,6 +517,29 @@ a:hover {
 
 .offer-popular {
     border: 2px solid var(--primary-orange);
+    overflow: visible;
+    animation: cardGlow 3s ease-in-out infinite;
+}
+
+@keyframes cardGlow {
+    0%, 100% { box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3), 0 0 15px rgba(249, 115, 22, 0.15); }
+    50% { box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3), 0 0 30px rgba(249, 115, 22, 0.4), 0 0 60px rgba(249, 115, 22, 0.15); }
+}
+
+.gift {
+    position: absolute;
+    top: -16px;
+    z-index: 3;
+    animation: giftFloat 2.5s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.gift-1 { font-size: 22px; left: calc(50% - 70px); animation-delay: 0s; }
+.gift-2 { font-size: 22px; right: calc(50% - 70px); animation-delay: 0.4s; }
+
+@keyframes giftFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-5px) rotate(6deg); }
 }
 
 .offer-badge {
