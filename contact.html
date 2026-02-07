@@ -807,28 +807,53 @@
         }
 
         // Form submission
-        document.getElementById('contactForm').addEventListener('submit', function (e) {
+        document.getElementById('contactForm').addEventListener('submit', async function (e) {
             e.preventDefault();
             if (!validatePage(3)) return;
 
-            // Honeypot
-            var honeypot = document.querySelector('input[name="_gotcha"]');
-            if (honeypot && honeypot.value) return;
+            var form = document.getElementById('contactForm');
 
-            var btn = this.querySelector('.btn-submit');
+            // Anti-spam honeypot check
+            if (form._gotcha && form._gotcha.value) return false;
+
+            var btn = form.querySelector('.btn-submit');
             var originalText = btn.textContent;
             btn.textContent = 'Envoi en cours...';
             btn.disabled = true;
 
-            var formData = new FormData(this);
-            // Remove honeypot
-            formData.delete('_gotcha');
+            try {
+                var fd = new FormData(form);
 
-            fetch('https://webprime.app/webhook/contact/6b0fb099dde5949c91782c081d3ad394d5b472218f280b4fa21cb700c8cd6dd4', {
-                method: 'POST',
-                body: formData
-            })
-            .then(function (response) {
+                // Build clean payload with required webhook fields: name, email, message
+                var prenom = fd.get('prenom') || '';
+                var entreprise = fd.get('entreprise') || '';
+
+                var messageParts = [];
+                messageParts.push('Site existant: ' + (fd.get('site_existant') || 'Non renseigné'));
+                if (fd.get('url_site')) messageParts.push('URL: ' + fd.get('url_site'));
+                if (fd.get('position_google')) messageParts.push('Position Google: ' + fd.get('position_google'));
+                messageParts.push('Type de site: ' + (fd.get('type_site') || 'Non renseigné'));
+                messageParts.push('Objectif: ' + (fd.getAll('objectif').join(', ') || 'Non renseigné'));
+                messageParts.push('Secteur: ' + (fd.get('secteur') || 'Non renseigné'));
+                messageParts.push('Métier: ' + (fd.get('metier') || 'Non renseigné'));
+                messageParts.push('Ancienneté: ' + (fd.getAll('anciennete').join(', ') || 'Non renseigné'));
+                messageParts.push('Source clients: ' + (fd.getAll('source_clients').join(', ') || 'Non renseigné'));
+                messageParts.push('Clients/mois: ' + (fd.get('clients_mois') || 'Non renseigné'));
+                messageParts.push('Situation: ' + (fd.getAll('situation').join(', ') || 'Non renseigné'));
+                messageParts.push('Téléphone: ' + (fd.get('telephone') || 'Non renseigné'));
+                if (fd.get('commentaires')) messageParts.push('Commentaires: ' + fd.get('commentaires'));
+
+                var payload = new FormData();
+                payload.append('name', prenom + (entreprise ? ' - ' + entreprise : ''));
+                payload.append('email', fd.get('email'));
+                payload.append('telephone', fd.get('telephone') || '');
+                payload.append('message', messageParts.join('\n'));
+
+                var response = await fetch('https://webprime.app/webhook/contact/6b0fb099dde5949c91782c081d3ad394d5b472218f280b4fa21cb700c8cd6dd4', {
+                    method: 'POST',
+                    body: payload
+                });
+
                 if (response.ok) {
                     window.location.href = 'https://webprime.fr/merci.html';
                 } else {
@@ -836,12 +861,11 @@
                     btn.textContent = originalText;
                     btn.disabled = false;
                 }
-            })
-            .catch(function () {
+            } catch (error) {
                 alert('Erreur de connexion. Veuillez réessayer.');
                 btn.textContent = originalText;
                 btn.disabled = false;
-            });
+            }
         });
 
         // Clear error on input
