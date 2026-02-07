@@ -1114,6 +1114,9 @@ a:hover {
         background: var(--bg-card-hover);
         margin: 5px 0;
         border-radius: 8px;
+        font-size: 14px;
+        padding: 12px;
+        border-left: 3px solid var(--primary-orange);
     }
 
     .hero {
