@@ -73,7 +73,7 @@
             "offers": {
                 "@type": "Offer",
                 "url": "https://webprime.fr/pack-google.html",
-                "price": "174",
+                "price": "35",
                 "priceCurrency": "EUR",
                 "availability": "https://schema.org/InStock",
                 "priceValidUntil": "2026-12-31"
@@ -218,7 +218,7 @@
                         </svg>
                     </div>
                     <h3 class="offer-title">Pack 1ère page Google</h3>
-                    <div class="offer-price">174€<span class="offer-period">/mois</span></div>
+                    <div class="offer-price"><span class="old-price">174€</span> 35€<span class="offer-period">/mois</span></div>
                     <p class="offer-description">Site 100% code - Visibilité maximale</p>
                     <ul class="offer-features">
                         <li>Site web sur mesure</li>
@@ -1179,11 +1179,11 @@
                     priceInput.placeholder = 'Votre prix mensuel';
                 } else {
                     let newPrice = '';
-                    if (currentPrize === '-10€/mois') newPrice = '164€/mois';
-                    else if (currentPrize === '-20€/mois') newPrice = '154€/mois';
-                    else if (currentPrize === '-50€/mois') newPrice = '124€/mois';
+                    if (currentPrize === '-10€/mois') newPrice = '25€/mois';
+                    else if (currentPrize === '-20€/mois') newPrice = '15€/mois';
+                    else if (currentPrize === '-50€/mois') newPrice = '0€/mois';
 
-                    const prizeDescription = '<span class="prize-note">Valable sur :<br>• Pack 1ère page Google<br>• Suivi mensuel site vitrine<br>• Suivi mensuel site e-commerce<br>• Suivi mensuel site booking<br><br>Au lieu de 174€/mois → <strong>' + newPrice + '</strong></span>';
+                    const prizeDescription = '<span class="prize-note">Valable sur :<br>• Suivi mensuel site vitrine<br>• Suivi mensuel site e-commerce<br>• Suivi mensuel site booking</span>';
                     prizeText.innerHTML = 'Vous avez gagné : ' + currentPrize + prizeDescription;
                     priceInput.style.display = 'none';
                     priceInput.required = false;

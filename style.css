@@ -578,6 +578,14 @@ a:hover {
     margin-bottom: 5px;
 }
 
+.old-price {
+    text-decoration: line-through;
+    font-size: 0.65em;
+    opacity: 0.6;
+    margin-right: 6px;
+    font-weight: 500;
+}
+
 .offer-period {
     font-size: 16px;
     font-weight: 400;
