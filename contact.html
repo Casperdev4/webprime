@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - WebPrime | Création Site Internet 91 Essonne</title>
+    <meta name="description" content="Contactez WebPrime pour votre projet de site internet ou application mobile. Formulaire de contact rapide, réponse sous 24h.">
+    <link rel="canonical" href="https://webprime.fr/contact.html"/>
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Contact - WebPrime">
+    <meta property="og:description" content="Contactez WebPrime pour votre projet de site internet ou application mobile.">
+    <meta property="og:image" content="https://webprime.fr/logo-wp.png">
+    <meta property="og:url" content="https://webprime.fr/contact.html">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Contact - WebPrime">
+    <meta name="twitter:description" content="Contactez WebPrime pour votre projet de site internet ou application mobile.">
+    <meta name="twitter:image" content="https://webprime.fr/logo-wp.png">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" type="image/png" sizes="192x192" href="./logo/icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./logo/android-icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="./logo/android-icon-96x96.png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .contact-page { padding: 120px 0 60px; }
+
+        /* Stepper */
+        .form-stepper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0;
+            margin-bottom: 40px;
+        }
+        .stepper-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        .stepper-circle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #1a1a1a;
+            border: 2px solid #2a2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+            color: #9ca3af;
+            transition: all 0.4s ease;
+        }
+        .stepper-step.active .stepper-circle {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            border-color: #f97316;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.4);
+        }
+        .stepper-step.completed .stepper-circle {
+            background: #22c55e;
+            border-color: #22c55e;
+            color: #fff;
+        }
+        .stepper-label {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #9ca3af;
+            text-align: center;
+            max-width: 90px;
+            transition: color 0.3s;
+        }
+        .stepper-step.active .stepper-label { color: #ffb156; }
+        .stepper-step.completed .stepper-label { color: #22c55e; }
+        .stepper-line {
+            width: 60px;
+            height: 2px;
+            background: #2a2a2a;
+            margin: 0 10px 22px;
+            transition: background 0.4s;
+        }
+        .stepper-line.completed { background: #22c55e; }
+
+        /* Form card */
+        .form-card {
+            background: #111;
+            border: 1px solid #2a2a2a;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .form-page { display: none; }
+        .form-page.active {
+            display: block;
+            animation: fadeSlideUp 0.4s ease;
+        }
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .form-page-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+        .form-page-subtitle {
+            color: #9ca3af;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        /* Inputs */
+        .form-group { margin-bottom: 22px; }
+        .form-group label {
+            display: block;
+            color: #d1d5db;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        .form-group label .required { color: #f97316; margin-left: 2px; }
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group input[type="url"],
+        .form-group input[type="number"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            outline: none;
+            box-sizing: border-box;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #f97316;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { color: #4a4a4a; }
+        .form-group select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%239ca3af' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+        .form-group select option { background: #1a1a1a; color: #fff; }
+        .form-group textarea { resize: vertical; min-height: 100px; }
+        .name-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        @media (max-width: 768px) { .name-row { grid-template-columns: 1fr; } }
+
+        /* Radio & Checkbox custom */
+        .radio-group, .checkbox-group { display: flex; flex-direction: column; gap: 10px; }
+        .radio-option, .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .radio-option:hover, .checkbox-option:hover {
+            border-color: #3a3a3a;
+            background: #1f1f1f;
+        }
+        .radio-option input, .checkbox-option input { display: none; }
+        .radio-option .custom-radio {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #3a3a3a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+        .radio-option .custom-radio::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #f97316;
+            transform: scale(0);
+            transition: transform 0.2s;
+        }
+        .radio-option input:checked ~ .custom-radio { border-color: #f97316; }
+        .radio-option input:checked ~ .custom-radio::after { transform: scale(1); }
+        .radio-option input:checked ~ .option-text { color: #fff; }
+        .checkbox-option .custom-check {
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            border: 2px solid #3a3a3a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+        .checkbox-option .custom-check svg { opacity: 0; transition: opacity 0.2s; width: 12px; height: 12px; }
+        .checkbox-option input:checked ~ .custom-check { background: #f97316; border-color: #f97316; }
+        .checkbox-option input:checked ~ .custom-check svg { opacity: 1; }
+        .checkbox-option input:checked ~ .option-text { color: #fff; }
+        .option-text { color: #9ca3af; font-size: 14px; transition: color 0.3s; }
+
+        /* Conditional field */
+        .conditional-field { display: none; margin-top: 10px; }
+        .conditional-field.visible { display: block; animation: fadeSlideUp 0.3s ease; }
+
+        /* Buttons */
+        .form-buttons { display: flex; justify-content: space-between; gap: 16px; margin-top: 32px; }
+        .btn-prev, .btn-next, .btn-submit {
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        .btn-prev {
+            background: transparent;
+            border: 1px solid #2a2a2a;
+            color: #9ca3af;
+        }
+        .btn-prev:hover { border-color: #3a3a3a; color: #fff; }
+        .btn-next, .btn-submit {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            color: #fff;
+            margin-left: auto;
+        }
+        .btn-next:hover, .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(249, 115, 22, 0.35);
+        }
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Header title */
+        .contact-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .contact-header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+        .contact-header h1 span { color: #ffb156; }
+        .contact-header p {
+            color: #9ca3af;
+            font-size: 16px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Validation errors */
+        .form-group.error input,
+        .form-group.error select,
+        .form-group.error textarea { border-color: #ff3344; }
+        .form-group.error .radio-group,
+        .form-group.error .checkbox-group { outline: 1px solid #ff3344; border-radius: 10px; outline-offset: 4px; }
+        .error-msg { color: #ff3344; font-size: 12px; margin-top: 4px; display: none; }
+        .form-group.error .error-msg { display: block; }
+
+        /* Honeypot */
+        .hp-wrap { position: absolute; left: -9999px; top: -9999px; }
+
+        @media (max-width: 768px) {
+            .form-card { padding: 24px 18px; margin: 0 10px; }
+            .contact-header h1 { font-size: 26px; }
+            .stepper-line { width: 30px; }
+            .stepper-circle { width: 36px; height: 36px; font-size: 14px; }
+            .stepper-label { font-size: 10px; max-width: 65px; }
+            .form-buttons { flex-direction: column; }
+            .btn-prev, .btn-next, .btn-submit { width: 100%; text-align: center; margin-left: 0; }
+            .btn-next, .btn-submit { order: -1; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="https://webprime.fr" class="logo">
+                <img src="logo-wp.png" alt="WebPrime Logo">
+            </a>
+            <button class="menu-toggle" aria-label="Menu" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="nav" id="nav">
+                <ul>
+                    <li><a href="https://webprime.fr/creation-site-internet.html">Sites Web</a></li>
+                    <li><a href="https://webprime.fr/creation-application-mobile.html">Applications Mobiles</a></li>
+                    <li><a href="https://daelia-digital.fr/premiere-page-google/" target="_blank">1ère Page Google</a></li>
+                    <li><a href="https://webprime.fr/contact.html" class="active">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="contact-page">
+        <div class="container" style="max-width: 800px;">
+
+            <div class="contact-header">
+                <h1>Parlons de votre <span>projet</span></h1>
+                <p>Remplissez ce formulaire en quelques minutes et recevez une réponse personnalisée sous 24h.</p>
+            </div>
+
+            <!-- Stepper -->
+            <div class="form-stepper">
+                <div class="stepper-step active" data-step="1">
+                    <div class="stepper-circle">1</div>
+                    <div class="stepper-label">Votre projet</div>
+                </div>
+                <div class="stepper-line"></div>
+                <div class="stepper-step" data-step="2">
+                    <div class="stepper-circle">2</div>
+                    <div class="stepper-label">Activité</div>
+                </div>
+                <div class="stepper-line"></div>
+                <div class="stepper-step" data-step="3">
+                    <div class="stepper-circle">3</div>
+                    <div class="stepper-label">Coordonnées</div>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <div class="form-card">
+                <form id="contactForm" novalidate>
+                    <div class="hp-wrap">
+                        <label for="website">Votre site web :</label>
+                        <input type="text" id="website" name="_gotcha" autocomplete="off">
+                    </div>
+
+                    <!-- PAGE 1 — Votre projet -->
+                    <div class="form-page active" data-page="1">
+                        <h2 class="form-page-title">Votre projet</h2>
+                        <p class="form-page-subtitle">Parlez-nous de votre présence en ligne</p>
+
+                        <div class="form-group">
+                            <label>Votre entreprise possède-t-elle déjà un site internet ? <span class="required">*</span></label>
+                            <div class="radio-group">
+                                <label class="radio-option">
+                                    <input type="radio" name="site_existant" value="Oui" required>
+                                    <span class="custom-radio"></span>
+                                    <span class="option-text">Oui</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="site_existant" value="Non">
+                                    <span class="custom-radio"></span>
+                                    <span class="option-text">Non</span>
+                                </label>
+                            </div>
+                            <div class="error-msg">Veuillez sélectionner une option</div>
+                        </div>
+
+                        <div class="conditional-field" id="cond-url">
+                            <div class="form-group">
+                                <label for="site-url">Si oui, indiquez l'adresse de votre site :</label>
+                                <input type="url" id="site-url" name="url_site" placeholder="https://www.monsite.fr">
+                            </div>
+                        </div>
+
+                        <div class="conditional-field" id="cond-google">
+                            <div class="form-group">
+                                <label>Où vous situez-vous actuellement sur Google ?</label>
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="position_google" value="Première page">
+                                        <span class="custom-radio"></span>
+                                        <span class="option-text">Première page</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="position_google" value="Page 2 à 5">
+                                        <span class="custom-radio"></span>
+                                        <span class="option-text">Page 2 à 5</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="position_google" value="Introuvable">
+                                        <span class="custom-radio"></span>
+                                        <span class="option-text">Je ne trouve même pas mon site</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Quel type de site avez-vous besoin ? <span class="required">*</span></label>
+                            <div class="radio-group">
+                                <label class="radio-option">
+                                    <input type="radio" name="type_site" value="Vitrine" required>
+                                    <span class="custom-radio"></span>
+                                    <span class="option-text">Vitrine</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="type_site" value="Réservation (sans paiement)">
+                                    <span class="custom-radio"></span>
+                                    <span class="option-text">Réservation (sans paiement)</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="type_site" value="Réservation (avec paiement)">
+                                    <span class="custom-radio"></span>
+                                    <span class="option-text">Réservation (avec paiement)</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="type_site" value="E-Commerce">
+                                    <span class="custom-radio"></span>
+                                    <span class="option-text">E-Commerce</span>
+                                </label>
+                            </div>
+                            <div class="error-msg">Veuillez sélectionner un type</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Quel est votre objectif principal ? <span class="required">*</span></label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="objectif" value="Améliorer mon image professionnelle">
+                                    <span class="custom-check"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                                    <span class="option-text">Améliorer mon image professionnelle</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="objectif" value="Être en première page Google">
+                                    <span class="custom-check"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                                    <span class="option-text">Être en première page Google</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="objectif" value="Lancer mon activité">
+                                    <span class="custom-check"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                                    <span class="option-text">Lancer mon activité</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="objectif" value="Autre">
+                                    <span class="custom-check"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                                    <span class="option-text">Autre</span>
+                                </label>
+                            </div>
+                            <div class="error-msg">Veuillez sélectionner au moins une option</div>
+                        </div>
+
+                        <div class="form-buttons">
+                            <button type="button" class="btn-next" onclick="nextPage(1)">Suivant</button>
+                        </div>
+                    </div>
+
+                    <!-- PAGE 2 — Votre activité -->
+                    <div class="form-page" data-page="2">
+                        <h2 class="form-page-title">Votre activité</h2>
+                        <p class="form-page-subtitle">Aidez-nous à mieux vous connaître</p>
+
+                        <div class="form-group">
+                            <label for="secteur">Quel est votre secteur d'activité ? <span class="required">*</span></label>
+                            <select id="secteur" name="secteur" required>
+                                <option value="" disabled selected>--- Sélectionner un choix ---</option>
+                                <option value="Artisan / Bâtiment">Artisan / Bâtiment</option>
+                                <option value="Restauration">Restauration</option>
+                                <option value="E-Commerce">E-Commerce</option>
+                                <option value="Beauté / Coiffure">Beauté / Coiffure</option>
+                                <option value="Santé / Bien-être">Santé / Bien-être</option>
+                                <option value="Auto / Garage">Auto / Garage</option>
+                                <option value="Immobilier / Agence">Immobilier / Agence</option>
+                                <option value="Autre">Autre</option>
+                            </select>
+                            <div class="error-msg">Veuillez sélectionner un secteur</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="metier">Quel est votre métier principal ? <span class="required">*</span></label>
+                            <input type="text" id="metier" name="metier" placeholder="Ex : Plombier, Coiffeur, Restaurateur..." required>
+                            <div class="error-msg">Ce champ est requis</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Depuis combien de temps votre entreprise existe ? <span class="required">*</span></label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="anciennete" value="Moins d'un an">
+                                    <span class="custom-check"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                                    <span class="option-text">Moins d'un an</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="anciennete" value="1 à 3 ans">
+                                    <span class="custom-check"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                                    <span class="option-text">1 à 3 ans</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="anciennete" value="3 à 10 ans">
+                                    <span class="custom-check"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                                    <span class="option-text">3 à 10 ans</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="anciennete" value="Plus de 10 ans">
+                                    <span class="custom-check"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                                    <span class="option-text">Plus de 10 ans</span>
+                                </label>
+                            </div>
+                            <div class="error-msg">Veuillez sélectionner au moins une option</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Vos clients viennent-ils du : <span class="required">*</span></label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="source_clients" value="Bouche à oreille">
+                                    <span class="custom-check"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                                    <span class="option-text">Bouche à oreille</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="source_clients" value="Fiche Google">
+                                    <span class="custom-check"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                                    <span class="option-text">Fiche Google</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="source_clients" value="Google Ads">
+                                    <span class="custom-check"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                                    <span class="option-text">Google Ads</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="source_clients" value="Carte de visite, flyer">
+                                    <span class="custom-check"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                                    <span class="option-text">Carte de visite, flyer ect.</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="source_clients" value="Réseaux sociaux">
+                                    <span class="custom-check"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                                    <span class="option-text">Réseaux sociaux</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="source_clients" value="Rien pour le moment">
+                                    <span class="custom-check"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                                    <span class="option-text">Rien pour le moment</span>
+                                </label>
+                            </div>
+                            <div class="error-msg">Veuillez sélectionner au moins une option</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="clients">Combien de clients avez-vous en moyenne par mois ? <span class="required">*</span></label>
+                            <input type="number" id="clients" name="clients_mois" placeholder="Ex : 30" min="0" required>
+                            <div class="error-msg">Ce champ est requis</div>
+                        </div>
+
+                        <div class="form-buttons">
+                            <button type="button" class="btn-prev" onclick="prevPage(2)">Précédent</button>
+                            <button type="button" class="btn-next" onclick="nextPage(2)">Suivant</button>
+                        </div>
+                    </div>
+
+                    <!-- PAGE 3 — Vos coordonnées -->
+                    <div class="form-page" data-page="3">
+                        <h2 class="form-page-title">Vos coordonnées</h2>
+                        <p class="form-page-subtitle">Dernière étape avant de recevoir votre offre</p>
+
+                        <div class="form-group">
+                            <label>Quelle phrase décrit le mieux votre situation ? <span class="required">*</span></label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="situation" value="J'ai besoin de clients rapidement">
+                                    <span class="custom-check"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                                    <span class="option-text">J'ai besoin de clients rapidement</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="situation" value="Je veux passer à la vitesse supérieure">
+                                    <span class="custom-check"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                                    <span class="option-text">Je veux passer à la vitesse supérieure</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="situation" value="Je veux un site + SEO complet">
+                                    <span class="custom-check"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                                    <span class="option-text">Je veux un site + SEO complet</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="situation" value="Je cherche juste des informations">
+                                    <span class="custom-check"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                                    <span class="option-text">Je cherche juste des informations pour l'instant</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="situation" value="Autre">
+                                    <span class="custom-check"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                                    <span class="option-text">Autre</span>
+                                </label>
+                            </div>
+                            <div class="error-msg">Veuillez sélectionner au moins une option</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="comments">Commentaires</label>
+                            <textarea id="comments" name="commentaires" rows="4" placeholder="Un détail à ajouter ? Dites-nous tout..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Prénom / Entreprise <span class="required">*</span></label>
+                            <div class="name-row">
+                                <input type="text" id="prenom" name="prenom" placeholder="Prénom" required>
+                                <input type="text" id="entreprise" name="entreprise" placeholder="Entreprise" required>
+                            </div>
+                            <div class="error-msg">Ces champs sont requis</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telephone">Téléphone <span class="required">*</span></label>
+                            <input type="tel" id="telephone" name="telephone" placeholder="06 12 34 56 78" required>
+                            <div class="error-msg">Numéro de téléphone requis</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">E-mail <span class="required">*</span></label>
+                            <input type="email" id="email" name="email" placeholder="votre@email.com" required>
+                            <div class="error-msg">Adresse e-mail invalide</div>
+                        </div>
+
+                        <div class="form-buttons">
+                            <button type="button" class="btn-prev" onclick="prevPage(3)">Précédent</button>
+                            <button type="submit" class="btn-submit">Obtenir mon Offre</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>WebPrime</h4>
+                    <p>Création de sites internet et applications mobiles haut de gamme dans l'Essonne (91)</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Nos Services</h4>
+                    <ul>
+                        <li><a href="pack-google.html">Pack 1ère Page Google</a></li>
+                        <li><a href="site-vitrine.html">Site Vitrine</a></li>
+                        <li><a href="site-booking.html">Site Booking</a></li>
+                        <li><a href="site-ecommerce.html">Site E-Commerce</a></li>
+                        <li><a href="creation-application-mobile.html">Application Mobile</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:contact@webprime.fr">contact@webprime.fr</a></li>
+                        <li><a href="https://webprime.fr">webprime.fr</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Suivez-nous</h4>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/webprime.es" target="_blank" aria-label="Instagram">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#E4405F"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </a>
+                        <a href="https://www.tiktok.com/@kazeko_fight" target="_blank" aria-label="TikTok">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+                        </a>
+                        <a href="https://snapchat.com/t/jnB2CTpk" target="_blank" aria-label="Snapchat">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#FFFC00"><path d="M5.829 4.533c-.6 1.344-.363 3.752-.267 5.436-.648.359-1.48-.271-1.951-.271-.49 0-1.075.322-1.167.802-.066.346.089.85 1.201 1.289.43.17 1.453.37 1.69.928.333.784-1.71 4.403-4.918 4.931-.251.041-.43.265-.416.519.056.975 2.242 1.357 3.211 1.507.099.134.179.7.306 1.131.057.193.204.424.582.424.493 0 1.312-.38 2.738-.144 1.398.233 2.712 2.215 5.235 2.215 2.345 0 3.744-1.991 5.09-2.215.779-.129 1.448-.088 2.196.058.515.101.977.157 1.124-.349.129-.437.208-.992.305-1.123.96-.149 3.156-.53 3.211-1.505.014-.254-.165-.477-.416-.519-3.154-.52-5.259-4.128-4.918-4.931.236-.557 1.252-.755 1.69-.928.814-.321 1.222-.716 1.213-1.173-.011-.585-.715-.934-1.233-.934-.527 0-1.284.624-1.897.286.096-1.698.332-4.095-.267-5.438-1.135-2.543-3.66-3.829-6.184-3.829-2.508 0-5.014 1.268-6.158 3.833z"/></svg>
+                        </a>
+                        <a href="https://youtube.com/@daelia-digital" target="_blank" aria-label="YouTube">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#FF0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; WebPrime 2026 - Tous droits réservés</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu
+        document.addEventListener('DOMContentLoaded', function () {
+            var menuToggle = document.getElementById('menuToggle');
+            var nav = document.getElementById('nav');
+            menuToggle.addEventListener('click', function () {
+                menuToggle.classList.toggle('active');
+                nav.classList.toggle('active');
+            });
+            var navLinks = nav.querySelectorAll('a');
+            navLinks.forEach(function (link) {
+                link.addEventListener('click', function () {
+                    menuToggle.classList.remove('active');
+                    nav.classList.remove('active');
+                });
+            });
+            document.addEventListener('click', function (e) {
+                if (!nav.contains(e.target) && !menuToggle.contains(e.target)) {
+                    menuToggle.classList.remove('active');
+                    nav.classList.remove('active');
+                }
+            });
+        });
+
+        // Conditional fields - Page 1
+        document.querySelectorAll('input[name="site_existant"]').forEach(function (radio) {
+            radio.addEventListener('change', function () {
+                var condUrl = document.getElementById('cond-url');
+                var condGoogle = document.getElementById('cond-google');
+                if (this.value === 'Oui') {
+                    condUrl.classList.add('visible');
+                    condGoogle.classList.add('visible');
+                } else {
+                    condUrl.classList.remove('visible');
+                    condGoogle.classList.remove('visible');
+                }
+            });
+        });
+
+        // Stepper & page navigation
+        var currentPage = 1;
+        var totalPages = 3;
+
+        function updateStepper() {
+            document.querySelectorAll('.stepper-step').forEach(function (step) {
+                var stepNum = parseInt(step.dataset.step);
+                step.classList.remove('active', 'completed');
+                if (stepNum === currentPage) step.classList.add('active');
+                else if (stepNum < currentPage) step.classList.add('completed');
+            });
+            document.querySelectorAll('.stepper-line').forEach(function (line, i) {
+                line.classList.toggle('completed', i + 1 < currentPage);
+            });
+        }
+
+        function showPage(page) {
+            document.querySelectorAll('.form-page').forEach(function (p) {
+                p.classList.remove('active');
+            });
+            document.querySelector('.form-page[data-page="' + page + '"]').classList.add('active');
+            currentPage = page;
+            updateStepper();
+            window.scrollTo({ top: 200, behavior: 'smooth' });
+        }
+
+        function validatePage(page) {
+            var pageEl = document.querySelector('.form-page[data-page="' + page + '"]');
+            var valid = true;
+
+            // Reset errors
+            pageEl.querySelectorAll('.form-group').forEach(function (g) { g.classList.remove('error'); });
+
+            // Text/email/tel/number/url/select inputs
+            pageEl.querySelectorAll('input[required], select[required], textarea[required]').forEach(function (input) {
+                if (input.type === 'radio' || input.type === 'checkbox') return;
+                if (!input.value.trim() || !input.checkValidity()) {
+                    input.closest('.form-group').classList.add('error');
+                    valid = false;
+                }
+            });
+
+            // Radio groups
+            pageEl.querySelectorAll('.radio-group').forEach(function (group) {
+                var name = group.querySelector('input[type="radio"]').name;
+                var formGroup = group.closest('.form-group');
+                var isRequired = formGroup.querySelector('label .required');
+                if (isRequired && !document.querySelector('input[name="' + name + '"]:checked')) {
+                    formGroup.classList.add('error');
+                    valid = false;
+                }
+            });
+
+            // Checkbox groups
+            pageEl.querySelectorAll('.checkbox-group').forEach(function (group) {
+                var formGroup = group.closest('.form-group');
+                var isRequired = formGroup.querySelector('label .required');
+                var checked = group.querySelectorAll('input[type="checkbox"]:checked');
+                if (isRequired && checked.length === 0) {
+                    formGroup.classList.add('error');
+                    valid = false;
+                }
+            });
+
+            return valid;
+        }
+
+        function nextPage(fromPage) {
+            if (validatePage(fromPage)) {
+                showPage(fromPage + 1);
+            }
+        }
+
+        function prevPage(fromPage) {
+            showPage(fromPage - 1);
+        }
+
+        // Form submission
+        document.getElementById('contactForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            if (!validatePage(3)) return;
+
+            // Honeypot
+            var honeypot = document.querySelector('input[name="_gotcha"]');
+            if (honeypot && honeypot.value) return;
+
+            var btn = this.querySelector('.btn-submit');
+            var originalText = btn.textContent;
+            btn.textContent = 'Envoi en cours...';
+            btn.disabled = true;
+
+            var formData = new FormData(this);
+            // Remove honeypot
+            formData.delete('_gotcha');
+
+            fetch('https://webprime.app/webhook/contact/6b0fb099dde5949c91782c081d3ad394d5b472218f280b4fa21cb700c8cd6dd4', {
+                method: 'POST',
+                body: formData
+            })
+            .then(function (response) {
+                if (response.ok) {
+                    window.location.href = 'https://webprime.fr/merci.html';
+                } else {
+                    alert('Erreur lors de l\'envoi. Veuillez réessayer.');
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                }
+            })
+            .catch(function () {
+                alert('Erreur de connexion. Veuillez réessayer.');
+                btn.textContent = originalText;
+                btn.disabled = false;
+            });
+        });
+
+        // Clear error on input
+        document.querySelectorAll('.form-group input, .form-group select, .form-group textarea').forEach(function (el) {
+            el.addEventListener('input', function () {
+                this.closest('.form-group').classList.remove('error');
+            });
+            el.addEventListener('change', function () {
+                this.closest('.form-group').classList.remove('error');
+            });
+        });
+    </script>
+</body>
+</html>
