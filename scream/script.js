@@ -169,7 +169,7 @@ function triggerErrorEffects() {
 
 // ==================== BOUTON QUITTER ====================
 quitBtn.addEventListener('click', () => {
-  window.location.reload();
+  window.location.href = 'https://www.google.com';
 });
 
 // ==================== VICTOIRE ====================
@@ -184,7 +184,8 @@ function showVictory() {
     document.getElementById('fog-overlay').style.transition = 'opacity 1.5s ease';
     document.getElementById('fog-overlay').style.opacity = '0';
 
-    // Redirection vers le vrai site
+    // Marquer le quiz comme terminé et rediriger vers le site
+    sessionStorage.setItem('screamDone', 'true');
     setTimeout(() => {
       window.location.href = '../index.html';
     }, CONFIG.timing.redirectDelay);
