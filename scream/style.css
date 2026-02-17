@@ -44,6 +44,88 @@ body {
   display: none !important;
 }
 
+/* ==================== BARRE DE PROGRESSION ==================== */
+#progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  z-index: 50;
+}
+
+#progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--primary-orange), var(--primary-light));
+  box-shadow: 0 0 10px rgba(255, 177, 86, 0.5), 0 0 20px rgba(255, 177, 86, 0.2);
+  transition: width 0.6s ease;
+  border-radius: 0 2px 2px 0;
+}
+
+/* ==================== GHOSTFACE FOND ==================== */
+#ghostface-bg {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 550px;
+  height: auto;
+  z-index: 5;
+  opacity: 0.35;
+  pointer-events: none;
+  animation: ghostface-breathe 6s ease-in-out infinite;
+}
+
+#ghostface-bg img {
+  width: 100%;
+  height: auto;
+}
+
+@keyframes ghostface-breathe {
+  0%, 100% { opacity: 0.35; transform: translate(-50%, -50%) scale(1); }
+  50%      { opacity: 0.45; transform: translate(-50%, -50%) scale(1.03); }
+}
+
+/* ==================== PARTICULES ==================== */
+#particles {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: rgba(255, 177, 86, 0.3);
+  border-radius: 50%;
+  animation: particle-float linear infinite;
+}
+
+.particle:nth-child(1)  { left: 5%;  animation-duration: 18s; animation-delay: 0s;    width: 3px; height: 3px; }
+.particle:nth-child(2)  { left: 15%; animation-duration: 22s; animation-delay: -3s;  }
+.particle:nth-child(3)  { left: 25%; animation-duration: 16s; animation-delay: -6s;   width: 3px; height: 3px; }
+.particle:nth-child(4)  { left: 35%; animation-duration: 24s; animation-delay: -2s;  }
+.particle:nth-child(5)  { left: 45%; animation-duration: 20s; animation-delay: -8s;   width: 4px; height: 4px; }
+.particle:nth-child(6)  { left: 55%; animation-duration: 17s; animation-delay: -4s;  }
+.particle:nth-child(7)  { left: 65%; animation-duration: 21s; animation-delay: -10s;  width: 3px; height: 3px; }
+.particle:nth-child(8)  { left: 75%; animation-duration: 19s; animation-delay: -1s;  }
+.particle:nth-child(9)  { left: 85%; animation-duration: 23s; animation-delay: -7s;   width: 3px; height: 3px; }
+.particle:nth-child(10) { left: 92%; animation-duration: 15s; animation-delay: -5s;  }
+.particle:nth-child(11) { left: 10%; animation-duration: 26s; animation-delay: -12s; }
+.particle:nth-child(12) { left: 70%; animation-duration: 14s; animation-delay: -9s;   width: 4px; height: 4px; }
+
+@keyframes particle-float {
+  0%   { transform: translateY(100vh) rotate(0deg);   opacity: 0; }
+  10%  { opacity: 0.6; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateY(-20vh) rotate(360deg);  opacity: 0; }
+}
+
 /* ==================== BROUILLARD / FOG ==================== */
 #fog-overlay {
   position: fixed;
@@ -60,9 +142,9 @@ body {
   background: repeating-linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 177, 86, 0.02) 10%,
-    rgba(255, 177, 86, 0.04) 20%,
-    rgba(255, 177, 86, 0.02) 30%,
+    rgba(255, 177, 86, 0.06) 10%,
+    rgba(255, 177, 86, 0.12) 20%,
+    rgba(255, 177, 86, 0.06) 30%,
     transparent 40%
   );
 }
@@ -70,19 +152,19 @@ body {
 .fog-1 {
   top: -10%;
   animation: fog-drift-1 25s linear infinite;
-  opacity: 0.7;
+  opacity: 0.9;
 }
 
 .fog-2 {
   top: 20%;
   animation: fog-drift-2 35s linear infinite;
-  opacity: 0.5;
+  opacity: 0.7;
 }
 
 .fog-3 {
   bottom: 0;
   animation: fog-drift-3 20s linear infinite;
-  opacity: 0.6;
+  opacity: 0.8;
 }
 
 @keyframes fog-drift-1 {
@@ -109,7 +191,7 @@ body {
   width: 600px;
   height: 600px;
   transform: translate(-50%, -50%);
-  background: radial-gradient(circle, rgba(255, 177, 86, 0.06) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 177, 86, 0.12) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -175,11 +257,10 @@ body {
 
 /* ==================== QUESTIONS ==================== */
 #question-container {
-  background: var(--bg-card);
+  background: rgba(26, 26, 26, 0.6);
   border: 1px solid rgba(255, 177, 86, 0.3);
   border-radius: 12px;
   padding: 30px 25px;
-  backdrop-filter: blur(10px);
   animation: container-appear 0.6s ease-out;
 }
 
@@ -220,7 +301,7 @@ body {
   gap: 14px;
   width: 100%;
   padding: 16px 20px;
-  background: var(--bg-card);
+  background: rgba(26, 26, 26, 0.65);
   border: 1px solid var(--border-dark);
   border-radius: 8px;
   color: var(--text-light);
@@ -292,7 +373,7 @@ body {
 
 /* ==================== MESSAGE D'ERREUR ==================== */
 #error-message {
-  background: rgba(30, 15, 10, 0.95);
+  background: rgba(30, 15, 10, 0.75);
   border: 2px solid rgba(255, 51, 68, 0.6);
   border-radius: 12px;
   padding: 40px 30px;
@@ -450,6 +531,10 @@ body.red-flash::before {
   .answer-btn {
     padding: 14px 16px;
   }
+
+  #ghostface-bg {
+    width: 400px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -471,5 +556,9 @@ body.red-flash::before {
     height: 30px;
     min-width: 30px;
     font-size: 0.95rem;
+  }
+
+  #ghostface-bg {
+    width: 300px;
   }
 }

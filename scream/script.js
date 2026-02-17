@@ -69,7 +69,6 @@ const questions = [
 ];
 
 // ==================== DOM ELEMENTS ====================
-const introMessage = document.getElementById('intro-message');
 const questionContainer = document.getElementById('question-container');
 const questionCounter = document.getElementById('question-counter');
 const questionText = document.getElementById('question-text');
@@ -79,20 +78,11 @@ const errorText = document.getElementById('error-text');
 const quitBtn = document.getElementById('quit-btn');
 const victoryMessage = document.getElementById('victory-message');
 const sceneEl = document.getElementById('scene');
+const progressFill = document.getElementById('progress-fill');
 
 // ==================== GAME STATE ====================
 let currentQuestion = 0;
 let isAnswering = false;
-
-// ==================== INTRO ====================
-function showIntro() {
-  introMessage.classList.remove('hidden');
-
-  setTimeout(() => {
-    introMessage.classList.add('hidden');
-    showQuestion(0);
-  }, CONFIG.timing.introDuration);
-}
 
 // ==================== AFFICHAGE QUESTION ====================
 function showQuestion(index) {
@@ -139,6 +129,10 @@ function handleAnswer(ansIndex) {
   if (ansIndex === q.correct) {
     // Bonne réponse
     buttons[ansIndex].classList.add('correct');
+
+    // Mettre à jour la barre de progression
+    const progress = ((currentQuestion + 1) / questions.length) * 100;
+    progressFill.style.width = progress + '%';
 
     setTimeout(() => {
       questionContainer.classList.add('hidden');
@@ -199,5 +193,5 @@ function showVictory() {
 
 // ==================== LANCEMENT ====================
 document.addEventListener('DOMContentLoaded', () => {
-  showIntro();
+  showQuestion(0);
 });

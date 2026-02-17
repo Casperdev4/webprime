@@ -4,6 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WebPrime - Es-tu pr&ecirc;t ?</title>
+  <meta name="description" content="R&eacute;ponds aux 5 questions... ou disparais. Une exp&eacute;rience interactive par WebPrime, agence web &agrave; &Eacute;vry-Courcouronnes.">
+  <meta property="og:title" content="WebPrime - Es-tu pr&ecirc;t ?">
+  <meta property="og:description" content="R&eacute;ponds aux 5 questions... ou disparais. Teste tes connaissances web !">
+  <meta property="og:image" content="https://webprime.fr/webprime.webp">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://webprime.fr/scream/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="WebPrime - Es-tu pr&ecirc;t ?">
+  <meta name="twitter:description" content="R&eacute;ponds aux 5 questions... ou disparais.">
+  <meta name="twitter:image" content="https://webprime.fr/webprime.webp">
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,6 +21,32 @@
   <link rel="icon" href="../favicon.ico">
 </head>
 <body>
+
+  <!-- ==================== BARRE DE PROGRESSION ==================== -->
+  <div id="progress-bar">
+    <div id="progress-fill"></div>
+  </div>
+
+  <!-- ==================== MASQUE GHOSTFACE (fond) ==================== -->
+  <div id="ghostface-bg">
+    <img src="scream.png" alt="" aria-hidden="true">
+  </div>
+
+  <!-- ==================== PARTICULES ==================== -->
+  <div id="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
 
   <!-- ==================== BROUILLARD ==================== -->
   <div id="fog-overlay">
@@ -22,12 +58,6 @@
   <!-- ==================== SC&Egrave;NE PRINCIPALE ==================== -->
   <div id="scene">
     <div id="dialogue-zone">
-
-      <!-- Message d'intro -->
-      <div id="intro-message" class="hidden">
-        <h1 class="horror-title">R&eacute;ponds aux 5 questions...</h1>
-        <p class="horror-subtitle">...ou disparais.</p>
-      </div>
 
       <!-- Conteneur de question -->
       <div id="question-container" class="hidden">
