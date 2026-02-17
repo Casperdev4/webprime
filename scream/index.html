@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebPrime - Es-tu pr&ecirc;t ?</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="icon" href="../favicon.ico">
+</head>
+<body>
+
+  <!-- ==================== BROUILLARD ==================== -->
+  <div id="fog-overlay">
+    <div class="fog-layer fog-1"></div>
+    <div class="fog-layer fog-2"></div>
+    <div class="fog-layer fog-3"></div>
+  </div>
+
+  <!-- ==================== SC&Egrave;NE PRINCIPALE ==================== -->
+  <div id="scene">
+    <div id="dialogue-zone">
+
+      <!-- Message d'intro -->
+      <div id="intro-message" class="hidden">
+        <h1 class="horror-title">R&eacute;ponds aux 5 questions...</h1>
+        <p class="horror-subtitle">...ou disparais.</p>
+      </div>
+
+      <!-- Conteneur de question -->
+      <div id="question-container" class="hidden">
+        <div id="question-counter"></div>
+        <h2 id="question-text"></h2>
+        <div id="answers-container"></div>
+      </div>
+
+      <!-- Message d'erreur -->
+      <div id="error-message" class="hidden">
+        <p id="error-text"></p>
+        <button id="quit-btn">QUITTER CE SITE</button>
+      </div>
+
+      <!-- Message de victoire -->
+      <div id="victory-message" class="hidden">
+        <h1 class="victory-title">F&eacute;licitations...</h1>
+        <p class="victory-subtitle">Tu as surv&eacute;cu. Bienvenue chez les pros.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

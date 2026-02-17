@@ -1,0 +1,475 @@
+/* ==========================================================
+   SCREAM EXPERIENCE - WebPrime
+   style.css - Style aligné sur le site WebPrime
+   Couleurs : --primary-orange #ffb156, --bg-dark #0a0a0a
+   ========================================================== */
+
+/* ==================== VARIABLES ==================== */
+:root {
+  --primary-orange: #ffb156;
+  --primary-hover: #e09a40;
+  --primary-light: #ffc87a;
+  --bg-dark: #0a0a0a;
+  --bg-card: #1a1a1a;
+  --bg-card-hover: #252525;
+  --border-dark: #2a2a2a;
+  --text-white: #ffffff;
+  --text-gray: #9ca3af;
+  --text-light: #d1d5db;
+  --alert-red: #ff3344;
+}
+
+/* ==================== RESET & BASE ==================== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-dark);
+}
+
+body {
+  background: #000000;
+  color: var(--text-light);
+  position: relative;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ==================== BROUILLARD / FOG ==================== */
+#fog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.fog-layer {
+  position: absolute;
+  width: 200%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 177, 86, 0.02) 10%,
+    rgba(255, 177, 86, 0.04) 20%,
+    rgba(255, 177, 86, 0.02) 30%,
+    transparent 40%
+  );
+}
+
+.fog-1 {
+  top: -10%;
+  animation: fog-drift-1 25s linear infinite;
+  opacity: 0.7;
+}
+
+.fog-2 {
+  top: 20%;
+  animation: fog-drift-2 35s linear infinite;
+  opacity: 0.5;
+}
+
+.fog-3 {
+  bottom: 0;
+  animation: fog-drift-3 20s linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes fog-drift-1 {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0%); }
+}
+
+@keyframes fog-drift-2 {
+  0%   { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes fog-drift-3 {
+  0%   { transform: translateX(-30%); }
+  100% { transform: translateX(20%); }
+}
+
+/* Spotlight central doré */
+#fog-overlay::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 600px;
+  height: 600px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(255, 177, 86, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ==================== SCÈNE PRINCIPALE ==================== */
+#scene {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 1.5s ease;
+}
+
+#scene.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ==================== ZONE DE DIALOGUE ==================== */
+#dialogue-zone {
+  position: relative;
+  z-index: 30;
+  text-align: center;
+  max-width: 700px;
+  width: 90%;
+  padding: 20px;
+}
+
+/* ==================== MESSAGE D'INTRO ==================== */
+.horror-title {
+  font-family: 'Nosifer', cursive;
+  font-size: clamp(1.6rem, 4vw, 2.8rem);
+  color: var(--primary-orange);
+  text-shadow:
+    0 0 10px rgba(255, 177, 86, 0.4),
+    0 0 40px rgba(255, 177, 86, 0.15);
+  animation: title-flicker 3s ease-in-out infinite;
+  margin-bottom: 20px;
+  line-height: 1.3;
+}
+
+.horror-subtitle {
+  font-family: 'Creepster', cursive;
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  color: var(--text-gray);
+  animation: subtitle-fade 2s ease-in-out infinite alternate;
+}
+
+@keyframes title-flicker {
+  0%, 100% { opacity: 1; }
+  92%      { opacity: 1; }
+  93%      { opacity: 0.3; }
+  94%      { opacity: 1; }
+  96%      { opacity: 0.5; }
+  97%      { opacity: 1; }
+}
+
+@keyframes subtitle-fade {
+  0%   { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/* ==================== QUESTIONS ==================== */
+#question-container {
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 177, 86, 0.3);
+  border-radius: 12px;
+  padding: 30px 25px;
+  backdrop-filter: blur(10px);
+  animation: container-appear 0.6s ease-out;
+}
+
+@keyframes container-appear {
+  0%   { opacity: 0; transform: scale(0.9) translateY(20px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+#question-counter {
+  font-family: 'Creepster', cursive;
+  font-size: 1rem;
+  color: var(--primary-orange);
+  margin-bottom: 15px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+#question-text {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(1rem, 2.2vw, 1.25rem);
+  font-weight: 500;
+  color: var(--text-light);
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+/* Boutons de réponse */
+#answers-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.answer-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 16px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-dark);
+  border-radius: 8px;
+  color: var(--text-light);
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(0.9rem, 2vw, 1.05rem);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.answer-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255, 177, 86, 0.08), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.answer-btn:hover {
+  border-color: rgba(255, 177, 86, 0.6);
+  background: var(--bg-card-hover);
+  transform: translateX(5px);
+}
+
+.answer-btn:hover::before {
+  opacity: 1;
+}
+
+.answer-letter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 50%;
+  background: rgba(255, 177, 86, 0.15);
+  border: 1px solid rgba(255, 177, 86, 0.4);
+  font-family: 'Creepster', cursive;
+  font-size: 1.1rem;
+  color: var(--primary-orange);
+  z-index: 1;
+}
+
+.answer-text {
+  z-index: 1;
+}
+
+/* Bonne réponse */
+.answer-btn.correct {
+  border-color: rgba(0, 180, 80, 0.7) !important;
+  background: rgba(0, 80, 40, 0.4) !important;
+}
+
+.answer-btn.correct .answer-letter {
+  background: rgba(0, 180, 80, 0.3);
+  border-color: rgba(0, 180, 80, 0.6);
+  color: #00cc55;
+}
+
+/* Mauvaise réponse */
+.answer-btn.wrong {
+  border-color: rgba(255, 51, 68, 0.8) !important;
+  background: rgba(100, 0, 0, 0.5) !important;
+  animation: btn-shake 0.5s ease;
+}
+
+/* ==================== MESSAGE D'ERREUR ==================== */
+#error-message {
+  background: rgba(30, 15, 10, 0.95);
+  border: 2px solid rgba(255, 51, 68, 0.6);
+  border-radius: 12px;
+  padding: 40px 30px;
+  animation: error-appear 0.5s ease-out;
+}
+
+@keyframes error-appear {
+  0%   { opacity: 0; transform: scale(1.1); }
+  50%  { transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+#error-text {
+  font-family: 'Nosifer', cursive;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  color: var(--alert-red);
+  line-height: 1.6;
+  margin-bottom: 30px;
+  text-shadow:
+    0 0 10px rgba(255, 51, 68, 0.5),
+    0 0 30px rgba(255, 51, 68, 0.2);
+  animation: error-pulse 1s ease-in-out infinite;
+}
+
+@keyframes error-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.7; }
+}
+
+#quit-btn {
+  padding: 16px 40px;
+  background: linear-gradient(135deg, var(--primary-orange), var(--primary-hover));
+  border: none;
+  border-radius: 8px;
+  color: var(--bg-dark);
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+}
+
+#quit-btn:hover {
+  background: linear-gradient(135deg, var(--primary-light), var(--primary-orange));
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(255, 177, 86, 0.3);
+}
+
+/* ==================== SHAKE ÉCRAN (mauvaise réponse) ==================== */
+body.screen-shake {
+  animation: screen-shake 0.6s ease;
+}
+
+@keyframes screen-shake {
+  0%, 100% { transform: translate(0); }
+  10%      { transform: translate(-8px, 4px); }
+  20%      { transform: translate(8px, -4px); }
+  30%      { transform: translate(-6px, 6px); }
+  40%      { transform: translate(6px, -2px); }
+  50%      { transform: translate(-4px, 4px); }
+  60%      { transform: translate(4px, -4px); }
+  70%      { transform: translate(-2px, 2px); }
+  80%      { transform: translate(2px, -2px); }
+  90%      { transform: translate(-1px, 1px); }
+}
+
+@keyframes btn-shake {
+  0%, 100% { transform: translateX(0); }
+  20%      { transform: translateX(-10px); }
+  40%      { transform: translateX(10px); }
+  60%      { transform: translateX(-5px); }
+  80%      { transform: translateX(5px); }
+}
+
+/* Effet glitch sur mauvaise réponse */
+body.glitch-effect::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255, 51, 68, 0.03) 2px,
+    rgba(255, 51, 68, 0.03) 4px
+  );
+  z-index: 9999;
+  pointer-events: none;
+  animation: glitch-lines 0.3s steps(3) infinite;
+}
+
+@keyframes glitch-lines {
+  0%   { transform: translateY(0); }
+  33%  { transform: translateY(-5px); }
+  66%  { transform: translateY(3px); }
+  100% { transform: translateY(0); }
+}
+
+/* Flash rouge */
+body.red-flash::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(150, 0, 0, 0.3);
+  z-index: 9998;
+  pointer-events: none;
+  animation: flash-out 0.8s ease-out forwards;
+}
+
+@keyframes flash-out {
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ==================== MESSAGE DE VICTOIRE ==================== */
+#victory-message {
+  animation: victory-appear 1.5s ease-out;
+}
+
+@keyframes victory-appear {
+  0%   { opacity: 0; transform: scale(0.8); }
+  60%  { transform: scale(1.05); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.victory-title {
+  font-family: 'Nosifer', cursive;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  color: var(--primary-orange);
+  text-shadow:
+    0 0 15px rgba(255, 177, 86, 0.5),
+    0 0 40px rgba(255, 177, 86, 0.2);
+  margin-bottom: 15px;
+}
+
+.victory-subtitle {
+  font-family: 'Creepster', cursive;
+  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  color: var(--text-gray);
+  line-height: 1.5;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  #dialogue-zone {
+    padding: 15px;
+  }
+
+  #question-container {
+    padding: 20px 15px;
+  }
+
+  .answer-btn {
+    padding: 14px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .horror-title {
+    font-size: 1.4rem;
+  }
+
+  #error-text {
+    font-size: 0.95rem;
+  }
+
+  .answer-btn {
+    padding: 12px 14px;
+    gap: 10px;
+  }
+
+  .answer-letter {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    font-size: 0.95rem;
+  }
+}
