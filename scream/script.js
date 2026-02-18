@@ -1,6 +1,6 @@
 /* ==========================================================
    SCREAM EXPERIENCE - WebPrime
-   script.js - Chat Ghostface + Reveal progressif
+   script.js - Chat Professor + Reveal progressif
    ========================================================== */
 
 // ==================== CONFIG ====================
@@ -107,8 +107,8 @@ function createGhostBubble(text, extraClass = '') {
   bubble.className = `chat-bubble bubble-ghost ${extraClass}`.trim();
   bubble.innerHTML = `
     <div class="ghost-header">
-      <div class="ghost-avatar"><img src="scream.png" alt="Ghostface"></div>
-      <span class="ghost-name">Ghostface</span>
+      <div class="ghost-avatar"><img src="scream.png" alt="Professor"></div>
+      <span class="ghost-name">Professor</span>
     </div>
     <div class="ghost-text">${text}</div>
   `;
@@ -198,7 +198,7 @@ async function handleAnswer(ansIndex) {
     // Reveal progressif
     updateReveal(currentQuestion);
 
-    // Réaction de Ghostface
+    // Réaction de Professor
     await sendGhostMessage(q.goodReaction, 'reaction-good');
 
     if (currentQuestion >= questions.length) {
@@ -258,7 +258,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Overlay initial
   updateReveal(0);
 
-  // Ghostface commence la conversation
+  // Professor commence la conversation
   await sendGhostMessage("Bienvenue... si tu oses.");
   await sendGhostMessage("Réponds à mes 5 questions pour accéder au site. Une seule erreur et... tu disparais.");
   await sendGhostMessage(questions[0].text, 'question');
