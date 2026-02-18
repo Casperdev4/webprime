@@ -1,17 +1,24 @@
 /* ==========================================================
    SCREAM EXPERIENCE - WebPrime
-   script.js - Quiz interactif
+   script.js - Chat Ghostface + Reveal progressif
    ========================================================== */
 
 // ==================== CONFIG ====================
 const CONFIG = {
-  timing: {
-    introDuration: 3000,
-    correctDelay: 1000,
-    wrongDelay: 800,
-    victoryWait: 4000,
-    redirectDelay: 1500,
-  },
+  typingDelay: 1200,
+  afterTypingDelay: 400,
+  correctDelay: 800,
+  wrongDelay: 600,
+  victoryWait: 3000,
+  redirectDelay: 2000,
+  revealSteps: [
+    { opacity: 0.95, blur: 20 },  // départ
+    { opacity: 0.78, blur: 16 },  // Q1 réussie
+    { opacity: 0.60, blur: 12 },  // Q2 réussie
+    { opacity: 0.40, blur: 7 },   // Q3 réussie
+    { opacity: 0.20, blur: 3 },   // Q4 réussie
+    { opacity: 0, blur: 0 },      // Q5 réussie = site révélé
+  ],
 };
 
 // ==================== DONNÉES DES QUESTIONS ====================
@@ -24,7 +31,8 @@ const questions = [
       { letter: "C", text: "Tu achètes de la pub et tu pries" }
     ],
     correct: 0,
-    errorMsg: "MAUVAIS CALCUL ! Pendant ce temps, tes concurrents te dévorent... FUIS ! \u{1F480}"
+    goodReaction: "Pas mal... tu commences à comprendre.",
+    errorMsg: "MAUVAIS CALCUL ! Pendant ce temps, tes concurrents te dévorent... FUIS !"
   },
   {
     text: "Une agence qui te PROUVE ses résultats SEO en vidéo, tu dis...",
@@ -34,7 +42,8 @@ const questions = [
       { letter: "C", text: "Ça inspire confiance, les preuves comptent" }
     ],
     correct: 2,
-    errorMsg: "FAUX ! Les amateurs parlent, les pros prouvent... PARS D'ICI ! \u{1FA78}"
+    goodReaction: "Bien vu. Les preuves ne mentent pas.",
+    errorMsg: "FAUX ! Les amateurs parlent, les pros prouvent... PARS D'ICI !"
   },
   {
     text: "Avoir une galerie avec + de 200 mots-clés en première page Google, c'est...",
@@ -44,7 +53,8 @@ const questions = [
       { letter: "C", text: "Impossible pour une petite agence" }
     ],
     correct: 1,
-    errorMsg: "ERREUR ! Les résultats parlent d'eux-mêmes... QUITTE CE SITE ! \u{1F480}"
+    goodReaction: "Exactement. Le travail paie toujours.",
+    errorMsg: "ERREUR ! Les résultats parlent d'eux-mêmes... QUITTE CE SITE !"
   },
   {
     text: "Si ton business dépend de ton site web, tu confies ça à...",
@@ -54,7 +64,8 @@ const questions = [
       { letter: "C", text: "Un pro qui maîtrise la création de sites ET la sécurité" }
     ],
     correct: 2,
-    errorMsg: "MAUVAIS CHOIX ! Scream déteste les amateurs... AU REVOIR ! \u{1FA78}"
+    goodReaction: "Tu me plais. Tu sais reconnaître un vrai pro.",
+    errorMsg: "MAUVAIS CHOIX ! Scream déteste les amateurs... AU REVOIR !"
   },
   {
     text: "Tu penses qu'avoir un beau site suffit pour ramener des clients ?",
@@ -64,94 +75,148 @@ const questions = [
       { letter: "C", text: "Un site ça vend tout seul" }
     ],
     correct: 0,
-    errorMsg: "FAUX ! Un site sans stratégie, c'est une vitrine dans le désert... QUITTE CE SITE ! \u{1F52A}"
+    goodReaction: "Impressionnant... Tu mérites de voir ce qui se cache derrière.",
+    errorMsg: "FAUX ! Un site sans stratégie, c'est une vitrine dans le désert... QUITTE CE SITE !"
   }
 ];
 
 // ==================== DOM ELEMENTS ====================
-const questionContainer = document.getElementById('question-container');
-const questionCounter = document.getElementById('question-counter');
-const questionText = document.getElementById('question-text');
-const answersContainer = document.getElementById('answers-container');
-const errorMessage = document.getElementById('error-message');
-const errorText = document.getElementById('error-text');
-const quitBtn = document.getElementById('quit-btn');
-const victoryMessage = document.getElementById('victory-message');
-const sceneEl = document.getElementById('scene');
+const chatMessages = document.getElementById('chat-messages');
+const chatAnswers = document.getElementById('chat-answers');
+const siteOverlay = document.getElementById('site-overlay');
 const progressFill = document.getElementById('progress-fill');
+const victoryMessage = document.getElementById('victory-message');
+const chatZone = document.getElementById('chat-zone');
 
 // ==================== GAME STATE ====================
 let currentQuestion = 0;
 let isAnswering = false;
 
-// ==================== AFFICHAGE QUESTION ====================
-function showQuestion(index) {
-  if (index >= questions.length) {
-    showVictory();
-    return;
-  }
+// ==================== UTILITAIRES ====================
+function sleep(ms) {
+  return new Promise(r => setTimeout(r, ms));
+}
 
-  currentQuestion = index;
-  isAnswering = false;
-  const q = questions[index];
+function scrollToBottom() {
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
 
-  questionCounter.textContent = `Question ${index + 1} / ${questions.length}`;
-  questionText.textContent = q.text;
+// ==================== CRÉER UNE BULLE GHOSTFACE ====================
+function createGhostBubble(text, extraClass = '') {
+  const bubble = document.createElement('div');
+  bubble.className = `chat-bubble bubble-ghost ${extraClass}`.trim();
+  bubble.innerHTML = `
+    <div class="ghost-header">
+      <div class="ghost-avatar"><img src="scream.png" alt="Ghostface"></div>
+      <span class="ghost-name">Ghostface</span>
+    </div>
+    <div class="ghost-text">${text}</div>
+  `;
+  return bubble;
+}
 
-  // Générer les boutons
-  answersContainer.innerHTML = '';
-  q.answers.forEach((answer, ansIndex) => {
+// ==================== TYPING INDICATOR ====================
+function showTyping() {
+  const typing = document.createElement('div');
+  typing.className = 'typing-indicator';
+  typing.id = 'typing';
+  typing.innerHTML = `
+    <div class="typing-dot"></div>
+    <div class="typing-dot"></div>
+    <div class="typing-dot"></div>
+  `;
+  chatMessages.appendChild(typing);
+  scrollToBottom();
+}
+
+function hideTyping() {
+  const typing = document.getElementById('typing');
+  if (typing) typing.remove();
+}
+
+// ==================== ENVOYER UN MESSAGE GHOSTFACE ====================
+async function sendGhostMessage(text, extraClass = '') {
+  showTyping();
+  await sleep(CONFIG.typingDelay);
+  hideTyping();
+
+  const bubble = createGhostBubble(text, extraClass);
+  chatMessages.appendChild(bubble);
+  scrollToBottom();
+  await sleep(CONFIG.afterTypingDelay);
+}
+
+// ==================== ENVOYER UN MESSAGE UTILISATEUR ====================
+function sendUserMessage(text) {
+  const bubble = document.createElement('div');
+  bubble.className = 'chat-bubble bubble-user';
+  bubble.textContent = text;
+  chatMessages.appendChild(bubble);
+  scrollToBottom();
+}
+
+// ==================== REVEAL DU SITE ====================
+function updateReveal(step) {
+  const r = CONFIG.revealSteps[step];
+  siteOverlay.style.background = `rgba(0, 0, 0, ${r.opacity})`;
+  siteOverlay.style.backdropFilter = `blur(${r.blur}px)`;
+}
+
+// ==================== AFFICHER LES RÉPONSES ====================
+function showAnswers(q) {
+  chatAnswers.innerHTML = '';
+  q.answers.forEach((answer, index) => {
     const btn = document.createElement('button');
     btn.className = 'answer-btn';
     btn.innerHTML = `
       <span class="answer-letter">${answer.letter}</span>
       <span class="answer-text">${answer.text}</span>
     `;
-    btn.addEventListener('click', () => handleAnswer(ansIndex));
-    answersContainer.appendChild(btn);
+    btn.addEventListener('click', () => handleAnswer(index));
+    chatAnswers.appendChild(btn);
   });
-
-  // Afficher avec animation
-  questionContainer.classList.remove('hidden');
-  questionContainer.style.animation = 'none';
-  questionContainer.offsetHeight; // force reflow
-  questionContainer.style.animation = '';
 }
 
 // ==================== GESTION DES RÉPONSES ====================
-function handleAnswer(ansIndex) {
+async function handleAnswer(ansIndex) {
   if (isAnswering) return;
   isAnswering = true;
 
   const q = questions[currentQuestion];
-  const buttons = answersContainer.querySelectorAll('.answer-btn');
+
+  // Afficher la réponse de l'utilisateur
+  sendUserMessage(q.answers[ansIndex].text);
+  chatAnswers.innerHTML = '';
 
   if (ansIndex === q.correct) {
     // Bonne réponse
-    buttons[ansIndex].classList.add('correct');
+    currentQuestion++;
 
-    // Mettre à jour la barre de progression
-    const progress = ((currentQuestion + 1) / questions.length) * 100;
-    progressFill.style.width = progress + '%';
+    // Barre de progression
+    progressFill.style.width = (currentQuestion / questions.length) * 100 + '%';
 
-    setTimeout(() => {
-      questionContainer.classList.add('hidden');
-      setTimeout(() => showQuestion(currentQuestion + 1), 300);
-    }, CONFIG.timing.correctDelay);
+    // Reveal progressif
+    updateReveal(currentQuestion);
+
+    // Réaction de Ghostface
+    await sendGhostMessage(q.goodReaction, 'reaction-good');
+
+    if (currentQuestion >= questions.length) {
+      showVictory();
+    } else {
+      // Question suivante
+      await sendGhostMessage(questions[currentQuestion].text, 'question');
+      showAnswers(questions[currentQuestion]);
+      isAnswering = false;
+    }
 
   } else {
-    // Mauvaise réponse
-    buttons[ansIndex].classList.add('wrong');
-
-    // Effets visuels
+    // Mauvaise réponse - effets
     triggerErrorEffects();
 
-    // Afficher le message d'erreur
-    setTimeout(() => {
-      questionContainer.classList.add('hidden');
-      errorText.textContent = q.errorMsg;
-      errorMessage.classList.remove('hidden');
-    }, CONFIG.timing.wrongDelay);
+    await sendGhostMessage(q.errorMsg, 'reaction-bad');
+    await sleep(2000);
+    window.location.href = 'https://www.google.com';
   }
 }
 
@@ -167,32 +232,37 @@ function triggerErrorEffects() {
   setTimeout(() => document.body.classList.remove('glitch-effect'), 1500);
 }
 
-// ==================== BOUTON QUITTER ====================
-quitBtn.addEventListener('click', () => {
-  window.location.href = 'https://www.google.com';
-});
-
 // ==================== VICTOIRE ====================
 function showVictory() {
-  questionContainer.classList.add('hidden');
+  chatZone.classList.add('fade-out');
   victoryMessage.classList.remove('hidden');
 
+  // Particules disparaissent
+  document.getElementById('particles').style.transition = 'opacity 1.5s ease';
+  document.getElementById('particles').style.opacity = '0';
+
   setTimeout(() => {
-    sceneEl.classList.add('fade-out');
+    victoryMessage.classList.add('hidden');
 
-    // Fade le brouillard
-    document.getElementById('fog-overlay').style.transition = 'opacity 1.5s ease';
-    document.getElementById('fog-overlay').style.opacity = '0';
-
-    // Marquer le quiz comme terminé et rediriger vers le site
+    // Marquer le quiz comme terminé
     sessionStorage.setItem('screamDone', 'true');
+
     setTimeout(() => {
       window.location.href = '../index.html';
-    }, CONFIG.timing.redirectDelay);
-  }, CONFIG.timing.victoryWait);
+    }, CONFIG.redirectDelay);
+  }, CONFIG.victoryWait);
 }
 
 // ==================== LANCEMENT ====================
-document.addEventListener('DOMContentLoaded', () => {
-  showQuestion(0);
+document.addEventListener('DOMContentLoaded', async () => {
+  // Overlay initial
+  updateReveal(0);
+
+  // Ghostface commence la conversation
+  await sendGhostMessage("Bienvenue... si tu oses.");
+  await sendGhostMessage("Réponds à mes 5 questions pour accéder au site. Une seule erreur et... tu disparais.");
+  await sendGhostMessage(questions[0].text, 'question');
+
+  // Afficher les réponses de la première question
+  showAnswers(questions[0]);
 });

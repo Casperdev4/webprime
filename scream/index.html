@@ -22,14 +22,13 @@
 </head>
 <body>
 
+  <!-- ==================== SITE EN FOND (reveal progressif) ==================== -->
+  <iframe id="site-preview" src="../index.html" title="Aper&ccedil;u du site"></iframe>
+  <div id="site-overlay"></div>
+
   <!-- ==================== BARRE DE PROGRESSION ==================== -->
   <div id="progress-bar">
     <div id="progress-fill"></div>
-  </div>
-
-  <!-- ==================== MASQUE GHOSTFACE (fond) ==================== -->
-  <div id="ghostface-bg">
-    <img src="scream.png" alt="" aria-hidden="true">
   </div>
 
   <!-- ==================== PARTICULES ==================== -->
@@ -48,37 +47,16 @@
     <div class="particle"></div>
   </div>
 
-  <!-- ==================== BROUILLARD ==================== -->
-  <div id="fog-overlay">
-    <div class="fog-layer fog-1"></div>
-    <div class="fog-layer fog-2"></div>
-    <div class="fog-layer fog-3"></div>
+  <!-- ==================== ZONE CHAT ==================== -->
+  <div id="chat-zone">
+    <div id="chat-messages"></div>
+    <div id="chat-answers"></div>
   </div>
 
-  <!-- ==================== SC&Egrave;NE PRINCIPALE ==================== -->
-  <div id="scene">
-    <div id="dialogue-zone">
-
-      <!-- Conteneur de question -->
-      <div id="question-container" class="hidden">
-        <div id="question-counter"></div>
-        <h2 id="question-text"></h2>
-        <div id="answers-container"></div>
-      </div>
-
-      <!-- Message d'erreur -->
-      <div id="error-message" class="hidden">
-        <p id="error-text"></p>
-        <button id="quit-btn">QUITTER CE SITE</button>
-      </div>
-
-      <!-- Message de victoire -->
-      <div id="victory-message" class="hidden">
-        <h1 class="victory-title">F&eacute;licitations...</h1>
-        <p class="victory-subtitle">Tu as surv&eacute;cu. Bienvenue chez les pros.</p>
-      </div>
-
-    </div>
+  <!-- ==================== MESSAGE DE VICTOIRE ==================== -->
+  <div id="victory-message" class="hidden">
+    <h1 class="victory-title">F&eacute;licitations...</h1>
+    <p class="victory-subtitle">Tu as surv&eacute;cu. Bienvenue chez les pros.</p>
   </div>
 
   <script src="script.js"></script>
