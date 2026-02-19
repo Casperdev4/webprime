@@ -107,7 +107,7 @@ function createGhostBubble(text, extraClass = '') {
   bubble.className = `chat-bubble bubble-ghost ${extraClass}`.trim();
   bubble.innerHTML = `
     <div class="ghost-header">
-      <div class="ghost-avatar"><img src="scream.png" alt="Professor"></div>
+      <div class="ghost-avatar"><img src="webprime.webp" alt="Professor"></div>
       <span class="ghost-name">Professor</span>
     </div>
     <div class="ghost-text">${text}</div>
