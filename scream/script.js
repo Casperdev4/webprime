@@ -259,8 +259,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   updateReveal(0);
 
   // Professor commence la conversation
-  await sendGhostMessage("Bienvenue... si tu oses.");
-  await sendGhostMessage("Réponds à mes 5 questions pour accéder au site. Une seule erreur et... tu disparais.");
+  await sendGhostMessage("Bienvenue... attends 2 secondes.");
+  await sendGhostMessage("Réponds à mes 5 questions pour accéder au site.");
   await sendGhostMessage(questions[0].text, 'question');
 
   // Afficher les réponses de la première question
