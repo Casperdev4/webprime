@@ -332,6 +332,49 @@
         </div>
     </section>
 
+    <!-- Bouton flottant roue -->
+    <button class="wheel-trigger" id="wheelTrigger">
+        <span class="wheel-icon">🎁</span>
+        <span class="wheel-text">Tentez votre chance !</span>
+    </button>
+
+    <!-- Modal Roue de la fortune -->
+    <div class="wheel-modal" id="wheelModal">
+        <div class="wheel-modal-content">
+            <button class="wheel-close" id="wheelClose">&times;</button>
+
+            <div class="wheel-container" id="wheelContainer">
+                <h3>Tournez la roue et gagnez !</h3>
+                <p class="wheel-subtitle">Une réduction vous attend</p>
+
+                <div class="wheel-wrapper">
+                    <div class="wheel-pointer"></div>
+                    <canvas id="wheelCanvas" width="300" height="300"></canvas>
+                </div>
+
+                <button class="wheel-spin-btn" id="spinBtn">Tourner la roue</button>
+            </div>
+
+            <div class="wheel-form" id="wheelForm" style="display: none;">
+                <h3>🎉 Félicitations !</h3>
+                <p class="wheel-prize" id="prizeText"></p>
+                <p class="wheel-form-text">Entrez votre email pour recevoir votre code promo</p>
+                <form id="prizeForm">
+                    <input type="text" name="_honey" style="display:none">
+                    <input type="email" id="prizeEmail" placeholder="votre@email.com" required>
+                    <input type="text" id="prizePrice" placeholder="Votre prix mensuel" style="display:none">
+                    <button type="submit" class="wheel-submit-btn">Recevoir mon code</button>
+                </form>
+            </div>
+
+            <div class="wheel-success" id="wheelSuccess" style="display: none;">
+                <h3>✅ C'est envoyé !</h3>
+                <p>Vérifiez votre boîte mail pour récupérer votre code promo.</p>
+                <button class="wheel-close-btn" id="closeSuccess">Fermer</button>
+            </div>
+        </div>
+    </div>
+
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
@@ -455,5 +498,6 @@
             });
         });
     </script>
+    <script src="wheel.js"></script>
 </body>
 </html>

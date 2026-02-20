@@ -1,5 +1,5 @@
 /* ==========================================================
-   SCREAM EXPERIENCE - WebPrime
+   PROFESSOR EXPERIENCE - WebPrime
    script.js - Chat Professor + Reveal progressif
    ========================================================== */
 
@@ -9,7 +9,7 @@ const CONFIG = {
   afterTypingDelay: 400,
   correctDelay: 800,
   wrongDelay: 600,
-  victoryWait: 3000,
+  victoryWait: 8000,
   redirectDelay: 2000,
   revealSteps: [
     { opacity: 0.95, blur: 20 },  // départ
@@ -123,7 +123,7 @@ const questions = [
     errorMsg: "PATHÉTIQUE ! Tu es en 1ère page Google et tu te plains ?! Le problème c'est pas le site, c'est ce que TU en fais... DÉGAGE !"
   },
   {
-    text: "Pour un commerce ou restaurant, c'est quoi le nerf de la guerre sur internet ?",
+    text: "Pour ce genre de site internet, c'est quoi le nerf de la guerre ?",
     answers: [
       { letter: "A", text: "Avoir un beau compte Instagram" },
       { letter: "B", text: "Une fiche Google optimisée reliée à un site web performant" },
@@ -160,6 +160,45 @@ const questions = [
     wrongExplanation: "Non ! La vraie différence c'est la performance, le SEO et le contrôle total. WordPress + PHP sur mesure, c'est ce que Google préfère. Le no-code c'est du bricolage.",
     commerceOnly: true,
     forgiving: true
+  },
+  {
+    text: "Pour un site e-commerce, c'est quoi le plus important pour vendre en ligne ?",
+    answers: [
+      { letter: "A", text: "Un beau design avec beaucoup de couleurs" },
+      { letter: "B", text: "Un site rapide, sécurisé, bien référencé avec un paiement fiable" },
+      { letter: "C", text: "Avoir le plus de produits possible" }
+    ],
+    correct: 1,
+    goodReaction: "Exact. Un site e-commerce qui rame ou qui inspire pas confiance, le client ferme l'onglet en 3 secondes.",
+    wrongExplanation: "Pas tout à fait. La bonne réponse c'est : un site rapide, sécurisé, bien référencé avec un paiement fiable. C'est ça qui convertit les visiteurs en acheteurs.",
+    ecommerceOnly: true,
+    forgiving: true
+  },
+  {
+    text: "Un client hésite à payer en ligne sur ton site. Qu'est-ce qui le rassure ?",
+    answers: [
+      { letter: "A", text: "Des animations et des effets visuels" },
+      { letter: "B", text: "Un site fluide, des offres, de bons avis clients et plusieurs modes de paiement" },
+      { letter: "C", text: "Un chatbot qui lui dit bonjour" }
+    ],
+    correct: 1,
+    goodReaction: "Voilà. Un site fluide, des offres claires, des avis clients et plusieurs modes de paiement. C'est la base pour que les gens sortent leur carte bancaire.",
+    wrongExplanation: "Non. Ce qui rassure un acheteur c'est : un site fluide, des offres, de bons avis clients et plusieurs modes de paiement.",
+    ecommerceOnly: true,
+    forgiving: true
+  },
+  {
+    text: "WordPress + WooCommerce avec du code PHP personnalisé vs Shopify, c'est quoi la différence ?",
+    answers: [
+      { letter: "A", text: "Aucune, c'est pareil" },
+      { letter: "B", text: "Shopify c'est mieux car c'est plus simple" },
+      { letter: "C", text: "Performance, SEO, zéro commission sur les ventes et contrôle total" }
+    ],
+    correct: 2,
+    goodReaction: "Exactement. WordPress + WooCommerce = pas de commission, SEO total, performance sur mesure. Shopify te prend un % sur chaque vente et limite ton référencement.",
+    wrongExplanation: "Faux. La vraie différence : WordPress + WooCommerce te donne la performance, le SEO et zéro commission. Shopify prend un pourcentage sur chaque vente et limite ton contrôle.",
+    ecommerceOnly: true,
+    forgiving: true
   }
 ];
 
@@ -181,14 +220,17 @@ let activeQuestions = [];
 
 function buildQuestions() {
   if (selectedSector === 0) {
-    // Artisan / BTP : questions communes + artisan, sans commerce
-    activeQuestions = questions.filter(q => !q.commerceOnly);
+    // Artisan / BTP : questions communes + artisan, sans commerce/ecommerce
+    activeQuestions = questions.filter(q => !q.commerceOnly && !q.ecommerceOnly);
   } else if (selectedSector === 1) {
-    // Commerce/Restaurant/Beauté : questions communes + commerce, sans artisan
-    activeQuestions = questions.filter(q => !q.artisanOnly);
+    // Commerce/Restaurant/Beauté : uniquement les questions commerce
+    activeQuestions = questions.filter(q => q.commerceOnly);
+  } else if (selectedSector === 2) {
+    // E-Commerce : uniquement les questions e-commerce
+    activeQuestions = questions.filter(q => q.ecommerceOnly);
   } else {
     // Autre : questions communes uniquement
-    activeQuestions = questions.filter(q => !q.artisanOnly && !q.commerceOnly);
+    activeQuestions = questions.filter(q => !q.artisanOnly && !q.commerceOnly && !q.ecommerceOnly);
   }
   // Recalculer les étapes de reveal dynamiquement
   const total = activeQuestions.length;
@@ -377,6 +419,7 @@ async function handleAnswer(ansIndex) {
     await sendGhostMessage(q.goodReaction, 'reaction-good');
 
     if (currentQuestion >= activeQuestions.length) {
+      await sleep(5000);
       showVictory();
     } else {
       // Question suivante
@@ -395,6 +438,7 @@ async function handleAnswer(ansIndex) {
     updateReveal(currentQuestion);
 
     if (currentQuestion >= activeQuestions.length) {
+      await sleep(5000);
       showVictory();
     } else {
       await sendGhostMessage(activeQuestions[currentQuestion].text, 'question');
@@ -476,12 +520,16 @@ function showVictory() {
     victoryMessage.classList.add('hidden');
 
     // Marquer le quiz comme terminé
-    sessionStorage.setItem('screamDone', 'true');
+    sessionStorage.setItem('professorDone', 'true');
 
     setTimeout(() => {
-      // Commerce → page offres sites, Artisan/E-Commerce → accueil
-      if (selectedSector === 1) {
+      // Redirection selon le secteur
+      if (selectedSector === 0) {
+        window.location.href = '../pack-google.html';
+      } else if (selectedSector === 1) {
         window.location.href = '../creation-site-internet.html';
+      } else if (selectedSector === 2) {
+        window.location.href = '../site-ecommerce.html';
       } else {
         window.location.href = '../index.html';
       }
