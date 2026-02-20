@@ -203,8 +203,9 @@ body {
 }
 
 .bubble-ghost .ghost-name {
-  font-family: 'Creepster', cursive;
+  font-family: 'Montserrat', sans-serif;
   font-size: 0.85rem;
+  font-weight: 700;
   color: var(--primary-orange);
   letter-spacing: 1px;
 }
@@ -225,7 +226,7 @@ body {
 
 .bubble-ghost.reaction-bad .ghost-text {
   color: var(--alert-red);
-  font-family: 'Nosifer', cursive;
+  font-family: 'Montserrat', sans-serif; font-weight: 900;
   font-size: 0.85rem;
 }
 
@@ -313,7 +314,7 @@ body {
   border-radius: 50%;
   background: rgba(255, 177, 86, 0.15);
   border: 1px solid rgba(255, 177, 86, 0.4);
-  font-family: 'Creepster', cursive;
+  font-family: 'Montserrat', sans-serif;
   font-size: 1rem;
   color: var(--primary-orange);
 }
@@ -415,7 +416,7 @@ body {
 }
 
 .victory-title {
-  font-family: 'Nosifer', cursive;
+  font-family: 'Montserrat', sans-serif; font-weight: 900;
   font-size: clamp(1.8rem, 4vw, 3rem);
   color: var(--primary-orange);
   text-shadow:
@@ -425,7 +426,7 @@ body {
 }
 
 .victory-subtitle {
-  font-family: 'Creepster', cursive;
+  font-family: 'Montserrat', sans-serif;
   font-size: clamp(1.1rem, 2.5vw, 1.6rem);
   color: var(--text-gray);
   line-height: 1.5;
