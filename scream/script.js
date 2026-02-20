@@ -13,14 +13,58 @@ const CONFIG = {
   redirectDelay: 2000,
   revealSteps: [
     { opacity: 0.95, blur: 20 },  // départ
-    { opacity: 0.65, blur: 13 },  // Q1 réussie
-    { opacity: 0.30, blur: 5 },   // Q2 réussie
-    { opacity: 0, blur: 0 },      // Q3 réussie = site révélé
+    { opacity: 0.85, blur: 17 },  // Q1 réussie
+    { opacity: 0.72, blur: 14 },  // Q2 réussie
+    { opacity: 0.56, blur: 11 },  // Q3 réussie
+    { opacity: 0.40, blur: 8 },   // Q4 réussie
+    { opacity: 0.20, blur: 4 },   // Q5 réussie
+    { opacity: 0, blur: 0 },      // Q6 réussie = site révélé
   ],
 };
 
-// ==================== DONNÉES DES QUESTIONS ====================
+// ==================== QUESTIONS INTRO (aiguillage) ====================
+const introQuestions = [
+  {
+    text: "Tu cherches quoi exactement ?",
+    answers: [
+      { letter: "A", text: "Un site internet" },
+      { letter: "B", text: "Une application mobile" }
+    ],
+    reactions: [
+      "Bien, tu es au bon endroit.",
+      null // redirect
+    ],
+    redirectIndex: 1,
+    redirectUrl: "../creation-application-mobile.html"
+  },
+  {
+    text: "Tu es dans quel secteur ?",
+    answers: [
+      { letter: "A", text: "Artisan / BTP" },
+      { letter: "B", text: "Commerce / Restaurant / Beauté" },
+      { letter: "C", text: "Autre secteur d'activité" }
+    ],
+    reactions: [
+      "Parfait, les artisans c'est notre spécialité.",
+      "On connaît bien ton secteur.",
+      "On s'adapte à tous les secteurs."
+    ]
+  }
+];
+
+// ==================== QUESTIONS QUIZ ====================
 const questions = [
+  {
+    text: "Tu es artisan et tu veux des clients via internet. C'est quoi le PLUS important ?",
+    answers: [
+      { letter: "A", text: "Un beau site avec de jolies photos" },
+      { letter: "B", text: "Être en 1ère page Google sur les mots-clés les plus recherchés de ton métier" },
+      { letter: "C", text: "Poster sur les réseaux sociaux tous les jours" }
+    ],
+    correct: 1,
+    goodReaction: "Exactement. Sans visibilité sur Google, ton site c'est une vitrine dans une ruelle que personne ne connaît.",
+    errorMsg: "FAUX ! Un site que personne ne trouve, c'est un site qui n'existe pas... DÉGAGE !"
+  },
   {
     text: "Seulement 10% des sites peuvent être en première page Google, pour y être tu fais quoi ?",
     answers: [
@@ -33,6 +77,17 @@ const questions = [
     errorMsg: "MAUVAIS CALCUL ! Pendant ce temps, tes concurrents te dévorent... FUIS !"
   },
   {
+    text: "Une agence web te promet la 1ère page Google. Tu fais quoi avant de signer ?",
+    answers: [
+      { letter: "A", text: "Tu signes direct, ils ont l'air sérieux" },
+      { letter: "B", text: "Tu vérifies juste leur propre site" },
+      { letter: "C", text: "Tu demandes les preuves : quels sites, quels mots-clés, quelles positions" }
+    ],
+    correct: 2,
+    goodReaction: "Malin. 90% des agences ne peuvent PAS prouver leurs résultats. Nous on a une galerie de +200 preuves.",
+    errorMsg: "NAÏF ! N'importe qui peut PROMETTRE la lune. Les preuves, c'est tout ce qui compte... FUIS !"
+  },
+  {
     text: "Avoir une galerie avec + de 200 mots-clés en première page Google, c'est...",
     answers: [
       { letter: "A", text: "De la chance" },
@@ -42,6 +97,17 @@ const questions = [
     correct: 1,
     goodReaction: "Exactement. Le travail paie toujours.",
     errorMsg: "ERREUR ! Les résultats parlent d'eux-mêmes... QUITTE CE SITE !"
+  },
+  {
+    text: "Pourquoi beaucoup d'artisans n'ont aucun appel malgré leur site web ?",
+    answers: [
+      { letter: "A", text: "Internet ça marche pas pour les artisans" },
+      { letter: "B", text: "Leur site n'apparaît pas en 1ère page sur les bons mots-clés" },
+      { letter: "C", text: "Ils n'ont pas assez de pages sur leur site" }
+    ],
+    correct: 1,
+    goodReaction: "Voilà la vérité. Pas de visibilité = pas de clients. C'est aussi simple que ça.",
+    errorMsg: "FAUX ! Le problème c'est jamais internet, c'est ceux qui ne savent pas l'utiliser... QUITTE CE SITE !"
   },
   {
     text: "Ton site est en 1ère page Google mais tu estimes ne pas recevoir assez d'appels. Tu fais quoi ?",
@@ -66,7 +132,9 @@ const chatZone = document.getElementById('chat-zone');
 
 // ==================== GAME STATE ====================
 let currentQuestion = 0;
+let currentIntro = 0;
 let isAnswering = false;
+let introPhase = true;
 
 // ==================== UTILITAIRES ====================
 function sleep(ms) {
@@ -138,7 +206,61 @@ function updateReveal(step) {
   siteOverlay.style.backdropFilter = `blur(${r.blur}px)`;
 }
 
-// ==================== AFFICHER LES RÉPONSES ====================
+// ==================== AFFICHER LES RÉPONSES (intro) ====================
+function showIntroAnswers(q) {
+  chatAnswers.innerHTML = '';
+  q.answers.forEach((answer, index) => {
+    const btn = document.createElement('button');
+    btn.className = 'answer-btn';
+    btn.innerHTML = `
+      <span class="answer-letter">${answer.letter}</span>
+      <span class="answer-text">${answer.text}</span>
+    `;
+    btn.addEventListener('click', () => handleIntroAnswer(index));
+    chatAnswers.appendChild(btn);
+  });
+}
+
+// ==================== GESTION RÉPONSES INTRO ====================
+async function handleIntroAnswer(ansIndex) {
+  if (isAnswering) return;
+  isAnswering = true;
+
+  const q = introQuestions[currentIntro];
+
+  // Afficher la réponse de l'utilisateur
+  sendUserMessage(q.answers[ansIndex].text);
+  chatAnswers.innerHTML = '';
+
+  // Redirection si nécessaire (ex: app mobile)
+  if (q.redirectIndex !== undefined && ansIndex === q.redirectIndex) {
+    await sendGhostMessage("Je t'envoie vers notre page application mobile. À tout de suite !");
+    await sleep(1000);
+    window.location.href = q.redirectUrl;
+    return;
+  }
+
+  // Réaction du Professor
+  await sendGhostMessage(q.reactions[ansIndex], 'reaction-good');
+
+  currentIntro++;
+
+  if (currentIntro >= introQuestions.length) {
+    // Fin de l'intro, lancement du quiz
+    introPhase = false;
+    await sendGhostMessage("Bien, maintenant passons aux choses sérieuses. Réponds à mes 6 questions pour accéder au site.");
+    await sendGhostMessage(questions[0].text, 'question');
+    showAnswers(questions[0]);
+    isAnswering = false;
+  } else {
+    // Question intro suivante
+    await sendGhostMessage(introQuestions[currentIntro].text, 'question');
+    showIntroAnswers(introQuestions[currentIntro]);
+    isAnswering = false;
+  }
+}
+
+// ==================== AFFICHER LES RÉPONSES (quiz) ====================
 function showAnswers(q) {
   chatAnswers.innerHTML = '';
   q.answers.forEach((answer, index) => {
@@ -153,7 +275,7 @@ function showAnswers(q) {
   });
 }
 
-// ==================== GESTION DES RÉPONSES ====================
+// ==================== GESTION DES RÉPONSES (quiz) ====================
 async function handleAnswer(ansIndex) {
   if (isAnswering) return;
   isAnswering = true;
@@ -191,6 +313,7 @@ async function handleAnswer(ansIndex) {
     triggerErrorEffects();
 
     await sendGhostMessage(q.errorMsg, 'reaction-bad');
+    spawnErrorPopups(q.errorMsg);
     showExitButton();
   }
 }
@@ -205,6 +328,33 @@ function triggerErrorEffects() {
 
   document.body.classList.add('glitch-effect');
   setTimeout(() => document.body.classList.remove('glitch-effect'), 1500);
+}
+
+// ==================== POP-UP FLOOD (mauvaise réponse) ====================
+function spawnErrorPopups(errorText) {
+  const container = document.createElement('div');
+  container.id = 'popup-flood';
+  document.body.appendChild(container);
+
+  const totalPopups = 20;
+  for (let i = 0; i < totalPopups; i++) {
+    setTimeout(() => {
+      const popup = document.createElement('div');
+      popup.className = 'error-popup';
+      popup.style.top = Math.random() * 80 + '%';
+      popup.style.left = Math.random() * 75 + '%';
+      popup.style.transform = `rotate(${(Math.random() - 0.5) * 20}deg)`;
+      popup.innerHTML = `
+        <div class="popup-header">
+          <span class="popup-icon">&#9888;</span>
+          <span>ERREUR</span>
+          <span class="popup-close">&#10005;</span>
+        </div>
+        <div class="popup-body">${errorText}</div>
+      `;
+      container.appendChild(popup);
+    }, i * 150);
+  }
 }
 
 // ==================== BOUTON QUITTER (mauvaise réponse) ====================
@@ -247,9 +397,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Professor commence la conversation
   await sendGhostMessage("Bienvenue... attends 2 secondes.");
-  await sendGhostMessage("Réponds à mes 3 questions pour accéder au site.");
-  await sendGhostMessage(questions[0].text, 'question');
+  await sendGhostMessage(introQuestions[0].text, 'question');
 
-  // Afficher les réponses de la première question
-  showAnswers(questions[0]);
+  // Afficher les réponses de la première question intro
+  showIntroAnswers(introQuestions[0]);
 });
