@@ -47,7 +47,7 @@ const questions = [
     text: "Ton site est en 1ère page Google mais tu estimes ne pas recevoir assez d'appels. Tu fais quoi ?",
     answers: [
       { letter: "A", text: "Tu accuses ton développeur web, c'est forcément sa faute" },
-      { letter: "B", text: "Tu vérifies tes CTA, tes offres, ta fiche Google et ton discours commercial" },
+      { letter: "B", text: "Tu vérifies tes offres, ta fiche Google et ton discours commercial" },
       { letter: "C", text: "Tu supprimes ton site, de toute façon ça sert à rien" }
     ],
     correct: 1,
@@ -191,8 +191,7 @@ async function handleAnswer(ansIndex) {
     triggerErrorEffects();
 
     await sendGhostMessage(q.errorMsg, 'reaction-bad');
-    await sleep(2000);
-    window.location.href = 'https://www.google.com';
+    showExitButton();
   }
 }
 
@@ -206,6 +205,18 @@ function triggerErrorEffects() {
 
   document.body.classList.add('glitch-effect');
   setTimeout(() => document.body.classList.remove('glitch-effect'), 1500);
+}
+
+// ==================== BOUTON QUITTER (mauvaise réponse) ====================
+function showExitButton() {
+  chatAnswers.innerHTML = '';
+  const btn = document.createElement('button');
+  btn.className = 'answer-btn exit-btn';
+  btn.textContent = 'Quitter le site';
+  btn.addEventListener('click', () => {
+    window.location.href = 'https://www.google.com';
+  });
+  chatAnswers.appendChild(btn);
 }
 
 // ==================== VICTOIRE ====================

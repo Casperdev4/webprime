@@ -322,6 +322,23 @@ body {
   flex: 1;
 }
 
+/* ==================== BOUTON QUITTER ==================== */
+.exit-btn {
+  justify-content: center;
+  background: rgba(255, 51, 68, 0.15) !important;
+  border-color: var(--alert-red) !important;
+  color: var(--alert-red) !important;
+  font-weight: 700;
+  font-size: 1rem !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.exit-btn:hover {
+  background: rgba(255, 51, 68, 0.3) !important;
+  transform: none !important;
+}
+
 /* ==================== MESSAGE DE VICTOIRE ==================== */
 #victory-message {
   position: fixed;
