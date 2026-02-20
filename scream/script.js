@@ -13,11 +13,9 @@ const CONFIG = {
   redirectDelay: 2000,
   revealSteps: [
     { opacity: 0.95, blur: 20 },  // départ
-    { opacity: 0.78, blur: 16 },  // Q1 réussie
-    { opacity: 0.60, blur: 12 },  // Q2 réussie
-    { opacity: 0.40, blur: 7 },   // Q3 réussie
-    { opacity: 0.20, blur: 3 },   // Q4 réussie
-    { opacity: 0, blur: 0 },      // Q5 réussie = site révélé
+    { opacity: 0.65, blur: 13 },  // Q1 réussie
+    { opacity: 0.30, blur: 5 },   // Q2 réussie
+    { opacity: 0, blur: 0 },      // Q3 réussie = site révélé
   ],
 };
 
@@ -35,17 +33,6 @@ const questions = [
     errorMsg: "MAUVAIS CALCUL ! Pendant ce temps, tes concurrents te dévorent... FUIS !"
   },
   {
-    text: "Une agence qui te PROUVE ses résultats SEO en vidéo, tu dis...",
-    answers: [
-      { letter: "A", text: "C'est du bluff" },
-      { letter: "B", text: "Tout le monde peut faire ça" },
-      { letter: "C", text: "Ça inspire confiance, les preuves comptent" }
-    ],
-    correct: 2,
-    goodReaction: "Bien vu. Les preuves ne mentent pas.",
-    errorMsg: "FAUX ! Les amateurs parlent, les pros prouvent... PARS D'ICI !"
-  },
-  {
     text: "Avoir une galerie avec + de 200 mots-clés en première page Google, c'est...",
     answers: [
       { letter: "A", text: "De la chance" },
@@ -57,26 +44,15 @@ const questions = [
     errorMsg: "ERREUR ! Les résultats parlent d'eux-mêmes... QUITTE CE SITE !"
   },
   {
-    text: "Si ton business dépend de ton site web, tu confies ça à...",
+    text: "Ton site est en 1ère page Google mais tu estimes ne pas recevoir assez d'appels. Tu fais quoi ?",
     answers: [
-      { letter: "A", text: "Ton cousin qui « s'y connaît »" },
-      { letter: "B", text: "Personne, tu te débrouilles sur Wix" },
-      { letter: "C", text: "Un pro qui maîtrise la création de sites ET la sécurité" }
+      { letter: "A", text: "Tu accuses ton développeur web, c'est forcément sa faute" },
+      { letter: "B", text: "Tu vérifies tes CTA, tes offres, ta fiche Google et ton discours commercial" },
+      { letter: "C", text: "Tu supprimes ton site, de toute façon ça sert à rien" }
     ],
-    correct: 2,
-    goodReaction: "Tu me plais. Tu sais reconnaître un vrai pro.",
-    errorMsg: "MAUVAIS CHOIX ! Scream déteste les amateurs... AU REVOIR !"
-  },
-  {
-    text: "Tu penses qu'avoir un beau site suffit pour ramener des clients ?",
-    answers: [
-      { letter: "A", text: "Non, il faut aussi du SEO, du marketing et de la stratégie" },
-      { letter: "B", text: "Oui, c'est évident !" },
-      { letter: "C", text: "Un site ça vend tout seul" }
-    ],
-    correct: 0,
-    goodReaction: "Impressionnant... Tu mérites de voir ce qui se cache derrière.",
-    errorMsg: "FAUX ! Un site sans stratégie, c'est une vitrine dans le désert... QUITTE CE SITE !"
+    correct: 1,
+    goodReaction: "Enfin quelqu'un qui réfléchit. Être premier sur Google c'est 50% du travail. Le reste, c'est TOI : tes offres, ton accueil téléphonique, tes avis clients.",
+    errorMsg: "PATHÉTIQUE ! Tu es en 1ère page Google et tu te plains ?! Le problème c'est pas le site, c'est ce que TU en fais... DÉGAGE !"
   }
 ];
 
@@ -260,7 +236,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Professor commence la conversation
   await sendGhostMessage("Bienvenue... attends 2 secondes.");
-  await sendGhostMessage("Réponds à mes 5 questions pour accéder au site.");
+  await sendGhostMessage("Réponds à mes 3 questions pour accéder au site.");
   await sendGhostMessage(questions[0].text, 'question');
 
   // Afficher les réponses de la première question

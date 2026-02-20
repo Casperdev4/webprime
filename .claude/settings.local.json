@@ -46,7 +46,25 @@
       "Bash(git -C \"c:/Users/Webpr/Desktop/Mes_Sites/moi/WebPrime-Sud\" commit -m \"$\\(cat <<''EOF''\nCorrection lien création application mobile\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
       "Bash(git -C \"c:/Users/Webpr/Desktop/Mes_Sites/moi/WebPrime\" diff creation-site-internet.html)",
       "Bash(git -C \"c:/Users/Webpr/Desktop/Mes_Sites/moi/WebPrime\" add creation-site-internet.html)",
-      "Bash(git -C \"c:/Users/Webpr/Desktop/Mes_Sites/moi/WebPrime\" commit -m \"Fix line endings\")"
+      "Bash(git -C \"c:/Users/Webpr/Desktop/Mes_Sites/moi/WebPrime\" commit -m \"Fix line endings\")",
+      "Bash(git status:*)",
+      "Read(//c/Users/Webpr/Desktop/Entreprises/WebPrime/Mes_Sites/**)",
+      "Bash(for file in logo-wp.png favicon.ico logo/android-icon-32x32.png logo/android-icon-96x96.png logo/icon-192x192.png logo/ms-icon-32x32.png logo/ms-icon-96x96.png)",
+      "Bash(do if [ -f \"$file\" ])",
+      "Bash(then echo \"$file: EXISTS\")",
+      "Bash(else echo \"$file: MISSING\")",
+      "Bash(fi:*)",
+      "WebFetch(domain:daelia-digital.fr)",
+      "Bash(sshpass:*)",
+      "Bash(ssh:*)",
+      "Bash(expect -c '\nspawn ssh -p 65002 -o StrictHostKeyChecking=no u108587953@82.198.227.197\nexpect \"\"password:\"\"\nsend \"\"q_CgLx9M!ZQiT+9\\\\r\"\"\nexpect \"\"$ \"\"\nsend \"\"echo CONNECTED_OK && pwd && ls -la\\\\r\"\"\nexpect \"\"$ \"\"\nsend \"\"exit\\\\r\"\"\nexpect eof\n')",
+      "Bash(python -c:*)",
+      "Bash(pip install:*)",
+      "Bash(python3:*)",
+      "Bash(/c/Users/Webpr/AppData/Local/Programs/Python/Python311/python.exe:*)",
+      "Bash(ls:*)",
+      "Bash(curl:*)",
+      "Bash(git rm:*)"
     ]
   }
 }
