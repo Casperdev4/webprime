@@ -27,7 +27,6 @@
     <style>
         .contact-page { padding: 120px 0 60px; }
 
-        /* Stepper */
         .form-stepper {
             display: flex;
             justify-content: center;
@@ -86,7 +85,6 @@
         }
         .stepper-line.completed { background: #22c55e; }
 
-        /* Form card */
         .form-card {
             background: #111;
             border: 1px solid #2a2a2a;
@@ -116,7 +114,6 @@
             margin-bottom: 30px;
         }
 
-        /* Inputs */
         .form-group { margin-bottom: 22px; }
         .form-group label {
             display: block;
@@ -159,7 +156,6 @@
         .name-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         @media (max-width: 768px) { .name-row { grid-template-columns: 1fr; } }
 
-        /* Radio & Checkbox custom */
         .radio-group, .checkbox-group { display: flex; flex-direction: column; gap: 10px; }
         .radio-option, .checkbox-option {
             display: flex;
@@ -217,11 +213,9 @@
         .checkbox-option input:checked ~ .option-text { color: #fff; }
         .option-text { color: #9ca3af; font-size: 14px; transition: color 0.3s; }
 
-        /* Conditional field */
         .conditional-field { display: none; margin-top: 10px; }
         .conditional-field.visible { display: block; animation: fadeSlideUp 0.3s ease; }
 
-        /* Buttons */
         .form-buttons { display: flex; justify-content: space-between; gap: 16px; margin-top: 32px; }
         .btn-prev, .btn-next, .btn-submit {
             padding: 14px 32px;
@@ -255,7 +249,6 @@
             box-shadow: none;
         }
 
-        /* Header title */
         .contact-header {
             text-align: center;
             margin-bottom: 40px;
@@ -274,7 +267,6 @@
             margin: 0 auto;
         }
 
-        /* Validation errors */
         .form-group.error input,
         .form-group.error select,
         .form-group.error textarea { border-color: #ff3344; }
@@ -283,7 +275,6 @@
         .error-msg { color: #ff3344; font-size: 12px; margin-top: 4px; display: none; }
         .form-group.error .error-msg { display: block; }
 
-        /* Honeypot */
         .hp-wrap { position: absolute; left: -9999px; top: -9999px; }
 
         @media (max-width: 768px) {
@@ -328,7 +319,6 @@
                 <p>Remplissez ce formulaire en quelques minutes et recevez une réponse personnalisée sous 24h.</p>
             </div>
 
-            <!-- Stepper -->
             <div class="form-stepper">
                 <div class="stepper-step active" data-step="1">
                     <div class="stepper-circle">1</div>
@@ -346,7 +336,6 @@
                 </div>
             </div>
 
-            <!-- Form -->
             <div class="form-card">
                 <form id="contactForm" novalidate>
                     <div class="hp-wrap">
@@ -354,7 +343,6 @@
                         <input type="text" id="website" name="_gotcha" autocomplete="off">
                     </div>
 
-                    <!-- PAGE 1 — Votre projet -->
                     <div class="form-page active" data-page="1">
                         <h2 class="form-page-title">Votre projet</h2>
                         <p class="form-page-subtitle">Parlez-nous de votre présence en ligne</p>
@@ -465,7 +453,6 @@
                         </div>
                     </div>
 
-                    <!-- PAGE 2 — Votre activité -->
                     <div class="form-page" data-page="2">
                         <h2 class="form-page-title">Votre activité</h2>
                         <p class="form-page-subtitle">Aidez-nous à mieux vous connaître</p>
@@ -568,7 +555,6 @@
                         </div>
                     </div>
 
-                    <!-- PAGE 3 — Vos coordonnées -->
                     <div class="form-page" data-page="3">
                         <h2 class="form-page-title">Vos coordonnées</h2>
                         <p class="form-page-subtitle">Dernière étape avant de recevoir votre offre</p>
@@ -642,13 +628,11 @@
         </div>
     </section>
 
-    <!-- Bouton flottant roue -->
     <button class="wheel-trigger" id="wheelTrigger">
         <span class="wheel-icon">🎁</span>
         <span class="wheel-text">Tentez votre chance !</span>
     </button>
 
-    <!-- Modal Roue de la fortune -->
     <div class="wheel-modal" id="wheelModal">
         <div class="wheel-modal-content">
             <button class="wheel-close" id="wheelClose">&times;</button>
@@ -734,7 +718,6 @@
     </footer>
 
     <script>
-        // Mobile menu
         document.addEventListener('DOMContentLoaded', function () {
             var menuToggle = document.getElementById('menuToggle');
             var nav = document.getElementById('nav');
@@ -757,7 +740,6 @@
             });
         });
 
-        // Conditional fields - Page 1
         document.querySelectorAll('input[name="site_existant"]').forEach(function (radio) {
             radio.addEventListener('change', function () {
                 var condUrl = document.getElementById('cond-url');
@@ -772,7 +754,6 @@
             });
         });
 
-        // Stepper & page navigation
         var currentPage = 1;
         var totalPages = 3;
 
@@ -802,10 +783,8 @@
             var pageEl = document.querySelector('.form-page[data-page="' + page + '"]');
             var valid = true;
 
-            // Reset errors
             pageEl.querySelectorAll('.form-group').forEach(function (g) { g.classList.remove('error'); });
 
-            // Text/email/tel/number/url/select inputs
             pageEl.querySelectorAll('input[required], select[required], textarea[required]').forEach(function (input) {
                 if (input.type === 'radio' || input.type === 'checkbox') return;
                 if (!input.value.trim() || !input.checkValidity()) {
@@ -814,7 +793,6 @@
                 }
             });
 
-            // Radio groups
             pageEl.querySelectorAll('.radio-group').forEach(function (group) {
                 var name = group.querySelector('input[type="radio"]').name;
                 var formGroup = group.closest('.form-group');
@@ -825,7 +803,6 @@
                 }
             });
 
-            // Checkbox groups
             pageEl.querySelectorAll('.checkbox-group').forEach(function (group) {
                 var formGroup = group.closest('.form-group');
                 var isRequired = formGroup.querySelector('label .required');
@@ -849,14 +826,12 @@
             showPage(fromPage - 1);
         }
 
-        // Form submission
         document.getElementById('contactForm').addEventListener('submit', async function (e) {
             e.preventDefault();
             if (!validatePage(3)) return;
 
             var form = document.getElementById('contactForm');
 
-            // Anti-spam honeypot check
             if (form._gotcha && form._gotcha.value) return false;
 
             var btn = form.querySelector('.btn-submit');
@@ -867,7 +842,6 @@
             try {
                 var fd = new FormData(form);
 
-                // Build clean payload with required webhook fields: name, email, message
                 var prenom = fd.get('prenom') || '';
                 var entreprise = fd.get('entreprise') || '';
 
@@ -911,7 +885,6 @@
             }
         });
 
-        // Clear error on input
         document.querySelectorAll('.form-group input, .form-group select, .form-group textarea').forEach(function (el) {
             el.addEventListener('input', function () {
                 this.closest('.form-group').classList.remove('error');

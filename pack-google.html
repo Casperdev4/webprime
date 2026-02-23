@@ -15,7 +15,6 @@
     <style>
         .offer-detail-page { padding: 120px 0 60px; }
 
-        /* Header - Style React/Tailwind exact */
         .offer-header-detail { background: linear-gradient(to bottom right, #f59e0b, #f97316); border-radius: 24px; padding: 32px; margin-bottom: 24px; text-align: center; }
         .offer-header-detail h1 { font-size: 30px; font-weight: 700; color: #fff; margin-bottom: 8px; }
         .offer-header-detail .description { color: rgba(255,255,255,0.8); font-size: 16px; margin-bottom: 16px; }
@@ -26,7 +25,6 @@
         .offer-header-detail .btn-cta { background: #fff; color: #1f2937; padding: 12px 24px; border-radius: 12px; font-weight: 600; font-size: 16px; display: inline-block; transition: all 0.3s; }
         .offer-header-detail .btn-cta:hover { background: #f3f4f6; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
 
-        /* Features - Style React/Tailwind exact */
         .features-card { background: #1f2937; border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
         .features-card h2 { color: #fff; font-size: 18px; font-weight: 700; margin-bottom: 16px; }
         .features-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
@@ -35,12 +33,10 @@
         .features-list li .check-icon svg { width: 12px; height: 12px; color: #22c55e; }
 
 
-        /* Warning section */
         .warning-section-page { padding: 40px 0; margin-bottom: 24px; }
         .warning-section-page .section-title { margin-bottom: 15px; font-size: 32px; }
         .warning-section-page .section-subtitle { text-align: center; color: var(--text-gray); margin-top: 0; margin-bottom: 40px; font-size: 16px; display: block; }
 
-        /* Info box - Style React/Tailwind exact */
         .info-box { background: rgba(251, 191, 36, 0.2); border: 1px solid rgba(146, 64, 14, 0.5); border-radius: 16px; padding: 20px; margin-bottom: 24px; }
         .info-box-content { display: flex; align-items: flex-start; gap: 12px; }
         .info-box-icon { width: 32px; height: 32px; background: rgba(146, 64, 14, 0.5); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
@@ -51,7 +47,6 @@
         .contact-box { text-align: center; color: var(--text-gray); font-size: 14px; }
         .contact-box a { color: var(--primary-orange); }
 
-        /* Suivi WebPrime */
         .app-section { margin-bottom: 24px; padding: 40px 0; }
         .app-section .section-title { margin-bottom: 12px; font-size: 32px; }
         .app-section .section-subtitle { text-align: center; color: var(--text-gray); margin-top: 0; margin-bottom: 32px; font-size: 15px; display: block; }
@@ -106,15 +101,13 @@
             <div class="features-card">
                 <h2>Ce qui est inclus</h2>
                 <ul class="features-list">
-                    <li><span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>Création d'un site internet 100% codé</li>
+                    <li><span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>Création site internet 100% codé</li>
                     <li><span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>Pages illimitées</li>
-                    <li><span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>Nom de domaine</li>
-                    <li><span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>Hébergement premium</li>
-                    <li><span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>Référencement naturel SEO : optimisation + entretien régulier</li>
-                    <li><span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>Modifications illimitées (textes, images, contenus)</li>
-                    <li><span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>Création de logo professionnel</li>
+                    <li><span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>Nom de domaine + Hébergement</li>
+                    <li><span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>Référencement naturel SEO (1ère page Google)</li>
+                    <li><span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>Référencement page Google My Business</li>
+                    <li><span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>Modifications illimitées</li>
                     <li><span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>Formulaire de contact</li>
-                    <li><span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>Gestion de la page Google My Business</li>
                     <li><span class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>Service clients 24h/24</li>
                 </ul>
             </div>
@@ -332,13 +325,11 @@
         </div>
     </section>
 
-    <!-- Bouton flottant roue -->
     <button class="wheel-trigger" id="wheelTrigger">
         <span class="wheel-icon">🎁</span>
         <span class="wheel-text">Tentez votre chance !</span>
     </button>
 
-    <!-- Modal Roue de la fortune -->
     <div class="wheel-modal" id="wheelModal">
         <div class="wheel-modal-content">
             <button class="wheel-close" id="wheelClose">&times;</button>
@@ -450,7 +441,6 @@
                 }
             });
 
-            // Effet typing sur les titres au scroll
             const typingTitles = document.querySelectorAll('.typing-title');
 
             function typeTitle(element) {
@@ -499,5 +489,15 @@
         });
     </script>
     <script src="wheel.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!localStorage.getItem('wheelPlayed')) {
+                setTimeout(function() {
+                    var trigger = document.getElementById('wheelTrigger');
+                    if (trigger) trigger.click();
+                }, 1500);
+            }
+        });
+    </script>
 </body>
 </html>

@@ -414,13 +414,11 @@
         </div>
     </section>
 
-    <!-- Bouton flottant roue -->
     <button class="wheel-trigger" id="wheelTrigger">
         <span class="wheel-icon">🎁</span>
         <span class="wheel-text">Tentez votre chance !</span>
     </button>
 
-    <!-- Modal Roue de la fortune -->
     <div class="wheel-modal" id="wheelModal">
         <div class="wheel-modal-content">
             <button class="wheel-close" id="wheelClose">&times;</button>
@@ -532,7 +530,6 @@
                 }
             });
 
-            // Particules flottantes
             const canvas = document.getElementById('particles');
             const ctx = canvas.getContext('2d');
             let particles = [];
@@ -585,7 +582,6 @@
                 createParticles();
             });
 
-            // Effet typing
             const typingText = document.querySelector('.typing-text');
             const text = 'Bienvenue chez WebPrime';
             let index = 0;
@@ -600,7 +596,6 @@
 
             setTimeout(typeWriter, 400);
 
-            // Effet typing sur les titres au scroll
             const typingTitles = document.querySelectorAll('.typing-title');
 
             function typeTitle(element) {

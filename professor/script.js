@@ -510,31 +510,23 @@ function showExitButton() {
 // ==================== VICTOIRE ====================
 function showVictory() {
   chatZone.classList.add('fade-out');
-  victoryMessage.classList.remove('hidden');
 
-  // Particules disparaissent
   document.getElementById('particles').style.transition = 'opacity 1.5s ease';
   document.getElementById('particles').style.opacity = '0';
 
+  sessionStorage.setItem('professorDone', 'true');
+
   setTimeout(() => {
-    victoryMessage.classList.add('hidden');
-
-    // Marquer le quiz comme terminé
-    sessionStorage.setItem('professorDone', 'true');
-
-    setTimeout(() => {
-      // Redirection selon le secteur
-      if (selectedSector === 0) {
-        window.location.href = '../pack-google.html';
-      } else if (selectedSector === 1) {
-        window.location.href = '../creation-site-internet.html';
-      } else if (selectedSector === 2) {
-        window.location.href = '../site-ecommerce.html';
-      } else {
-        window.location.href = '../index.html';
-      }
-    }, CONFIG.redirectDelay);
-  }, CONFIG.victoryWait);
+    if (selectedSector === 0) {
+      window.location.href = '../pack-google.html';
+    } else if (selectedSector === 1) {
+      window.location.href = '../creation-site-internet.html';
+    } else if (selectedSector === 2) {
+      window.location.href = '../site-ecommerce.html';
+    } else {
+      window.location.href = '../index.html';
+    }
+  }, 1500);
 }
 
 // ==================== LANCEMENT ====================

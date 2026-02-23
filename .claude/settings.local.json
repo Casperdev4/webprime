@@ -64,7 +64,9 @@
       "Bash(/c/Users/Webpr/AppData/Local/Programs/Python/Python311/python.exe:*)",
       "Bash(ls:*)",
       "Bash(curl:*)",
-      "Bash(git rm:*)"
+      "Bash(git rm:*)",
+      "Bash(git mv:*)",
+      "Bash(test:*)"
     ]
   }
 }

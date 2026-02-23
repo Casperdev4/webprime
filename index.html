@@ -282,7 +282,6 @@
                 </div>
             </div>
 
-            <!-- Trustindex Google Reviews -->
             <div style="margin-top: 3rem;">
                 <script defer async src='https://cdn.trustindex.io/loader.js?d16319a6414173621196886d3d8'></script>
             </div>
@@ -843,13 +842,11 @@
         </div>
     </section>
 
-    <!-- Bouton flottant roue -->
     <button class="wheel-trigger" id="wheelTrigger">
         <span class="wheel-icon">🎁</span>
         <span class="wheel-text">Tentez votre chance !</span>
     </button>
 
-    <!-- Modal Roue de la fortune -->
     <div class="wheel-modal" id="wheelModal">
         <div class="wheel-modal-content">
             <button class="wheel-close" id="wheelClose">&times;</button>
@@ -969,7 +966,6 @@
                 }
             });
 
-            // Particules flottantes
             const canvas = document.getElementById('particles');
             const ctx = canvas.getContext('2d');
             let particles = [];
@@ -1022,7 +1018,6 @@
                 createParticles();
             });
 
-            // Effet typing
             const typingText = document.querySelector('.typing-text');
             const text = 'Bienvenue chez WebPrime';
             let index = 0;
@@ -1037,7 +1032,6 @@
 
             setTimeout(typeWriter, 400);
 
-            // Effet typing sur les titres au scroll
             const typingTitles = document.querySelectorAll('.typing-title');
 
             function typeTitle(element) {
@@ -1084,7 +1078,6 @@
                 titleObserver.observe(title);
             });
 
-            // Roue de la fortune
             const wheelTrigger = document.getElementById('wheelTrigger');
             const wheelModal = document.getElementById('wheelModal');
             const wheelClose = document.getElementById('wheelClose');
@@ -1109,7 +1102,6 @@
                 { text: '-20€/mois', color: '#e09a40' }
             ];
 
-            // Probabilités pondérées (en %)
             const weights = {
                 '-10€/mois': 7,
                 '-20€/mois': 7,
@@ -1158,7 +1150,6 @@
                     wheelCtx.arc(centerX, centerY, radius, startAngle, endAngle);
                     wheelCtx.closePath();
 
-                    // Effet brillant pour GROS LOT
                     if (segment.glow) {
                         const gradient = wheelCtx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
                         gradient.addColorStop(0, '#FFF8DC');
@@ -1198,11 +1189,9 @@
 
             function getWinningSegment() {
                 const segmentAngle = (2 * Math.PI) / segments.length;
-                // Normaliser la rotation entre 0 et 2π
                 let normalizedRotation = currentRotation % (2 * Math.PI);
                 if (normalizedRotation < 0) normalizedRotation += 2 * Math.PI;
 
-                // Le pointeur est en haut, on calcule quel segment est sous le pointeur
                 const winningIndex = Math.floor((2 * Math.PI - normalizedRotation + segmentAngle / 2) / segmentAngle) % segments.length;
                 return winningIndex;
             }
@@ -1215,12 +1204,9 @@
                 const spinDuration = 5000;
                 const segmentAngle = (2 * Math.PI) / segments.length;
 
-                // Sélectionner le prix selon les probabilités
                 const selectedPrize = getWeightedPrize();
                 const targetIndex = getSegmentIndexForPrize(selectedPrize);
 
-                // Calculer la rotation pour atterrir sur ce segment
-                // Reset pour éviter accumulation
                 currentRotation = 0;
                 const fullRotations = 5 * 2 * Math.PI;
                 const targetAngle = (segments.length - targetIndex) * segmentAngle;
@@ -1261,34 +1247,28 @@
                     const formText = wheelForm.querySelector('.wheel-form-text');
                     if (formText) formText.style.display = 'none';
 
-                    /* 1. Titre + prix */
                     prizeText.innerHTML = 'Pack 1ère page Google'
                         + '<span class="prize-note">35€/mois au lieu de <s>156€/mois</s> • Sans engagement</span>';
 
-                    /* 2. Ce qui est inclus */
                     const offerList = document.createElement('div');
                     offerList.style.cssText = 'text-align:left;margin:15px 0;font-size:0.85rem;line-height:1.8;color:#d1d5db;';
                     offerList.innerHTML = ''
                         + '<p style="font-weight:700;color:#fff;margin-bottom:8px;font-size:0.9rem;">Ce qui est inclus :</p>'
-                        + '<span style="color:#ffb156;">✔</span> Création d\u2019un site internet 100% codé<br>'
+                        + '<span style="color:#ffb156;">✔</span> Création site internet 100% codé<br>'
                         + '<span style="color:#ffb156;">✔</span> Pages illimitées<br>'
-                        + '<span style="color:#ffb156;">✔</span> Nom de domaine<br>'
-                        + '<span style="color:#ffb156;">✔</span> Hébergement premium<br>'
-                        + '<span style="color:#ffb156;">✔</span> Référencement naturel SEO : optimisation + entretien régulier<br>'
-                        + '<span style="color:#ffb156;">✔</span> Modifications illimitées (textes, images, contenus)<br>'
-                        + '<span style="color:#ffb156;">✔</span> Création de logo professionnel<br>'
+                        + '<span style="color:#ffb156;">✔</span> Nom de domaine + Hébergement<br>'
+                        + '<span style="color:#ffb156;">✔</span> Référencement naturel SEO (1ère page Google)<br>'
+                        + '<span style="color:#ffb156;">✔</span> Référencement page Google My Business<br>'
+                        + '<span style="color:#ffb156;">✔</span> Modifications illimitées<br>'
                         + '<span style="color:#ffb156;">✔</span> Formulaire de contact<br>'
-                        + '<span style="color:#ffb156;">✔</span> Gestion de la page Google My Business<br>'
                         + '<span style="color:#ffb156;">✔</span> Service clients 24h/24';
                     wheelForm.appendChild(offerList);
 
-                    /* 3. Message vert : appel */
                     const callMsg = document.createElement('p');
                     callMsg.style.cssText = 'color:#4ade80;font-weight:700;font-size:0.85rem;margin:10px 0;';
                     callMsg.textContent = '📞 Nous vous appelons dans l\u2019heure qui suit votre paiement.';
                     wheelForm.appendChild(callMsg);
 
-                    /* 4. Bouton Stripe */
                     const stripeBtn = document.createElement('a');
                     stripeBtn.href = 'https://buy.stripe.com/4gM5kEbia2Qm58FfDDgYU0b';
                     stripeBtn.target = '_blank';
@@ -1297,7 +1277,6 @@
                     stripeBtn.style.cssText = 'display:block;text-align:center;text-decoration:none;';
                     wheelForm.appendChild(stripeBtn);
 
-                    /* 5. Note d'urgence */
                     const note = document.createElement('p');
                     note.style.cssText = 'font-size:0.8rem;color:#9ca3af;margin-top:10px;text-align:center;';
                     note.textContent = '⚠️ En quittant cette page, l\'offre ne sera plus disponible.';
@@ -1320,7 +1299,6 @@
                 }
             }
 
-            // Afficher le bouton après 2 secondes
             wheelTrigger.style.display = 'none';
             setTimeout(() => {
                 if (!localStorage.getItem('wheelPlayed')) {
@@ -1352,7 +1330,6 @@
                 submitBtn.disabled = true;
                 submitBtn.textContent = 'Envoi...';
 
-                // Envoi via Formsubmit
                 const formData = new FormData();
                 formData.append('email', email);
                 formData.append('prix_gagne', currentPrize);
@@ -1392,7 +1369,6 @@
                 wheelTrigger.style.display = 'none';
             });
 
-            // Ne pas afficher si déjà joué
             if (localStorage.getItem('wheelPlayed')) {
                 wheelTrigger.style.display = 'none';
             }
