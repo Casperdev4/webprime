@@ -148,9 +148,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 requestAnimationFrame(animate);
             } else {
                 isSpinning = false;
-                let normalizedRotation = currentRotation % (2 * Math.PI);
-                const winningIndex = Math.floor((segments.length - normalizedRotation / segmentAngle) + segments.length) % segments.length;
-                currentPrize = segments[winningIndex].text;
+                currentPrize = selectedPrize;
                 setTimeout(showPrizeForm, 1000);
             }
         }
