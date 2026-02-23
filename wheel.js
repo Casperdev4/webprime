@@ -32,10 +32,10 @@ document.addEventListener('DOMContentLoaded', function () {
     ];
 
     const weights = {
-        '-10\u20AC/mois': 35,
-        '-20\u20AC/mois': 35,
-        '-50\u20AC/mois': 15,
-        'GROS LOT': 15
+        '-10\u20AC/mois': 7,
+        '-20\u20AC/mois': 7,
+        '-50\u20AC/mois': 6,
+        'GROS LOT': 80
     };
 
     function getWeightedPrize() {
@@ -160,15 +160,33 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function showPrizeForm() {
         wheelContainer.style.display = 'none';
-        wheelForm.style.display = 'block';
         const priceInput = document.getElementById('prizePrice');
 
+        wheelForm.style.display = 'block';
+
         if (currentPrize === 'GROS LOT') {
-            prizeText.innerHTML = 'Site internet offert !<span class="prize-note">Pour le suivi mensuel, choisissez votre prix !</span>';
-            priceInput.style.display = 'block';
-            priceInput.required = true;
-            priceInput.placeholder = 'Votre prix mensuel';
-        } else {
+            prizeText.innerHTML = 'Pack 1\u00E8re page Google<span class="prize-note">35\u20AC/mois \u2022 Sans engagement</span>';
+            var formText = wheelForm.querySelector('.wheel-form-text');
+            if (formText) formText.textContent = '\u26A0\uFE0F Offre valable uniquement maintenant';
+            prizeForm.style.display = 'none';
+            var stripeBtn = document.createElement('a');
+            stripeBtn.href = 'https://buy.stripe.com/4gM5kEbia2Qm58FfDDgYU0b';
+            stripeBtn.target = '_blank';
+            stripeBtn.className = 'wheel-submit-btn';
+            stripeBtn.textContent = 'Souscrire maintenant';
+            stripeBtn.style.display = 'block';
+            stripeBtn.style.textAlign = 'center';
+            stripeBtn.style.textDecoration = 'none';
+            wheelForm.appendChild(stripeBtn);
+            var note = document.createElement('p');
+            note.style.cssText = 'font-size:0.8rem;color:#9ca3af;margin-top:10px;';
+            note.textContent = 'En quittant cette page, l\'offre ne sera plus disponible.';
+            wheelForm.appendChild(note);
+            localStorage.setItem('wheelPlayed', 'true');
+            return;
+        }
+
+        {
             let newPrice = '';
             if (currentPrize === '-10\u20AC/mois') newPrice = '25\u20AC/mois';
             else if (currentPrize === '-20\u20AC/mois') newPrice = '15\u20AC/mois';

@@ -1111,10 +1111,10 @@
 
             // Probabilités pondérées (en %)
             const weights = {
-                '-10€/mois': 35,
-                '-20€/mois': 35,
-                '-50€/mois': 15,
-                'GROS LOT': 15
+                '-10€/mois': 7,
+                '-20€/mois': 7,
+                '-50€/mois': 6,
+                'GROS LOT': 80
             };
 
             function getWeightedPrize() {
@@ -1255,15 +1255,33 @@
 
             function showPrizeForm() {
                 wheelContainer.style.display = 'none';
-                wheelForm.style.display = 'block';
                 const priceInput = document.getElementById('prizePrice');
 
+                wheelForm.style.display = 'block';
+
                 if (currentPrize === 'GROS LOT') {
-                    prizeText.innerHTML = 'Site internet offert !<span class="prize-note">Pour le suivi mensuel, choisissez votre prix !</span>';
-                    priceInput.style.display = 'block';
-                    priceInput.required = true;
-                    priceInput.placeholder = 'Votre prix mensuel';
-                } else {
+                    prizeText.innerHTML = 'Pack 1ère page Google<span class="prize-note">35€/mois • Sans engagement</span>';
+                    const formText = wheelForm.querySelector('.wheel-form-text');
+                    if (formText) formText.textContent = '⚠️ Offre valable uniquement maintenant';
+                    prizeForm.style.display = 'none';
+                    const stripeBtn = document.createElement('a');
+                    stripeBtn.href = 'https://buy.stripe.com/4gM5kEbia2Qm58FfDDgYU0b';
+                    stripeBtn.target = '_blank';
+                    stripeBtn.className = 'wheel-submit-btn';
+                    stripeBtn.textContent = 'Souscrire maintenant';
+                    stripeBtn.style.display = 'block';
+                    stripeBtn.style.textAlign = 'center';
+                    stripeBtn.style.textDecoration = 'none';
+                    wheelForm.appendChild(stripeBtn);
+                    const note = document.createElement('p');
+                    note.style.cssText = 'font-size:0.8rem;color:#9ca3af;margin-top:10px;';
+                    note.textContent = 'En quittant cette page, l\'offre ne sera plus disponible.';
+                    wheelForm.appendChild(note);
+                    localStorage.setItem('wheelPlayed', 'true');
+                    return;
+                }
+
+                {
                     let newPrice = '';
                     if (currentPrize === '-10€/mois') newPrice = '25€/mois';
                     else if (currentPrize === '-20€/mois') newPrice = '15€/mois';
