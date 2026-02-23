@@ -163,23 +163,52 @@ document.addEventListener('DOMContentLoaded', function () {
         wheelForm.style.display = 'block';
 
         if (currentPrize === 'GROS LOT') {
-            prizeText.innerHTML = 'Pack 1\u00E8re page Google<span class="prize-note">35\u20AC/mois \u2022 Sans engagement</span>';
-            var formText = wheelForm.querySelector('.wheel-form-text');
-            if (formText) formText.textContent = '\u26A0\uFE0F Offre valable uniquement maintenant';
             prizeForm.style.display = 'none';
+            var formText = wheelForm.querySelector('.wheel-form-text');
+            if (formText) formText.style.display = 'none';
+
+            /* 1. Titre + prix */
+            prizeText.innerHTML = 'Pack 1\u00E8re page Google'
+                + '<span class="prize-note">35\u20AC/mois au lieu de <s>156\u20AC/mois</s> \u2022 Sans engagement</span>';
+
+            /* 2. Ce qui est inclus */
+            var offerList = document.createElement('div');
+            offerList.style.cssText = 'text-align:left;margin:15px 0;font-size:0.85rem;line-height:1.8;color:#d1d5db;';
+            offerList.innerHTML = ''
+                + '<p style="font-weight:700;color:#fff;margin-bottom:8px;font-size:0.9rem;">Ce qui est inclus :</p>'
+                + '<span style="color:#ffb156;">\u2714</span> Cr\u00E9ation d\u2019un site internet 100% cod\u00E9<br>'
+                + '<span style="color:#ffb156;">\u2714</span> Pages illimit\u00E9es<br>'
+                + '<span style="color:#ffb156;">\u2714</span> Nom de domaine<br>'
+                + '<span style="color:#ffb156;">\u2714</span> H\u00E9bergement premium<br>'
+                + '<span style="color:#ffb156;">\u2714</span> R\u00E9f\u00E9rencement naturel SEO : optimisation + entretien r\u00E9gulier<br>'
+                + '<span style="color:#ffb156;">\u2714</span> Modifications illimit\u00E9es (textes, images, contenus)<br>'
+                + '<span style="color:#ffb156;">\u2714</span> Cr\u00E9ation de logo professionnel<br>'
+                + '<span style="color:#ffb156;">\u2714</span> Formulaire de contact<br>'
+                + '<span style="color:#ffb156;">\u2714</span> Gestion de la page Google My Business<br>'
+                + '<span style="color:#ffb156;">\u2714</span> Service clients 24h/24';
+            wheelForm.appendChild(offerList);
+
+            /* 3. Message vert : appel */
+            var callMsg = document.createElement('p');
+            callMsg.style.cssText = 'color:#4ade80;font-weight:700;font-size:0.85rem;margin:10px 0;';
+            callMsg.textContent = '\uD83D\uDCDE Nous vous appelons dans l\u2019heure qui suit votre paiement.';
+            wheelForm.appendChild(callMsg);
+
+            /* 4. Bouton Stripe */
             var stripeBtn = document.createElement('a');
             stripeBtn.href = 'https://buy.stripe.com/4gM5kEbia2Qm58FfDDgYU0b';
             stripeBtn.target = '_blank';
             stripeBtn.className = 'wheel-submit-btn';
             stripeBtn.textContent = 'Souscrire maintenant';
-            stripeBtn.style.display = 'block';
-            stripeBtn.style.textAlign = 'center';
-            stripeBtn.style.textDecoration = 'none';
+            stripeBtn.style.cssText = 'display:block;text-align:center;text-decoration:none;';
             wheelForm.appendChild(stripeBtn);
+
+            /* 5. Note d'urgence */
             var note = document.createElement('p');
-            note.style.cssText = 'font-size:0.8rem;color:#9ca3af;margin-top:10px;';
-            note.textContent = 'En quittant cette page, l\'offre ne sera plus disponible.';
+            note.style.cssText = 'font-size:0.8rem;color:#9ca3af;margin-top:10px;text-align:center;';
+            note.textContent = '\u26A0\uFE0F En quittant cette page, l\'offre ne sera plus disponible.';
             wheelForm.appendChild(note);
+
             localStorage.setItem('wheelPlayed', 'true');
             return;
         }
