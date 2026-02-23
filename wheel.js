@@ -203,9 +203,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         {
             let newPrice = '';
-            if (currentPrize === '-10\u20AC/mois') newPrice = '25\u20AC/mois';
-            else if (currentPrize === '-20\u20AC/mois') newPrice = '15\u20AC/mois';
-            else if (currentPrize === '-50\u20AC/mois') newPrice = '0\u20AC/mois';
+            if (currentPrize === '-10\u20AC/mois') newPrice = '164\u20AC';
+            else if (currentPrize === '-20\u20AC/mois') newPrice = '154\u20AC';
+            else if (currentPrize === '-50\u20AC/mois') newPrice = '124\u20AC';
 
             var prizeDescription = '<span class="prize-note">Valable sur :<br>\u2022 Pack 1\u00E8re page Google<br>\u2022 Suivi mensuel site vitrine<br>\u2022 Suivi mensuel site e-commerce<br>\u2022 Suivi mensuel site booking</span>';
             prizeText.innerHTML = 'Vous avez gagn\u00E9 : ' + currentPrize + prizeDescription;
