@@ -159,7 +159,7 @@ body::before {
 /* ── BODY TEXT ── */
 .body-text {
   font-weight: 300;
-  font-size: clamp(0.8rem, 1.5vw, 0.92rem);
+  font-size: clamp(0.8625rem, 1.6vw, 0.9825rem);
   line-height: 2;
   letter-spacing: 0.06em;
   color: var(--white);
