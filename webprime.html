@@ -88,7 +88,7 @@
             "offers": {
                 "@type": "Offer",
                 "url": "https://webprime.fr/pack-google.html",
-                "price": "35",
+                "price": "174",
                 "priceCurrency": "EUR",
                 "availability": "https://schema.org/InStock",
                 "priceValidUntil": "2026-12-31",
@@ -360,7 +360,7 @@
                         </svg>
                     </div>
                     <h3 class="offer-title">Pack 1ère page Google</h3>
-                    <div class="offer-price"><span class="old-price">174€</span> 35€<span class="offer-period">/mois</span></div>
+                    <div class="offer-price">174€<span class="offer-period">/mois</span></div>
                     <p class="offer-description">Site 100% code - Visibilité maximale</p>
                     <ul class="offer-features">
                         <li>Site web sur mesure</li>
@@ -896,7 +896,7 @@
         </div>
     </section>
 
-    <button class="wheel-trigger" id="wheelTrigger">
+    <button class="wheel-trigger" id="wheelTrigger" style="display:none">
         <span class="wheel-icon">🎁</span>
         <span class="wheel-text">Tentez votre chance !</span>
     </button>
@@ -1316,7 +1316,7 @@
                     if (formText) formText.style.display = 'none';
 
                     prizeText.innerHTML = 'Pack 1ère page Google'
-                        + '<span class="prize-note">35€/mois au lieu de <s>174€/mois</s> • Sans engagement</span>';
+                        + '<span class="prize-note">174€/mois • Sans engagement</span>';
 
                     const offerList = document.createElement('div');
                     offerList.style.cssText = 'text-align:left;margin:15px 0;font-size:0.85rem;line-height:1.8;color:#d1d5db;';
