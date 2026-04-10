@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=2480">
+<title>Flyer Export - Pack 1ère page Google - WebPrime</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --gold: #C9A84C;
+  --gold-light: #E8C97A;
+  --gold-dim: rgba(201, 168, 76, 0.15);
+  --black: #0a0a0a;
+  --off-black: #141414;
+  --white: #F5F2ED;
+  --grey: #9B9590;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Scale down to fit screen — remove zoom for full-res screenshot export */
+.flyer {
+  zoom: 0.4;
+}
+
+/* Force dark background in print */
+@media print {
+  html, body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    background: var(--black) !important;
+  }
+  .flyer {
+    zoom: 0.28;
+    background: var(--black) !important;
+  }
+  body::before {
+    display: none;
+  }
+}
+
+/* Noise texture */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* ── FLYER (A4 @ 300dpi = 2480x3508) ── */
+.flyer {
+  position: relative;
+  width: 2480px;
+  height: 3508px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Gold vertical lines */
+.flyer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 60px;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent, var(--gold) 30%, var(--gold) 70%, transparent);
+  opacity: 0.4;
+}
+
+.flyer::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 60px;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent, var(--gold) 30%, var(--gold) 70%, transparent);
+  opacity: 0.4;
+}
+
+/* ── CORNER ORNAMENTS ── */
+.corner {
+  position: absolute;
+  width: 96px;
+  height: 96px;
+  opacity: 0.7;
+}
+
+.corner--tl { top: 60px; left: 60px; border-top: 3px solid var(--gold); border-left: 3px solid var(--gold); }
+.corner--tr { top: 60px; right: 60px; border-top: 3px solid var(--gold); border-right: 3px solid var(--gold); }
+.corner--bl { bottom: 60px; left: 60px; border-bottom: 3px solid var(--gold); border-left: 3px solid var(--gold); }
+.corner--br { bottom: 60px; right: 60px; border-bottom: 3px solid var(--gold); border-right: 3px solid var(--gold); }
+
+/* ── BRAND ── */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  margin-bottom: 80px;
+}
+
+.brand-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: 6.2rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.brand-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: 0.8;
+}
+
+/* ── LABEL ── */
+.label {
+  font-size: 3.2rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 50px;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.label::before, .label::after {
+  content: '';
+  display: block;
+  width: 160px;
+  height: 3px;
+  background: var(--gold);
+  opacity: 0.7;
+}
+
+/* ── HEADLINE ── */
+.headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: 15rem;
+  line-height: 1.1;
+  text-align: center;
+  letter-spacing: -0.01em;
+}
+
+.headline em {
+  font-style: italic;
+  color: var(--gold-light);
+}
+
+/* ── DIVIDER ── */
+.divider {
+  width: 180px;
+  height: 3px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  margin: 60px auto;
+}
+
+/* ── PRICE ── */
+.price-block {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.price {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: 16.2rem;
+  color: var(--gold-light);
+  line-height: 1;
+}
+
+.price span {
+  font-size: 6.7rem;
+  font-weight: 300;
+  color: var(--gold);
+}
+
+.price-note {
+  font-size: 3rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+  opacity: 1;
+  margin-top: 70px;
+}
+
+/* ── FEATURES ── */
+.features {
+  margin: 80px 0;
+  text-align: left;
+  max-width: 1900px;
+  width: 1900px;
+}
+
+.features li {
+  list-style: none;
+  font-weight: 400;
+  font-size: 3.8rem;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: var(--white);
+  padding: 38px 0;
+  border-bottom: 2px solid rgba(201, 168, 76, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+
+.features li:last-child {
+  border-bottom: none;
+}
+
+.check {
+  width: 56px;
+  height: 56px;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+/* ── SECTORS ── */
+.sectors {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin: 70px 0;
+  max-width: 1900px;
+}
+
+.sector {
+  font-size: 3rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 2px solid rgba(201, 168, 76, 0.5);
+  padding: 22px 50px;
+  background: rgba(201, 168, 76, 0.04);
+}
+
+/* ── BOTTOM ── */
+.bottom-note {
+  margin-top: 80px;
+  font-size: 2.2rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+  text-align: center;
+}
+
+.website {
+  margin-top: 56px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 4.7rem;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<section class="flyer">
+
+  <div class="corner corner--tl"></div>
+  <div class="corner corner--tr"></div>
+  <div class="corner corner--bl"></div>
+  <div class="corner corner--br"></div>
+
+  <!-- Brand -->
+  <div class="brand">
+    <div class="brand-dot"></div>
+    <span class="brand-name">WebPrime</span>
+    <div class="brand-dot"></div>
+  </div>
+
+  <!-- Label -->
+  <p class="label">Offre exclusive</p>
+
+  <!-- Headline -->
+  <h1 class="headline">
+    Pack 1ère page<br>
+    <em>Google</em>
+  </h1>
+
+  <div class="divider"></div>
+
+  <!-- Price -->
+  <div class="price-block">
+    <div class="price">59€<span>/mois</span></div>
+    <p class="price-note">Sans engagement &middot; Annulation libre</p>
+  </div>
+
+  <!-- Features -->
+  <ul class="features">
+    <li>
+      <svg class="check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+      Création site internet 100% codé
+    </li>
+    <li>
+      <svg class="check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+      Pages illimitées
+    </li>
+    <li>
+      <svg class="check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+      Nom de domaine + Hébergement
+    </li>
+    <li>
+      <svg class="check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+      Référencement SEO avancé (1ère page Google)
+    </li>
+    <li>
+      <svg class="check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+      Référencement page Google My Business
+    </li>
+    <li>
+      <svg class="check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+      Formulaire de contact
+    </li>
+    <li>
+      <svg class="check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+      Modifications illimitées
+    </li>
+    <li>
+      <svg class="check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+      Service clients 24h/24
+    </li>
+  </ul>
+
+  <!-- Sectors -->
+  <div class="sectors">
+    <span class="sector">Artisan / BTP</span>
+    <span class="sector">Industrie</span>
+    <span class="sector">Agences</span>
+    <span class="sector">Beauté</span>
+    <span class="sector">Bien-être</span>
+    <span class="sector">Cabinet</span>
+    <span class="sector">Formations</span>
+  </div>
+
+  <p class="bottom-note">Souscription en ligne &middot; Paiement sécurisé &middot; Sans rendez-vous</p>
+  <p class="website">webprime.fr</p>
+</section>
+
+<!-- Export button -->
+<button id="exportBtn" style="position:fixed;top:20px;right:20px;z-index:9999;padding:14px 28px;background:#C9A84C;color:#0a0a0a;border:none;font-family:'Montserrat',sans-serif;font-size:16px;font-weight:500;cursor:pointer;letter-spacing:0.05em;">
+  Télécharger PNG
+</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+document.getElementById('exportBtn').addEventListener('click', function() {
+  var btn = this;
+  btn.textContent = 'Export en cours...';
+  btn.style.display = 'none';
+
+  var flyer = document.querySelector('.flyer');
+  var originalZoom = flyer.style.zoom;
+  flyer.style.zoom = '1';
+
+  html2canvas(flyer, {
+    width: 2480,
+    height: 3508,
+    scale: 1,
+    backgroundColor: '#0a0a0a',
+    useCORS: true
+  }).then(function(canvas) {
+    flyer.style.zoom = originalZoom;
+    btn.style.display = '';
+    btn.textContent = 'Télécharger PNG';
+
+    var link = document.createElement('a');
+    link.download = 'flyer-pack-google-webprime.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+});
+</script>
+
+</body>
+</html>
