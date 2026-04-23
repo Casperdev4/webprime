@@ -174,11 +174,104 @@ body::before {
   font-weight: 400;
 }
 
-/* ── CTA ── */
-.cta-wrap {
-  margin-top: 52px;
+/* ── CAPACITY COUNTER ── */
+.capacity {
+  margin-top: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
   opacity: 0;
   animation: fadeUp 1s ease 1.3s forwards;
+}
+
+.capacity-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+.capacity-counter {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: 2.6rem;
+  line-height: 1;
+  display: flex;
+  align-items: baseline;
+}
+
+.capacity-num {
+  color: var(--gold-light);
+  font-style: italic;
+}
+
+.capacity-slash {
+  color: var(--gold);
+  opacity: 0.45;
+  margin: 0 8px;
+  font-weight: 300;
+}
+
+.capacity-total {
+  color: var(--gold);
+  opacity: 0.75;
+}
+
+.capacity-bar {
+  width: 170px;
+  height: 1px;
+  background: rgba(201, 168, 76, 0.15);
+  position: relative;
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+.capacity-fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, transparent, var(--gold) 20%, var(--gold-light) 80%, var(--gold));
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: fillBar 2s cubic-bezier(0.65, 0, 0.35, 1) 1.6s forwards;
+  box-shadow: 0 0 8px rgba(201, 168, 76, 0.4);
+}
+
+.capacity-status {
+  font-size: 0.58rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.capacity-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 8px var(--gold);
+  animation: dotPulse 2s ease-in-out infinite;
+}
+
+@keyframes fillBar {
+  to { transform: scaleX(1); }
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--gold); }
+  50% { opacity: 0.5; box-shadow: 0 0 4px var(--gold); }
+}
+
+/* ── CTA ── */
+.cta-wrap {
+  margin-top: 44px;
+  opacity: 0;
+  animation: fadeUp 1s ease 1.5s forwards;
 }
 
 .cta {
@@ -248,7 +341,7 @@ body::before {
   color: var(--grey);
   white-space: nowrap;
   opacity: 0;
-  animation: fadeUp 1s ease 1.6s forwards;
+  animation: fadeUp 1s ease 1.8s forwards;
 }
 
 /* ── CORNER ORNAMENTS ── */
@@ -284,6 +377,7 @@ body::before {
     padding: 0 10px;
     text-align: center;
   }
+  .capacity { margin-top: 40px; }
   .cta { padding: 14px 32px; }
   .bottom-note {
     white-space: normal;
