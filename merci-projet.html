@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merci - WebPrime</title>
+    <meta name="description" content="Vos informations projet ont bien été reçues. L'équipe WebPrime se met au travail.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .header-simple {
+            padding: 16px 0;
+            background: #0a0a0a;
+            border-bottom: 1px solid #1a1a1a;
+        }
+        .header-simple .container {
+            display: flex;
+            justify-content: center;
+        }
+        .header-simple .logo img {
+            height: 45px;
+            width: auto;
+        }
+        .merci-page {
+            padding: 120px 0 60px;
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .merci-card {
+            background: #111;
+            border: 1px solid #2a2a2a;
+            border-radius: 24px;
+            padding: 60px 40px;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .merci-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #22c55e, #10b981);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            animation: popIn 0.5s ease;
+        }
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .merci-icon svg { width: 40px; height: 40px; color: #fff; }
+        .merci-card h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+        .merci-card h1 span { color: #ffb156; }
+        .merci-card p {
+            color: #9ca3af;
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+        .btn-home {
+            display: inline-block;
+            padding: 14px 36px;
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            color: #fff;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .btn-home:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(249, 115, 22, 0.35);
+        }
+        @media (max-width: 768px) {
+            .merci-card { padding: 40px 24px; margin: 0 16px; }
+            .merci-card h1 { font-size: 24px; }
+            .header-simple .logo img { height: 40px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header-simple">
+        <div class="container">
+            <a href="https://webprime.fr" class="logo">
+                <img src="webprime.png" alt="WebPrime Logo">
+            </a>
+        </div>
+    </header>
+
+    <section class="merci-page">
+        <div class="merci-card">
+            <div class="merci-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                </svg>
+            </div>
+            <h1>Merci pour votre <span>confiance</span> !</h1>
+            <p>Nous avons bien reçu toutes vos informations.<br>Notre équipe se met au travail sur la création de votre site.</p>
+            <a href="https://webprime.fr" class="btn-home">Retour à l'accueil</a>
+        </div>
+    </section>
+
+</body>
+</html>

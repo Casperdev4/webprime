@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vos informations projet - WebPrime</title>
+    <meta name="description" content="Formulaire d'informations pour la création de votre site internet WebPrime.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" type="image/png" sizes="192x192" href="./logo/icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./logo/android-icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="./logo/android-icon-96x96.png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .contact-page { padding: 120px 0 60px; }
+
+        .form-stepper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        .stepper-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        .stepper-circle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #1a1a1a;
+            border: 2px solid #2a2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+            color: #9ca3af;
+            transition: all 0.4s ease;
+        }
+        .stepper-step.active .stepper-circle {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            border-color: #f97316;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.4);
+        }
+        .stepper-step.completed .stepper-circle {
+            background: #22c55e;
+            border-color: #22c55e;
+            color: #fff;
+        }
+        .stepper-label {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #9ca3af;
+            text-align: center;
+            max-width: 90px;
+            transition: color 0.3s;
+        }
+        .stepper-step.active .stepper-label { color: #ffb156; }
+        .stepper-step.completed .stepper-label { color: #22c55e; }
+        .stepper-line {
+            width: 40px;
+            height: 2px;
+            background: #2a2a2a;
+            margin: 0 6px 22px;
+            transition: background 0.4s;
+        }
+        .stepper-line.completed { background: #22c55e; }
+
+        .form-card {
+            background: #111;
+            border: 1px solid #2a2a2a;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .form-page { display: none; }
+        .form-page.active {
+            display: block;
+            animation: fadeSlideUp 0.4s ease;
+        }
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .form-page-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+        .form-page-subtitle {
+            color: #9ca3af;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .form-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #f97316;
+            margin-top: 28px;
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .form-helper {
+            color: #6b7280;
+            font-size: 12px;
+            margin-top: 6px;
+            line-height: 1.4;
+        }
+
+        .form-group { margin-bottom: 22px; }
+        .form-group label {
+            display: block;
+            color: #d1d5db;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        .form-group label .required { color: #f97316; margin-left: 2px; }
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group input[type="url"],
+        .form-group input[type="number"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            outline: none;
+            box-sizing: border-box;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #f97316;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { color: #4a4a4a; }
+        .form-group select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%239ca3af' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+        .form-group select option { background: #1a1a1a; color: #fff; }
+        .form-group textarea { resize: vertical; min-height: 90px; }
+        .form-group input[disabled] { opacity: 0.4; cursor: not-allowed; }
+
+        .radio-group, .checkbox-group { display: flex; flex-direction: column; gap: 10px; }
+        .radio-option, .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .radio-option:hover, .checkbox-option:hover {
+            border-color: #3a3a3a;
+            background: #1f1f1f;
+        }
+        .radio-option input, .checkbox-option input { display: none; }
+        .radio-option .custom-radio {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #3a3a3a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+        .radio-option .custom-radio::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #f97316;
+            transform: scale(0);
+            transition: transform 0.2s;
+        }
+        .radio-option input:checked ~ .custom-radio { border-color: #f97316; }
+        .radio-option input:checked ~ .custom-radio::after { transform: scale(1); }
+        .radio-option input:checked ~ .option-text { color: #fff; }
+        .checkbox-option .custom-check {
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            border: 2px solid #3a3a3a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+        .checkbox-option .custom-check svg { opacity: 0; transition: opacity 0.2s; width: 12px; height: 12px; }
+        .checkbox-option input:checked ~ .custom-check { background: #f97316; border-color: #f97316; }
+        .checkbox-option input:checked ~ .custom-check svg { opacity: 1; }
+        .checkbox-option input:checked ~ .option-text { color: #fff; }
+        .option-text { color: #9ca3af; font-size: 14px; transition: color 0.3s; }
+
+        .conditional-field { display: none; margin-top: 10px; }
+        .conditional-field.visible { display: block; animation: fadeSlideUp 0.3s ease; }
+
+        .pack-section { display: none; }
+        .pack-section.visible { display: block; animation: fadeSlideUp 0.3s ease; }
+
+        .form-buttons { display: flex; justify-content: space-between; gap: 16px; margin-top: 32px; }
+        .btn-prev, .btn-next, .btn-submit {
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        .btn-prev {
+            background: transparent;
+            border: 1px solid #2a2a2a;
+            color: #9ca3af;
+        }
+        .btn-prev:hover { border-color: #3a3a3a; color: #fff; }
+        .btn-next, .btn-submit {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            color: #fff;
+            margin-left: auto;
+        }
+        .btn-next:hover, .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(249, 115, 22, 0.35);
+        }
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .contact-header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+        .contact-header h1 span { color: #ffb156; }
+        .contact-header p {
+            color: #9ca3af;
+            font-size: 16px;
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .form-group.error input,
+        .form-group.error select,
+        .form-group.error textarea { border-color: #ff3344; }
+        .form-group.error .radio-group,
+        .form-group.error .checkbox-group { outline: 1px solid #ff3344; border-radius: 10px; outline-offset: 4px; }
+        .error-msg { color: #ff3344; font-size: 12px; margin-top: 4px; display: none; }
+        .form-group.error .error-msg { display: block; }
+
+        .hp-wrap { position: absolute; left: -9999px; top: -9999px; }
+
+        .header-simple {
+            padding: 16px 0;
+            background: #0a0a0a;
+            border-bottom: 1px solid #1a1a1a;
+        }
+        .header-simple .container {
+            display: flex;
+            justify-content: center;
+        }
+        .header-simple .logo img {
+            height: 45px;
+            width: auto;
+        }
+
+        @media (max-width: 768px) {
+            .form-card { padding: 24px 18px; margin: 0 10px; }
+            .contact-header h1 { font-size: 26px; }
+            .stepper-line { width: 20px; }
+            .stepper-circle { width: 36px; height: 36px; font-size: 14px; }
+            .stepper-label { font-size: 10px; max-width: 60px; }
+            .form-buttons { flex-direction: column; }
+            .btn-prev, .btn-next, .btn-submit { width: 100%; text-align: center; margin-left: 0; }
+            .btn-next, .btn-submit { order: -1; }
+            .header-simple .logo img { height: 40px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header-simple">
+        <div class="container">
+            <a href="https://webprime.fr" class="logo">
+                <img src="webprime.png" alt="WebPrime Logo">
+            </a>
+        </div>
+    </header>
+
+    <section class="contact-page">
+        <div class="container" style="max-width: 900px;">
+
+            <div class="contact-header">
+                <h1>Vos <span>informations</span> projet</h1>
+                <p>Merci pour votre confiance ! Quelques questions pour démarrer la création de votre site dans les meilleures conditions.</p>
+            </div>
+
+            <div class="form-stepper">
+                <div class="stepper-step active" data-step="1">
+                    <div class="stepper-circle">1</div>
+                    <div class="stepper-label">Vous</div>
+                </div>
+                <div class="stepper-line"></div>
+                <div class="stepper-step" data-step="2">
+                    <div class="stepper-circle">2</div>
+                    <div class="stepper-label">Entreprise</div>
+                </div>
+                <div class="stepper-line"></div>
+                <div class="stepper-step" data-step="3">
+                    <div class="stepper-circle">3</div>
+                    <div class="stepper-label">Coordonnées</div>
+                </div>
+                <div class="stepper-line"></div>
+                <div class="stepper-step" data-step="4">
+                    <div class="stepper-circle">4</div>
+                    <div class="stepper-label">Branding</div>
+                </div>
+                <div class="stepper-line"></div>
+                <div class="stepper-step" data-step="5">
+                    <div class="stepper-circle">5</div>
+                    <div class="stepper-label">Contenu</div>
+                </div>
+            </div>
+
+            <div class="form-card">
+                <form id="projectForm" novalidate>
+                    <div class="hp-wrap">
+                        <label for="website">Votre site web :</label>
+                        <input type="text" id="website" name="_gotcha" autocomplete="off">
+                    </div>
+
+                    <!-- ── PAGE 1 : Vous & Pack ── -->
+                    <div class="form-page active" data-page="1">
+                        <h2 class="form-page-title">Vous & votre pack</h2>
+                        <p class="form-page-subtitle">Identifions-nous pour démarrer</p>
+
+                        <div class="form-group">
+                            <label for="nom_entreprise">Nom de l'entreprise <span class="required">*</span></label>
+                            <input type="text" id="nom_entreprise" name="nom_entreprise" placeholder="Le nom commercial / marque" required>
+                            <div class="error-msg">Ce champ est requis</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">E-mail pro <span class="required">*</span></label>
+                            <input type="email" id="email" name="email" placeholder="contact@monentreprise.fr" required>
+                            <div class="error-msg">Adresse e-mail invalide</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telephone">Téléphone pro <span class="required">*</span></label>
+                            <input type="tel" id="telephone" name="telephone" placeholder="01 23 45 67 89" required>
+                            <div class="error-msg">Numéro de téléphone requis</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Quel pack avez-vous choisi ? <span class="required">*</span></label>
+                            <div class="radio-group">
+                                <label class="radio-option">
+                                    <input type="radio" name="pack_choisi" value="Pack 1ère page Google" required>
+                                    <span class="custom-radio"></span>
+                                    <span class="option-text">Pack 1ère page Google</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="pack_choisi" value="Site Vitrine">
+                                    <span class="custom-radio"></span>
+                                    <span class="option-text">Site Vitrine</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="pack_choisi" value="Site Booking">
+                                    <span class="custom-radio"></span>
+                                    <span class="option-text">Site Booking (Réservation)</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="pack_choisi" value="Site E-Commerce">
+                                    <span class="custom-radio"></span>
+                                    <span class="option-text">Site E-Commerce</span>
+                                </label>
+                            </div>
+                            <div class="error-msg">Veuillez sélectionner votre pack</div>
+                        </div>
+
+                        <div class="form-buttons">
+                            <button type="button" class="btn-next" onclick="nextPage(1)">Suivant</button>
+                        </div>
+                    </div>
+
+                    <!-- ── PAGE 2 : Entreprise ── -->
+                    <div class="form-page" data-page="2">
+                        <h2 class="form-page-title">Votre entreprise</h2>
+                        <p class="form-page-subtitle">Les informations légales et l'identité de votre activité</p>
+
+                        <div class="form-group">
+                            <label for="siret">SIRET <span class="required">*</span></label>
+                            <input type="text" id="siret" name="siret" placeholder="14 chiffres" pattern="[0-9 ]{14,17}" required>
+                            <div class="error-msg">SIRET invalide (14 chiffres)</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="activite">Activité principale <span class="required">*</span></label>
+                            <input type="text" id="activite" name="activite" placeholder="Ex : Plomberie, Coiffure, Restaurant italien..." required>
+                            <div class="error-msg">Ce champ est requis</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="adresse">Adresse complète <span class="required">*</span></label>
+                            <textarea id="adresse" name="adresse" placeholder="N° + rue&#10;Code postal + ville" rows="2" required></textarea>
+                            <p class="form-helper">Pour la facturation et les mentions légales. Vous choisirez à la prochaine étape ce qui s'affiche publiquement.</p>
+                            <div class="error-msg">Ce champ est requis</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="site_actuel">Avez-vous déjà un site internet ?</label>
+                            <input type="text" id="site_actuel" name="site_actuel" placeholder="https://www.monsite.fr — ou laissez vide si non">
+                        </div>
+
+                        <div class="conditional-field" id="cond-acces-site">
+                            <div class="form-group">
+                                <label for="acces_site">Si oui, accès actuel (hébergeur, identifiants)</label>
+                                <textarea id="acces_site" name="acces_site" placeholder="Ex : Hébergeur OVH, login admin, mot de passe FTP..."></textarea>
+                                <p class="form-helper">⚠️ Pour la sécurité, on vous conseille d'envoyer ces accès par email séparé après ce formulaire.</p>
+                            </div>
+                        </div>
+
+                        <div class="form-buttons">
+                            <button type="button" class="btn-prev" onclick="prevPage(2)">Précédent</button>
+                            <button type="button" class="btn-next" onclick="nextPage(2)">Suivant</button>
+                        </div>
+                    </div>
+
+                    <!-- ── PAGE 3 : Coordonnées publiques ── -->
+                    <div class="form-page" data-page="3">
+                        <h2 class="form-page-title">Coordonnées à afficher</h2>
+                        <p class="form-page-subtitle">Ces informations seront visibles sur votre site</p>
+
+                        <div class="form-group">
+                            <label>Adresse à afficher publiquement ? <span class="required">*</span></label>
+                            <div class="radio-group">
+                                <label class="radio-option">
+                                    <input type="radio" name="adresse_public" value="Oui — afficher l'adresse complète">
+                                    <span class="custom-radio"></span>
+                                    <span class="option-text">Oui — afficher l'adresse complète</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="adresse_public" value="Ville uniquement">
+                                    <span class="custom-radio"></span>
+                                    <span class="option-text">Ville uniquement</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="adresse_public" value="Non — masquer">
+                                    <span class="custom-radio"></span>
+                                    <span class="option-text">Non — ne pas afficher l'adresse</span>
+                                </label>
+                            </div>
+                            <div class="error-msg">Veuillez choisir</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tel_public">Téléphone (à afficher sur le site) <span class="required">*</span></label>
+                            <input type="tel" id="tel_public" name="tel_public" placeholder="01 23 45 67 89" required>
+                            <div class="error-msg">Ce champ est requis</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email_public">Email pro (à afficher sur le site) <span class="required">*</span></label>
+                            <input type="email" id="email_public" name="email_public" placeholder="contact@monentreprise.fr" required>
+                            <div class="error-msg">Email invalide</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="whatsapp">WhatsApp Business (lien court)</label>
+                            <input type="text" id="whatsapp" name="whatsapp" placeholder="https://wa.me/message/XXXXXXXXXXXX">
+                            <p class="form-helper">Dans WhatsApp Business : Paramètres → Outils professionnels → Lien court → copier le lien (ex: <code>wa.me/message/OGAVCDGC3Q4JC1</code>). Laissez vide si vous n'utilisez pas WhatsApp Business.</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="horaires">Horaires d'ouverture <span class="required">*</span></label>
+                            <textarea id="horaires" name="horaires" placeholder="Ex :&#10;Lundi-Vendredi : 9h-18h&#10;Samedi : 9h-12h&#10;Dimanche : Fermé" rows="4" required></textarea>
+                            <div class="error-msg">Ce champ est requis</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="zone">Zone d'intervention (département / villes) <span class="required">*</span></label>
+                            <input type="text" id="zone" name="zone" placeholder="Ex : 91 Essonne — Évry, Corbeil-Essonnes, Massy" required>
+                            <div class="error-msg">Ce champ est requis</div>
+                        </div>
+
+                        <div class="form-buttons">
+                            <button type="button" class="btn-prev" onclick="prevPage(3)">Précédent</button>
+                            <button type="button" class="btn-next" onclick="nextPage(3)">Suivant</button>
+                        </div>
+                    </div>
+
+                    <!-- ── PAGE 4 : Branding & réseaux ── -->
+                    <div class="form-page" data-page="4">
+                        <h2 class="form-page-title">Branding & présence en ligne</h2>
+                        <p class="form-page-subtitle">Votre identité visuelle et vos profils sociaux</p>
+
+                        <h3 class="form-section-title">Identité visuelle</h3>
+
+                        <div class="form-group">
+                            <label>Logo <span class="required">*</span></label>
+                            <div class="radio-group">
+                                <label class="radio-option">
+                                    <input type="radio" name="logo_status" value="J'ai un logo" required>
+                                    <span class="custom-radio"></span>
+                                    <span class="option-text">J'ai un logo</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="logo_status" value="Je n'ai pas de logo">
+                                    <span class="custom-radio"></span>
+                                    <span class="option-text">Je n'ai pas de logo</span>
+                                </label>
+                            </div>
+                            <div class="error-msg">Veuillez choisir</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="couleurs">Couleurs de marque préférées (3 max)</label>
+                            <input type="text" id="couleurs" name="couleurs" placeholder="Ex : Bleu marine, blanc, doré">
+                            <p class="form-helper">Codes hex acceptés (ex: #1a3a8e). Cochez ci-dessous pour nous laisser carte blanche.</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-option" style="cursor: pointer;">
+                                <input type="checkbox" name="couleurs_libre" value="Oui">
+                                <span class="custom-check"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                                <span class="option-text">À votre goût (carte blanche)</span>
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inspiration">Sites que vous aimez (URLs d'inspiration, 2-3)</label>
+                            <textarea id="inspiration" name="inspiration" placeholder="https://www.exemple1.com&#10;https://www.exemple2.com" rows="3"></textarea>
+                        </div>
+
+                        <h3 class="form-section-title">Présence en ligne</h3>
+
+                        <div class="form-group">
+                            <label for="gmb">Page Google My Business</label>
+                            <input type="text" id="gmb" name="gmb" placeholder="URL de votre fiche Google — ou 'non créée'">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="instagram">Instagram</label>
+                            <input type="text" id="instagram" name="instagram" placeholder="https://instagram.com/... — ou 'non'">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="facebook">Facebook</label>
+                            <input type="text" id="facebook" name="facebook" placeholder="https://facebook.com/... — ou 'non'">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tiktok">TikTok</label>
+                            <input type="text" id="tiktok" name="tiktok" placeholder="https://tiktok.com/@... — ou 'non'">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="linkedin">LinkedIn</label>
+                            <input type="text" id="linkedin" name="linkedin" placeholder="https://linkedin.com/... — ou 'non'">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="youtube">YouTube</label>
+                            <input type="text" id="youtube" name="youtube" placeholder="https://youtube.com/@... — ou 'non'">
+                        </div>
+
+                        <div class="form-buttons">
+                            <button type="button" class="btn-prev" onclick="prevPage(4)">Précédent</button>
+                            <button type="button" class="btn-next" onclick="nextPage(4)">Suivant</button>
+                        </div>
+                    </div>
+
+                    <!-- ── PAGE 5 : Contenu ── -->
+                    <div class="form-page" data-page="5">
+                        <h2 class="form-page-title">Contenu de votre site</h2>
+                        <p class="form-page-subtitle">Les services / produits à présenter</p>
+
+                        <div class="form-group">
+                            <label for="services">Liste des services / prestations <span class="required">*</span></label>
+                            <textarea id="services" name="services" placeholder="Ex :&#10;1. Installation chauffage — Pose complète clé en main — à partir de 1500€&#10;2. Dépannage urgence 24/7 — Intervention sous 2h — 80€/h&#10;3. ..." rows="6" required></textarea>
+                            <p class="form-helper">Format suggéré : Nom du service — Description courte — Prix indicatif (si à afficher)</p>
+                            <div class="error-msg">Ce champ est requis</div>
+                        </div>
+
+                        <!-- ── Section conditionnelle E-Commerce ── -->
+                        <div class="pack-section" id="section-ecommerce">
+                            <h3 class="form-section-title">E-Commerce — Produits & vente</h3>
+
+                            <div class="form-group">
+                                <label for="catalogue">Catalogue produits <span class="required">*</span></label>
+                                <textarea id="catalogue" name="catalogue" placeholder="Liste manuelle :&#10;1. Nom du produit — Description — Prix — Stock&#10;2. ...&#10;&#10;Ou lien vers un fichier Excel/CSV partagé." rows="6"></textarea>
+                                <div class="error-msg">Catalogue requis pour l'E-Commerce</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="photos_produits">Photos produits (lien Drive/Dropbox) <span class="required">*</span></label>
+                                <input type="text" id="photos_produits" name="photos_produits" placeholder="https://drive.google.com/...">
+                                <p class="form-helper">1 photo minimum par produit. Format JPG/PNG haute résolution.</p>
+                                <div class="error-msg">Lien des photos produits requis</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Modes de paiement souhaités <span class="required">*</span></label>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="modes_paiement" value="CB Stripe">
+                                        <span class="custom-check"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                                        <span class="option-text">CB (Stripe)</span>
+                                    </label>
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="modes_paiement" value="PayPal">
+                                        <span class="custom-check"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                                        <span class="option-text">PayPal</span>
+                                    </label>
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="modes_paiement" value="Apple Pay">
+                                        <span class="custom-check"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                                        <span class="option-text">Apple Pay</span>
+                                    </label>
+                                </div>
+                                <div class="error-msg">Sélectionnez au moins un mode de paiement</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Modes de livraison <span class="required">*</span></label>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="modes_livraison" value="Colissimo">
+                                        <span class="custom-check"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                                        <span class="option-text">Colissimo</span>
+                                    </label>
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="modes_livraison" value="Mondial Relay">
+                                        <span class="custom-check"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                                        <span class="option-text">Mondial Relay</span>
+                                    </label>
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="modes_livraison" value="Retrait magasin">
+                                        <span class="custom-check"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                                        <span class="option-text">Retrait magasin</span>
+                                    </label>
+                                </div>
+                                <div class="error-msg">Sélectionnez au moins un mode de livraison</div>
+                            </div>
+                        </div>
+
+                        <!-- ── Section conditionnelle Booking ── -->
+                        <div class="pack-section" id="section-booking">
+                            <h3 class="form-section-title">Booking — Réservations</h3>
+
+                            <div class="form-group">
+                                <label for="prestations_resa">Prestations réservables <span class="required">*</span></label>
+                                <textarea id="prestations_resa" name="prestations_resa" placeholder="Ex :&#10;1. Coupe homme — 30 min — 25€&#10;2. Coupe + couleur — 1h30 — 60€&#10;3. ..." rows="5"></textarea>
+                                <p class="form-helper">Format suggéré : Nom — Durée — Tarif</p>
+                                <div class="error-msg">Liste des prestations requise</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Capacité simultanée <span class="required">*</span></label>
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="capacite" value="1 RDV à la fois">
+                                        <span class="custom-radio"></span>
+                                        <span class="option-text">1 RDV à la fois</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="capacite" value="Plusieurs RDV en parallèle">
+                                        <span class="custom-radio"></span>
+                                        <span class="option-text">Plusieurs RDV en parallèle (précisez ci-dessous)</span>
+                                    </label>
+                                </div>
+                                <div class="error-msg">Veuillez sélectionner</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="capacite_nb">Si parallèle, combien ?</label>
+                                <input type="number" id="capacite_nb" name="capacite_nb" placeholder="Ex : 3" min="1">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="annulation">Politique d'annulation <span class="required">*</span></label>
+                                <input type="text" id="annulation" name="annulation" placeholder="Ex : Annulation gratuite jusqu'à 24h avant">
+                                <div class="error-msg">Ce champ est requis</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Paiement <span class="required">*</span></label>
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="paiement_resa" value="À la réservation">
+                                        <span class="custom-radio"></span>
+                                        <span class="option-text">À la réservation (en ligne)</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="paiement_resa" value="Sur place">
+                                        <span class="custom-radio"></span>
+                                        <span class="option-text">Sur place</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="paiement_resa" value="Acompte en ligne + solde sur place">
+                                        <span class="custom-radio"></span>
+                                        <span class="option-text">Acompte en ligne + solde sur place</span>
+                                    </label>
+                                </div>
+                                <div class="error-msg">Veuillez sélectionner</div>
+                            </div>
+                        </div>
+
+                        <h3 class="form-section-title">Détails complémentaires</h3>
+
+                        <div class="form-group">
+                            <label for="commentaires">Commentaires / précisions</label>
+                            <textarea id="commentaires" name="commentaires" rows="4" placeholder="Tout ce que vous voulez nous dire d'autre sur votre projet..."></textarea>
+                        </div>
+
+                        <div class="form-buttons">
+                            <button type="button" class="btn-prev" onclick="prevPage(5)">Précédent</button>
+                            <button type="submit" class="btn-submit">Envoyer mes informations</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    <script>
+        var currentPage = 1;
+        var totalPages = 5;
+
+        function updateStepper() {
+            document.querySelectorAll('.stepper-step').forEach(function (step) {
+                var stepNum = parseInt(step.dataset.step);
+                step.classList.remove('active', 'completed');
+                if (stepNum === currentPage) step.classList.add('active');
+                else if (stepNum < currentPage) step.classList.add('completed');
+            });
+            document.querySelectorAll('.stepper-line').forEach(function (line, i) {
+                line.classList.toggle('completed', i + 1 < currentPage);
+            });
+        }
+
+        function showPage(page) {
+            document.querySelectorAll('.form-page').forEach(function (p) {
+                p.classList.remove('active');
+            });
+            document.querySelector('.form-page[data-page="' + page + '"]').classList.add('active');
+            currentPage = page;
+            updateStepper();
+            window.scrollTo({ top: 200, behavior: 'smooth' });
+        }
+
+        function validatePage(page) {
+            var pageEl = document.querySelector('.form-page[data-page="' + page + '"]');
+            var valid = true;
+
+            pageEl.querySelectorAll('.form-group').forEach(function (g) { g.classList.remove('error'); });
+
+            // Inputs/select/textarea required (only visible ones)
+            pageEl.querySelectorAll('input[required], select[required], textarea[required]').forEach(function (input) {
+                if (input.type === 'radio' || input.type === 'checkbox') return;
+                // Skip if hidden (inside a hidden pack-section)
+                var packParent = input.closest('.pack-section');
+                if (packParent && !packParent.classList.contains('visible')) return;
+                if (!input.value.trim() || !input.checkValidity()) {
+                    input.closest('.form-group').classList.add('error');
+                    valid = false;
+                }
+            });
+
+            // Radio groups (skip hidden)
+            pageEl.querySelectorAll('.radio-group').forEach(function (group) {
+                var packParent = group.closest('.pack-section');
+                if (packParent && !packParent.classList.contains('visible')) return;
+                var firstRadio = group.querySelector('input[type="radio"]');
+                if (!firstRadio) return;
+                var name = firstRadio.name;
+                var formGroup = group.closest('.form-group');
+                var isRequired = formGroup.querySelector('label .required');
+                if (isRequired && !document.querySelector('input[name="' + name + '"]:checked')) {
+                    formGroup.classList.add('error');
+                    valid = false;
+                }
+            });
+
+            // Checkbox groups (skip hidden, skip standalone single checkboxes)
+            pageEl.querySelectorAll('.checkbox-group').forEach(function (group) {
+                var packParent = group.closest('.pack-section');
+                if (packParent && !packParent.classList.contains('visible')) return;
+                var formGroup = group.closest('.form-group');
+                var isRequired = formGroup.querySelector('label .required');
+                var checked = group.querySelectorAll('input[type="checkbox"]:checked');
+                if (isRequired && checked.length === 0) {
+                    formGroup.classList.add('error');
+                    valid = false;
+                }
+            });
+
+            return valid;
+        }
+
+        function nextPage(fromPage) {
+            if (validatePage(fromPage)) {
+                showPage(fromPage + 1);
+            }
+        }
+
+        function prevPage(fromPage) {
+            showPage(fromPage - 1);
+        }
+
+        // Show conditional access field if user has existing site
+        document.getElementById('site_actuel').addEventListener('input', function () {
+            var condAcces = document.getElementById('cond-acces-site');
+            if (this.value.trim().length > 0) {
+                condAcces.classList.add('visible');
+            } else {
+                condAcces.classList.remove('visible');
+            }
+        });
+
+        // Toggle pack-specific sections based on selection
+        document.querySelectorAll('input[name="pack_choisi"]').forEach(function (radio) {
+            radio.addEventListener('change', function () {
+                var ecom = document.getElementById('section-ecommerce');
+                var booking = document.getElementById('section-booking');
+                ecom.classList.remove('visible');
+                booking.classList.remove('visible');
+                if (this.value === 'Site E-Commerce') ecom.classList.add('visible');
+                else if (this.value === 'Site Booking') booking.classList.add('visible');
+            });
+        });
+
+        document.getElementById('projectForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            if (!validatePage(5)) return;
+
+            var form = document.getElementById('projectForm');
+            if (form._gotcha && form._gotcha.value) return false;
+
+            var btn = form.querySelector('.btn-submit');
+            var originalText = btn.textContent;
+            btn.textContent = 'Envoi en cours...';
+            btn.disabled = true;
+
+            try {
+                var fd = new FormData(form);
+                var nomEntreprise = fd.get('nom_entreprise') || '';
+                var entreprise = nomEntreprise;
+                var pack = fd.get('pack_choisi') || 'Non renseigné';
+
+                var data = {
+                    '_subject': 'Infos projet WebPrime - ' + entreprise,
+                    '_template': 'table',
+                    '_captcha': 'false'
+                };
+
+                // Identité contact
+                data['Nom de l\'entreprise'] = nomEntreprise;
+                data['Email pro'] = fd.get('email') || '';
+                data['Téléphone pro'] = fd.get('telephone') || '';
+                data['Pack choisi'] = pack;
+
+                // Entreprise
+                data['SIRET'] = fd.get('siret') || '';
+                data['Activité principale'] = fd.get('activite') || '';
+                if (fd.get('site_actuel')) data['Site actuel'] = fd.get('site_actuel');
+                if (fd.get('acces_site')) data['Accès site actuel'] = fd.get('acces_site');
+
+                // Coordonnées publiques
+                data['Adresse complète'] = fd.get('adresse') || '';
+                data['Adresse à afficher'] = fd.get('adresse_public') || 'Non renseigné';
+                data['Téléphone (à afficher)'] = fd.get('tel_public') || '';
+                data['Email pro (à afficher)'] = fd.get('email_public') || '';
+                if (fd.get('whatsapp')) data['WhatsApp'] = fd.get('whatsapp');
+                data['Horaires'] = fd.get('horaires') || '';
+                data['Zone d\'intervention'] = fd.get('zone') || '';
+
+                // Branding
+                data['Logo'] = fd.get('logo_status') || 'Non renseigné';
+                if (fd.get('couleurs_libre')) data['Couleurs'] = 'Carte blanche';
+                else if (fd.get('couleurs')) data['Couleurs'] = fd.get('couleurs');
+                if (fd.get('inspiration')) data['Sites inspiration'] = fd.get('inspiration');
+
+                // Réseaux sociaux
+                if (fd.get('gmb')) data['Google My Business'] = fd.get('gmb');
+                if (fd.get('instagram')) data['Instagram'] = fd.get('instagram');
+                if (fd.get('facebook')) data['Facebook'] = fd.get('facebook');
+                if (fd.get('tiktok')) data['TikTok'] = fd.get('tiktok');
+                if (fd.get('linkedin')) data['LinkedIn'] = fd.get('linkedin');
+                if (fd.get('youtube')) data['YouTube'] = fd.get('youtube');
+
+                // Contenu
+                data['Services / prestations'] = fd.get('services') || '';
+
+                // E-Commerce (only if pack matches)
+                if (pack === 'Site E-Commerce') {
+                    data['Catalogue produits'] = fd.get('catalogue') || '';
+                    data['Photos produits (lien)'] = fd.get('photos_produits') || '';
+                    data['Modes de paiement'] = fd.getAll('modes_paiement').join(', ');
+                    data['Modes de livraison'] = fd.getAll('modes_livraison').join(', ');
+                }
+
+                // Booking (only if pack matches)
+                if (pack === 'Site Booking') {
+                    data['Prestations réservables'] = fd.get('prestations_resa') || '';
+                    data['Capacité'] = fd.get('capacite') || '';
+                    if (fd.get('capacite_nb')) data['Capacité (nombre)'] = fd.get('capacite_nb');
+                    data['Politique annulation'] = fd.get('annulation') || '';
+                    data['Paiement réservation'] = fd.get('paiement_resa') || '';
+                }
+
+                if (fd.get('commentaires')) data['Commentaires'] = fd.get('commentaires');
+
+                var response = await fetch('https://formsubmit.co/ajax/alexandre@webprime.fr', {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    window.location.href = 'https://webprime.fr/merci-projet.html';
+                } else {
+                    alert('Erreur lors de l\'envoi. Veuillez réessayer.');
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                }
+            } catch (error) {
+                alert('Erreur de connexion. Veuillez réessayer.');
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        });
+
+        document.querySelectorAll('.form-group input, .form-group select, .form-group textarea').forEach(function (el) {
+            el.addEventListener('input', function () {
+                this.closest('.form-group').classList.remove('error');
+            });
+            el.addEventListener('change', function () {
+                this.closest('.form-group').classList.remove('error');
+            });
+        });
+    </script>
+</body>
+</html>
